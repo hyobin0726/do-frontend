@@ -1,7 +1,7 @@
 ---
-name: "⚠️ (제목을 적어주세요)"
+name: issue template
 about: 개요를 적어주세요
-title: ''
+title: "⚠️ (제목을 적어주세요)"
 labels: ''
 assignees: ''
 
