@@ -1,6 +1,6 @@
 export default function ChatBottom() {
     return (
-        <form className="absolute bottom-0 h-12 flex w-full p-1 bg-gray-300">
+        <form className=" absolute bottom-0 h-12 flex w-full p-1 bg-gray-300">
             <button className="p-1">
                 <img width="30" src="https://img.icons8.com/forma-light-filled/24/image.png" alt="이미지 업로드" />
             </button>
