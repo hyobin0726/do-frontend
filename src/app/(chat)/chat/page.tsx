@@ -1,11 +1,10 @@
-import ChatBottom from '@/components/pages/ChatBottom'
-import ChatMessage from '@/components/pages/ChatMessage'
-import ChatNav from '@/components/pages/ChatNav'
+import ChatBottom from "@/components/pages/chat/ChatBottom";
+import ChatMessage from "@/components/pages/chat/ChatMessage";
+
 
 export default function ChatPage() {
     return (
         <section>
-            <ChatNav />
             <ChatMessage />
             <ChatBottom />
         </section>
