@@ -5,6 +5,20 @@ export default function ChatRoomListModal({
     chatListModal: boolean
     setChatListModal: React.Dispatch<React.SetStateAction<boolean>>
 }) {
+    const ChatRoom = [
+        {
+            id: 1,
+            name: '채팅방1',
+        },
+        {
+            id: 2,
+            name: '채팅방2',
+        },
+        {
+            id: 3,
+            name: '채팅방3',
+        },
+    ]
     return (
         <>
             {chatListModal && (
@@ -19,18 +33,14 @@ export default function ChatRoomListModal({
                             />
                         </button>
                         <ul className=" space-y-4">
-                            <li className=" bg-gray-400 rounded-full w-24 h-24 flex items-center justify-center">
-                                채팅방1
-                            </li>
-                            <li className=" bg-gray-400 rounded-full w-24 h-24 flex items-center justify-center">
-                                채팅방2
-                            </li>
-                            <li className=" bg-gray-400 rounded-full w-24 h-24 flex items-center justify-center">
-                                채팅방3
-                            </li>
-                            <li className=" bg-gray-400 rounded-full w-24 h-24 flex items-center justify-center">
-                                채팅방4
-                            </li>
+                            {ChatRoom.map((chat) => (
+                                <li
+                                    key={chat.id}
+                                    className=" bg-gray-400 rounded-full w-24 h-24 flex items-center justify-center"
+                                >
+                                    {chat.name }
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
