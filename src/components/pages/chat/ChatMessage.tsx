@@ -12,7 +12,10 @@ export default function ChatMessage() {
                 </div>
                 <div className="mb-4">
                     <div className="flex items-center">
-                        <Image src={profile} alt="프로필 사진" width={40} height={40} className="rounded-full " />
+                        <div className="bg-gray-400 rounded-full w-10 h-10 flex items-center justify-center text-sm">
+                            프로필
+                        </div>
+
                         <p className="text-sm text-gray-600 ml-2">사용자1</p>
                     </div>
                     <div className="flex mt-2 ml-2">

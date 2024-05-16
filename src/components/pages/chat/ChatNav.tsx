@@ -5,7 +5,6 @@ import { useState } from 'react'
 import ChatRoomListModal from './ChatRoomListModal'
 import ChatMoreModal from './ChatMoreModal'
 
-
 export default function ChatNav() {
     const [chatListModal, setChatListModal] = useState<boolean>(false)
     const [chatMoreModal, setChatMoreModal] = useState<boolean>(false)
@@ -20,7 +19,9 @@ export default function ChatNav() {
                     onClick={() => setChatListModal(true)}
                 />
 
-                <Image src={profile} alt="프로필 사진" width={45} height={45} className="rounded-full ml-2" />
+                <div className=" ml-2 bg-gray-400 rounded-xl w-10 h-10 flex items-center justify-center text-sm">
+                    프로필
+                </div>
                 <div className="ml-3">
                     <p className="font-semibold">채팅방 이름</p>
                     <div className="flex">
