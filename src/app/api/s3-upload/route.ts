@@ -9,7 +9,7 @@ const s3Client = new S3Client({
     },
 })
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
     try {
         const formData = await req.formData()
         const files = formData.getAll('img') as File[]

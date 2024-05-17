@@ -1,6 +1,5 @@
 import S3UploadForm from './S3UploadForm'
 
-
 export default function ChatMessage() {
     return (
         <section className=" bg-gray-200 h-[calc(100vh-6rem)] ">

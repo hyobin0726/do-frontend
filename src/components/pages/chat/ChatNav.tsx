@@ -1,6 +1,4 @@
 'use client'
-import Image from 'next/image'
-import profile from '@/assets/images/profile.jpeg'
 import { useState } from 'react'
 import ChatRoomListModal from './ChatRoomListModal'
 import ChatMoreModal from './ChatMoreModal'

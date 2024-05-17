@@ -38,7 +38,7 @@ export default function ChatRoomListModal({
                                     key={chat.id}
                                     className=" bg-gray-400 rounded-full w-24 h-24 flex items-center justify-center"
                                 >
-                                    {chat.name }
+                                    {chat.name}
                                 </li>
                             ))}
                         </ul>
