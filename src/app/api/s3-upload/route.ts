@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         s3Client.send(
             new PutObjectCommand({
                 Bucket: process.env.AWS_S3_BUCKET_NAME as string,
-                Key: files[0].name,
+                Key: Date.now() + files[0].name,
                 Body: body,
                 ContentType: 'image',
             }),
