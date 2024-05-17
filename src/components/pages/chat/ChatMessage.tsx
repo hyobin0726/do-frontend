@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import profile from '@/assets/images/profile.jpeg'
+import S3UploadForm from './S3UploadForm'
+
 
 export default function ChatMessage() {
     return (
@@ -27,6 +27,7 @@ export default function ChatMessage() {
                     <p className="text-gray-500 text-sm">사용자2 님이 나갔습니다</p>
                 </div>
             </div>
+            <S3UploadForm />
         </section>
     )
 }
