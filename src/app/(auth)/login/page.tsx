@@ -1,7 +1,9 @@
+import MainLogin from '@/components/pages/login/MainLogin'
+
 export default function Login() {
     return (
-        <>
-            <div className="flex flex-1 bg-blue-100">로그인화면</div>
-        </>
+        <div className="w-full h-[100vh] bg-hobbing-bg-pink px-10">
+            <MainLogin />
+        </div>
     )
 }

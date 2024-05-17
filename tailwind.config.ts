@@ -8,7 +8,9 @@ const config: Config = {
                 Pretendard: ['Pretendard'],
             },
             colors: {
-                'primary-red': '#ff5452',
+                'hobbing-bg-pink': '#FFDBD7',
+                'hobbing-pink': '#FF8595',
+                'hobbing-red': '#F76D67',
             },
         },
     },
