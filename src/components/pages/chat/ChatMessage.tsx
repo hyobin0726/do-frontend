@@ -1,6 +1,3 @@
-import Image from 'next/image'
-import profile from '@/assets/images/profile.jpeg'
-
 export default function ChatMessage() {
     return (
         <section className=" bg-gray-200 h-[calc(100vh-6rem)] ">
