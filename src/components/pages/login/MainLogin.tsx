@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import HobbieDoLogo from '@/components/images/HobbieDoLogo'
 import HOBBINGLogo from '@/components/images/HOBBINGLogo'
 import RunMonster from '@/components/images/monsters/RunMonster'
@@ -18,9 +20,11 @@ export default function MainLogin() {
                 <GoogleLogin />
                 <div className="w-full flex flex-row justify-around">
                     <p className="font-Pretendard text-[15px] text-[#646464]">ID/PW 찾기</p>
-                    <p className="font-Pretendard text-[15px] text-hobbing-red underline underline-offset-4 font-bold">
-                        회원가입
-                    </p>
+                    <Link href="/signup">
+                        <p className="font-Pretendard text-[15px] text-hobbing-red underline underline-offset-4 font-bold">
+                            회원가입
+                        </p>
+                    </Link>
                 </div>
             </div>
             <div className="w-full h-[20vh] overflow-hidden flex justify-center">

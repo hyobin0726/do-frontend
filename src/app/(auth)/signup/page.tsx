@@ -1,12 +1,13 @@
-import HOBBINGLogo from '@/components/images/HOBBINGLogo'
-import SignupForm from '@/components/pages/signup/SignUpForm'
+import RouterBackArrowButton from '@/components/common/RouterBackArrowButton'
 
 export default function Signup() {
     return (
         <>
-            <div className="w-[100%] h-[100vh] bg-hobbing-bg-pink flex flex-col justify-evenly px-5 items-center">
-                <HOBBINGLogo />
-                <SignupForm />
+            <div className="w-[100%] h-[100vh] bg-hobbing-bg-pink px-10">
+                <div className="w-full h-[50px] bg-green-200 flex items-center">
+                    <RouterBackArrowButton />
+                </div>
+                <div>test</div>
             </div>
         </>
     )
