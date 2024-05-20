@@ -1,13 +1,15 @@
 import RouterBackArrowButton from '@/components/common/RouterBackArrowButton'
+import SignUp from '@/components/pages/signup/SignUp'
 
-export default function Signup() {
+export default function SignupPage({ searchParams }: { searchParams: { [key: string]: number } }) {
+    const signupStep = Number(searchParams.step)
     return (
         <>
-            <div className="w-[100%] h-[100vh] bg-hobbing-bg-pink px-10">
-                <div className="w-full h-[50px] bg-green-200 flex items-center">
+            <div className="w-[100%] h-[100vh]">
+                <div className="w-full h-[60px] flex items-center px-5">
                     <RouterBackArrowButton />
                 </div>
-                <div>test</div>
+                <SignUp signupStep={signupStep} />
             </div>
         </>
     )

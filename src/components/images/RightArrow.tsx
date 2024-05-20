@@ -18,9 +18,9 @@ export default function RightArrow({ width, height, rotate, color }: RightArrowP
             <path
                 d="M1 1.5L4 4.5L1 7.5"
                 stroke={color ? color : '#ffffff'}
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
         </svg>
     )

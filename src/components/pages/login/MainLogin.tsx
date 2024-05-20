@@ -20,7 +20,7 @@ export default function MainLogin() {
                 <GoogleLogin />
                 <div className="w-full flex flex-row justify-around">
                     <p className="font-Pretendard text-[15px] text-[#646464]">ID/PW 찾기</p>
-                    <Link href="/signup">
+                    <Link href="/signup?step=1">
                         <p className="font-Pretendard text-[15px] text-hobbing-red underline underline-offset-4 font-bold">
                             회원가입
                         </p>

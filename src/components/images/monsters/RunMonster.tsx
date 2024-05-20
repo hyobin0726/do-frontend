@@ -1,9 +1,9 @@
-interface RunMonsterProps {
+interface MonsterProps {
     height?: number
     width?: number
 }
 
-export default function RunMonster({ height, width }: RunMonsterProps) {
+export default function RunMonster({ height, width }: MonsterProps) {
     return (
         <svg
             width={width ? width : 249}
