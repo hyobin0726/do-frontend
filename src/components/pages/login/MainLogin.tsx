@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-import useWindowSize from '@/hooks/useWindowSize' // 경로를 확인하세요
+// import useWindowSize from '@/hooks/useWindowSize' // 경로를 확인하세요
 
 import HobbieDoLogo from '@/components/images/HobbieDoLogo'
 import HOBBINGLogo from '@/components/images/HOBBINGLogo'
@@ -11,8 +11,8 @@ import BasicNextButton from '@/components/common/BasicNextButton'
 import GoogleLogin from './GoogleLogin'
 
 export default function MainLogin() {
-    const windowSize = useWindowSize()
-    console.log(windowSize)
+    // const windowSize = useWindowSize()
+    // console.log(windowSize)
     // console.log(window.innerHeight)
     return (
         <>
