@@ -1,10 +1,11 @@
-import MainNavigation from '@/components/layouts/MainNavigation'
+import ChatBottom from '@/components/pages/chat/ChatBottom'
+import ChatMessage from '@/components/pages/chat/ChatMessage'
 
 export default function ChatPage() {
     return (
-        <>
-            <div> 채팅페이지</div>
-            <MainNavigation />
-        </>
+        <section>
+            <ChatMessage />
+            <ChatBottom />
+        </section>
     )
 }
