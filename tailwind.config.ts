@@ -1,19 +1,21 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-    content: [
-        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    ],
+    content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
     theme: {
         extend: {
-            backgroundImage: {
-                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+            fontFamily: {
+                Pretendard: ['Pretendard'],
+            },
+            colors: {
+                'hobbing-bg-pink': '#FFDBD7',
+                'hobbing-pink': '#FF8595',
+                'hobbing-red': '#F76D67',
+                'text-gray': '#646464',
+                'text-gray-light': '#757575',
             },
         },
     },
-    plugins: [],
 }
+
 export default config
