@@ -1,12 +1,17 @@
 'use client'
 
 import React, { useState, useRef } from 'react'
+
 import Input from '@/components/common/Input'
+import { useSignUpStore } from '@/hooks/useSignUpStore'
 
 export default function SignUpFormStep3() {
     const [focusedIndex, setFocusedIndex] = useState<number>(0)
     const [showEmailAuthInputContainer, setShowEmailAuthInputContainer] = useState<boolean>(false)
     const emailAuthInputRef = useRef<HTMLInputElement>(null)
+
+    const { phoneNumber, setPhoneNumber, email, setEmail, gender, setGender, birthDate, setBirthDate } =
+        useSignUpStore()
 
     const handleEmailAuthButtonClick = () => {
         setShowEmailAuthInputContainer(true)
@@ -22,11 +27,13 @@ export default function SignUpFormStep3() {
                 <input
                     id="phone"
                     type="tel"
-                    className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium"
                     placeholder="전화번호를 입력해주세요"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                     onFocus={() => {
                         setFocusedIndex(1)
                     }}
+                    className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium"
                 />
             </Input>
             <div className="flex flex-row space-x-2">
@@ -34,11 +41,13 @@ export default function SignUpFormStep3() {
                     <input
                         id="email"
                         type="email"
-                        className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium"
                         placeholder="이메일을 입력해주세요"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         onFocus={() => {
                             setFocusedIndex(2)
                         }}
+                        className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium"
                     />
                 </Input>
                 <button
@@ -66,22 +75,26 @@ export default function SignUpFormStep3() {
                 <input
                     id="gender"
                     type="text"
-                    className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium"
                     placeholder="성별을 입력해주세요"
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
                     onFocus={() => {
                         setFocusedIndex(4)
                     }}
+                    className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium"
                 />
             </Input>
             <Input title="생년월일" required={true} index={5} focusedIndex={focusedIndex}>
                 <input
                     id="birthDate"
                     type="date"
-                    className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium"
                     placeholder="생년월일을 입력해주세요"
+                    value={birthDate}
+                    onChange={(e) => setBirthDate(e.target.value)}
                     onFocus={() => {
                         setFocusedIndex(5)
                     }}
+                    className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium"
                 />
             </Input>
         </div>
