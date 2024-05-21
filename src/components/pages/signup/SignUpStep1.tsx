@@ -13,9 +13,9 @@ export default function SignUpStep1() {
                 <BasicNextButton path="/signup?step=2" text="회원가입하기" />
                 <GoogleSignup />
             </div>
-            <div className="w-full h-2/4 flex justify-start items-end overflow-hidden relative">
-                <div className="absolute bottom-10 -left-10">
-                    <SquidMonster width={300} height={300} />
+            <div className="w-full h-2/4 flex overflow-hidden relative">
+                <div className="w-full h-5/6 absolute bottom-5 -left-28 ">
+                    <SquidMonster />
                 </div>
             </div>
         </div>
