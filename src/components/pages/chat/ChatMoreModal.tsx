@@ -20,7 +20,7 @@ export default function ChatMoreModal({
                                 alt="모달 닫기"
                             />
                         </button>
-                        <Link href={'/'}>게시물</Link>
+                        <Link href={'/clubdetail/clubhome'}>게시물</Link>
                         <div>사진</div>
                         <div>참여자</div>
                     </div>
