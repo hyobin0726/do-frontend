@@ -10,7 +10,7 @@ export default function SignUpFormStep2() {
         <div className="space-y-3">
             <Input title="이름" required={true} index={1} focusedIndex={focusedIndex}>
                 <input
-                    id="input"
+                    id="name"
                     type="text"
                     className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium  "
                     placeholder="이름을 입력해주세요"
@@ -22,7 +22,7 @@ export default function SignUpFormStep2() {
             <div className="flex flex-row space-x-2">
                 <Input title="아이디" required={true} index={2} focusedIndex={focusedIndex}>
                     <input
-                        id="input"
+                        id="id"
                         type="text"
                         className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium  "
                         placeholder="아이디를 입력해주세요"
@@ -37,7 +37,7 @@ export default function SignUpFormStep2() {
             </div>
             <Input title="비밀번호" required={true} index={3} focusedIndex={focusedIndex}>
                 <input
-                    id="input"
+                    id="password"
                     type="password"
                     className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium  "
                     placeholder="비밀번호를 입력해주세요"
@@ -48,7 +48,7 @@ export default function SignUpFormStep2() {
             </Input>
             <Input title="비밀번호 확인" required={true} index={4} focusedIndex={focusedIndex}>
                 <input
-                    id="input"
+                    id="passwordCheck"
                     type="password"
                     className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium  "
                     placeholder="비밀번호를 다시 입력해주세요"
