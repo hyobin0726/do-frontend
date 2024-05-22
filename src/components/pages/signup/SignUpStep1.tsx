@@ -1,8 +1,25 @@
+'use client'
 import BasicNextButton from '@/components/common/BasicNextButton'
 import GoogleSignup from './GoogleSignup'
 import SquidMonster from '@/components/images/monsters/SquidMonster '
 
+import { useSignUpStore } from '@/hooks/useSignUpStore'
+
 export default function SignUpStep1() {
+    const { setName, setId, setPassword, setConfirmPassword, setPhoneNumber, setEmail, setGender, setBirthDate } =
+        useSignUpStore()
+
+    const resetSignUpState = () => {
+        setName('')
+        setId('')
+        setPassword('')
+        setConfirmPassword('')
+        setPhoneNumber('')
+        setEmail('')
+        setGender('')
+        setBirthDate('')
+    }
+
     return (
         <div className="w-full" style={{ height: 'calc(100vh - 60px)' }}>
             <div className="w-full h-1/6 flex flex-col justify-end pb-5 px-10">
@@ -11,7 +28,7 @@ export default function SignUpStep1() {
                     나의 취미를 찾기 위한 여행을 시작합니다.
                 </p>
             </div>
-            <div className="w-full h-3/6 space-y-5 px-10">
+            <div className="w-full h-3/6 space-y-5 px-10" onClick={() => resetSignUpState()}>
                 <BasicNextButton path="/signup?step=2" text="회원가입하기" />
                 <GoogleSignup />
             </div>
