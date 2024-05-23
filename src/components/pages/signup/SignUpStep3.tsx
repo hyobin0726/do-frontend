@@ -1,5 +1,3 @@
-import BasicNextButton from '@/components/common/BasicNextButton'
-import ProgressBar from '@/components/common/ProgressBar'
 import ButterMonster from '@/components/images/monsters/ButterMonster'
 import SignUpFormStep3 from './SignUpFormStep3'
 
@@ -15,15 +13,7 @@ export default function SignUpStep3() {
                     나의 취미를 찾기 위한 여행을 시작합니다.
                 </p>
             </div>
-            <div className="w-full h-3/6 px-10">
-                <SignUpFormStep3 />
-            </div>
-            <div className="w-full h-2/6 px-10 flex flex-col justify-around items-center">
-                <BasicNextButton path="/signup?step=3" text="NEXT" />
-                <div className="w-5/6 h-auto">
-                    <ProgressBar step={2} total={5} />
-                </div>
-            </div>
+            <SignUpFormStep3 />
         </div>
     )
 }
