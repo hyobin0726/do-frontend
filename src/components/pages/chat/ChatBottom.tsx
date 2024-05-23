@@ -37,25 +37,33 @@ export default function ChatBottom() {
 
     return (
         <>
-            <form className=" absolute bottom-0 h-12 flex w-full p-1 bg-gray-300">
-                <div className="p-1">
-                    <label htmlFor="inputFile">
-                        <img
-                            width="30"
-                            src="https://img.icons8.com/forma-light-filled/24/image.png"
-                            alt="이미지 업로드"
+            <form className="absolute bottom-0 h-28 bg-red-300">
+                <div className=" w-screen ">
+                    <input type="text" className="p-2 w-full h-20" />
+                </div>
+                <div className="flex">
+                    <div>
+                        <label htmlFor="inputFile">
+                            <img
+                                width="30"
+                                src="https://img.icons8.com/forma-light-filled/24/image.png"
+                                alt="이미지 업로드"
+                            />
+                        </label>
+                        <input
+                            type="file"
+                            id="inputFile"
+                            style={{ display: 'none' }}
+                            onChange={(e) => fileHandler(e)}
                         />
-                    </label>
-                    <input type="file" id="inputFile" style={{ display: 'none' }} onChange={(e) => fileHandler(e)} />
-                </div>
+                    </div>
 
-                <div className="flex-grow">
-                    <input type="text" className="p-2 flex-grow rounded-xl w-full" placeholder="메시지를 입력하세요." />
+                    <button>
+                        <img width="25" src="https://img.icons8.com/ios-filled/50/sent.png" alt="전송" />
+                    </button>
                 </div>
-                <button className=" p-1">
-                    <img width="25" src="https://img.icons8.com/ios-filled/50/sent.png" alt="전송" />
-                </button>
             </form>
+
             <div>
                 {previewImg && (
                     <div className="fixed top-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-30">
