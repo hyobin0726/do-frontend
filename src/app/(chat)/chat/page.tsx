@@ -1,3 +1,5 @@
+import Notification from '@/components/images/Notification'
+import Search from '@/components/images/Search'
 import Link from 'next/link'
 
 export default function ChatPage() {
@@ -42,10 +44,18 @@ export default function ChatPage() {
     }
 
     return (
-        <div className="h-screen bg-gray-100">
-            <header className="bg-gray-200 bg-opacity-20 py-4">
-                <div className="container mx-auto px-4">
+        <div className="h-screen bg-[#FBFBFD]">
+            <header className="bg-white bg-opacity-50 py-4">
+                <div className="container mx-auto px-4 flex justify-between items-center">
                     <h1 className="text-lg font-bold">채팅</h1>
+                    <div className="flex items-center space-x-4">
+                        <div className="w-5">
+                            <Search />
+                        </div>
+                        <div className="w-5">
+                            <Notification />
+                        </div>
+                    </div>
                 </div>
             </header>
             <main className="container mx-auto ">
@@ -54,7 +64,7 @@ export default function ChatPage() {
                         <Link href={`/chatroom/${room.id}`} key={room.id}>
                             <div className="flex justify-between items-center mb-2 p-4">
                                 <div className="flex items-center space-x-4">
-                                    <div className="bg-gray-300 rounded-full w-14 h-14 flex items-center justify-center text-sm">
+                                    <div className="bg-[#D9D9D9] rounded-full w-14 h-14 flex items-center justify-center text-sm">
                                         프로필
                                     </div>
                                     <div className="flex flex-col">

@@ -1,4 +1,7 @@
 'use client'
+import Album from '@/components/images/Album'
+import Emoticon from '@/components/images/Emoticon'
+import Send from '@/components/images/Send'
 import Image from 'next/image'
 import { ChangeEvent, useState } from 'react'
 
@@ -37,29 +40,33 @@ export default function ChatBottom() {
 
     return (
         <>
-            <form className="absolute bottom-0 h-28 bg-red-300">
+            <form className="absolute bottom-0 h-26">
                 <div className=" w-screen ">
-                    <input type="text" className="p-2 w-full h-20" />
+                    <textarea className="p-2 w-full h-20" autoFocus />
                 </div>
-                <div className="flex">
-                    <div>
-                        <label htmlFor="inputFile">
-                            <img
-                                width="30"
-                                src="https://img.icons8.com/forma-light-filled/24/image.png"
-                                alt="이미지 업로드"
+                <div className="flex justify-between items-center px-2 py-1">
+                    <div className="flex items-center space-x-1">
+                        <div>
+                            <label htmlFor="inputFile">
+                                <div className="w-5">
+                                    <Album />
+                                </div>
+                            </label>
+                            <input
+                                type="file"
+                                id="inputFile"
+                                style={{ display: 'none' }}
+                                onChange={(e) => fileHandler(e)}
                             />
-                        </label>
-                        <input
-                            type="file"
-                            id="inputFile"
-                            style={{ display: 'none' }}
-                            onChange={(e) => fileHandler(e)}
-                        />
+                        </div>
+                        <div className="w-5">
+                            <Emoticon />
+                        </div>
                     </div>
-
-                    <button>
-                        <img width="25" src="https://img.icons8.com/ios-filled/50/sent.png" alt="전송" />
+                    <button className="w-7 h-7 bg-hobbing-red rounded-full flex items-center justify-center">
+                        <div className="w-5">
+                            <Send />
+                        </div>
                     </button>
                 </div>
             </form>
