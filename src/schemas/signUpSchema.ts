@@ -58,22 +58,17 @@ export const signUpStep3Schema = z.object({
     phoneNumber: z
         .string()
         .min(10, {
-            message: '전화번호는 10자 이상 11자 이하로 입력해주세요',
+            message: '전화번호는 10자 이상 11자 이하 숫자로만 입력해주세요',
         })
         .max(11, {
-            message: '전화번호는 10자 이상 11자 이하로 입력해주세요',
+            message: '전화번호는 10자 이상 11자 이하 숫자로만 입력해주세요',
         }),
     email: z.string().email({
         message: '유효한 이메일 주소를 입력해주세요.',
     }),
-    gender: z
-        .string()
-        .min(4, {
-            message: '성별을 입력해주세요.',
-        })
-        .max(6, {
-            message: '성별을 정확히 입력해주세요.',
-        }),
+    gender: z.string().length(2, {
+        message: '성별을 입력해주세요.',
+    }),
     birthDate: z.string().length(10, {
         message: '생년월일은 YYYY-MM-DD 형식으로 정확히 10자여야 합니다.',
     }),

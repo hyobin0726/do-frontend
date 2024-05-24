@@ -3,8 +3,8 @@ import SignUpFormStep3 from './SignUpFormStep3'
 
 export default function SignUpStep3() {
     return (
-        <div className="w-full " style={{ height: 'calc(100vh - 60px)' }}>
-            <div className="w-full h-1/6 flex flex-col justify-end pb-5 px-10 relative overflow-x-clip ">
+        <div className="w-full " style={{ height: 'calc(100svh - 60px)' }}>
+            <div className="w-full h-[15%]  flex flex-col justify-end pb-5 px-10 relative overflow-x-clip ">
                 <div className="w-1/2 h-5/6  absolute -top-10 -right-20 ">
                     <ButterMonster />
                 </div>

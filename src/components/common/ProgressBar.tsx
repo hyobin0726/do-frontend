@@ -1,7 +1,7 @@
 export default function ProgressBar({ step, total }: { step: number; total: number }) {
     return (
         <>
-            <div className="bg-white w-full h-[20px] flex flex-row space-x-3">
+            <div className="bg-white w-full h-auto flex flex-row space-x-3">
                 {Array.from({ length: total }, (_, i) => (
                     <div
                         key={i}

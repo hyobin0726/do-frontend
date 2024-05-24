@@ -14,6 +14,7 @@ const config: Config = {
                 'hobbing-red': '#F76D67',
                 'hobbing-orange': '#FD6B22',
                 'hobbing-gray': '#E8E9EA',
+                'text-pink-gray': '#D1AEAE',
                 'text-gray': '#646464',
                 'text-gray-light': '#757575',
             },

@@ -12,7 +12,9 @@ import Input from '@/components/common/Input'
 import RightArrow from '@/components/images/RightArrow'
 import { useSignUpStore } from '@/hooks/useSignUpStore'
 import ProgressBar from '@/components/common/ProgressBar'
-import { signUpStep3Schema } from '@/schemas/signUpSchema '
+import { signUpStep3Schema } from '@/schemas/signUpSchema'
+import SignUpGenderSelecter from './SignUpGenderSelecter'
+import Clock from '@/components/images/Clock'
 
 type SignUpType = z.infer<typeof signUpStep3Schema>
 
@@ -30,6 +32,8 @@ export default function SignUpFormStep3() {
     const {
         register,
         handleSubmit,
+        setValue,
+        trigger,
         formState: { errors },
     } = useForm<SignUpType>({
         resolver: zodResolver(signUpStep3Schema),
@@ -41,9 +45,36 @@ export default function SignUpFormStep3() {
         },
     })
 
-    const onSubmit = (data: SignUpType) => {
-        console.log('Form Data:', data)
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>, name: keyof SignUpType) => {
+        const { value } = e.target
+        switch (name) {
+            case 'phoneNumber':
+                setPhoneNumber(value)
+                break
+            case 'email':
+                setEmail(value)
+                break
+            case 'birthDate':
+                setBirthDate(value)
+                break
+        }
+        register(name).onChange(e)
+        trigger(name)
+    }
+
+    const onfocus = (index: number, name: keyof SignUpType) => {
+        setFocusedIndex(index)
+        trigger(name)
+    }
+
+    const onSubmit = () => {
         router.push('/signup?step=4')
+    }
+
+    const handleGenderChange = (gender: string) => {
+        setGender(gender)
+        setValue('gender', gender, { shouldValidate: true })
+        trigger('gender')
     }
 
     const handleEmailAuthButtonClick = () => {
@@ -56,7 +87,7 @@ export default function SignUpFormStep3() {
 
     return (
         <>
-            <div className="w-full h-3/6 px-10 space-y-3">
+            <div className="w-full h-[60%] px-10 space-y-3">
                 <div className="space-y-1">
                     <Input
                         title="전화번호"
@@ -69,16 +100,17 @@ export default function SignUpFormStep3() {
                         placeholder="전화번호를 입력해주세요"
                         value={phoneNumber}
                         onChange={(e) => {
-                            setPhoneNumber(e.target.value)
-                            register('phoneNumber').onChange(e)
+                            onChange(e, 'phoneNumber')
                         }}
                         onFocus={() => {
-                            setFocusedIndex(1)
+                            onfocus(1, 'phoneNumber')
                         }}
                         ref={register('phoneNumber').ref}
                     />
                     {errors.phoneNumber && (
-                        <p className="text-hobbing-red text-[11px]">*{errors.phoneNumber.message}</p>
+                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
+                            *{errors.phoneNumber.message}
+                        </p>
                     )}
                 </div>
                 <div className={`${errors.email ? 'space-y-1' : 'space-y-3'}`}>
@@ -94,11 +126,10 @@ export default function SignUpFormStep3() {
                             placeholder="이메일을 입력해주세요"
                             value={email}
                             onChange={(e) => {
-                                setEmail(e.target.value)
-                                register('email').onChange(e)
+                                onChange(e, 'email')
                             }}
                             onFocus={() => {
-                                setFocusedIndex(2)
+                                onfocus(2, 'email')
                             }}
                             ref={register('email').ref}
                         />
@@ -106,17 +137,21 @@ export default function SignUpFormStep3() {
                             className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
                             onClick={handleEmailAuthButtonClick}
                         >
-                            인증
+                            {!showEmailAuthInputContainer ? '인증' : '재전송'}
                         </button>
                     </div>
-                    {errors.email && <p className="text-hobbing-red text-[11px]">*{errors.email.message}</p>}
+                    {errors.email && (
+                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
+                            *{errors.email.message}
+                        </p>
+                    )}
                     {showEmailAuthInputContainer && (
                         <div className="flex flex-row space-x-2">
                             <Input
                                 index={3}
                                 focusedIndex={focusedIndex}
                                 id="emailAuth"
-                                type="text"
+                                type="tel"
                                 placeholder="인증번호 입력"
                                 value={emailAuthNumber}
                                 onChange={(e) => setEmailAuthNumber(e.target.value)}
@@ -124,39 +159,29 @@ export default function SignUpFormStep3() {
                                     setFocusedIndex(3)
                                 }}
                                 ref={emailAuthInputRef}
-                            />
-
-                            <button
-                                className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
-                                // onClick={handleEmailAuthButtonClick}
                             >
-                                인증번호체크
+                                <Clock min={3} />
+                            </Input>
+                            <button className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3">
+                                확인
                             </button>
                         </div>
                     )}
                 </div>
                 <div className="space-y-1">
-                    <Input
-                        title="성별"
-                        required={true}
+                    <SignUpGenderSelecter
                         index={4}
                         focusedIndex={focusedIndex}
-                        id="gender"
-                        name="gender"
-                        type="text"
                         value={gender}
-                        onChange={(e) => {
-                            setGender(e.target.value)
-                            register('gender').onChange(e)
-                        }}
-                        placeholder="성별을 입력해주세요"
+                        onChange={handleGenderChange}
                         onFocus={() => {
                             setFocusedIndex(4)
                         }}
-                        ref={register('gender').ref}
                     />
                     {errors.gender?.message && (
-                        <p className="text-hobbing-red text-[11px]">*{errors.gender?.message}</p>
+                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
+                            *{errors.gender?.message}
+                        </p>
                     )}
                 </div>
                 <div className="space-y-1">
@@ -171,20 +196,21 @@ export default function SignUpFormStep3() {
                         value={birthDate}
                         placeholder="생년월일을 입력해주세요"
                         onChange={(e) => {
-                            setBirthDate(e.target.value)
-                            register('birthDate').onChange(e)
+                            onChange(e, 'birthDate')
                         }}
                         onFocus={() => {
-                            setFocusedIndex(5)
+                            onfocus(5, 'birthDate')
                         }}
                         ref={register('birthDate').ref}
                     />
                     {errors.birthDate?.message && (
-                        <p className="text-hobbing-red text-[11px]">*{errors.birthDate?.message}</p>
+                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
+                            *{errors.birthDate?.message}
+                        </p>
                     )}
                 </div>
             </div>
-            <div className="w-full h-2/6 px-10 flex flex-col justify-around items-center">
+            <div className="w-full h-[25%] px-10 pt-5 flex flex-col items-center space-y-5">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-full h-auto">
                     <button
                         type="submit"
