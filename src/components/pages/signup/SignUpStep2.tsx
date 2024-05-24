@@ -1,5 +1,6 @@
 import ButterMonster from '@/components/images/monsters/ButterMonster'
 import SignUpFormStep2 from './SignUpFormStep2'
+import SignUpFormStep2 from './SignUpFormStep2'
 
 export default function SignUpStep2() {
     return (

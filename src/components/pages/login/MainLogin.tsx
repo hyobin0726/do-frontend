@@ -28,10 +28,8 @@ export default function MainLogin() {
                     </Link>
                 </div>
             </div>
-            <div className="w-full h-[20svh] overflow-hidden flex justify-center relative">
-                <div className="w-full h-full absolute -bottom-10">
-                    <RunMonster />
-                </div>
+            <div className="w-full h-[20vh] overflow-hidden flex justify-center">
+                <RunMonster width={270} height={270} />
             </div>
         </>
     )
