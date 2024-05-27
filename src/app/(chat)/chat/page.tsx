@@ -46,7 +46,7 @@ export default function ChatPage() {
     return (
         <div className="h-screen bg-[#FBFBFD]">
             <header className="bg-white bg-opacity-50 py-4">
-                <div className="container mx-auto px-4 flex justify-between items-center">
+                <div className="mx-auto px-4 flex justify-between items-center">
                     <h1 className="text-lg font-bold">채팅</h1>
                     <div className="flex items-center space-x-4">
                         <div className="w-5">
@@ -58,7 +58,7 @@ export default function ChatPage() {
                     </div>
                 </div>
             </header>
-            <main className="container mx-auto ">
+            <main className="mx-auto ">
                 <ul>
                     {chatRooms.map((room) => (
                         <Link href={`/chatroom/${room.id}`} key={room.id}>
