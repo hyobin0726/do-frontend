@@ -4,9 +4,12 @@ import Emoticon from '@/components/images/Emoticon'
 import Send from '@/components/images/Send'
 import Image from 'next/image'
 import { ChangeEvent, useState } from 'react'
+import { useSocket } from '@/providers/SocketProvider'
 
 export default function ChatBottom() {
     const [previewImg, setPreviewImg] = useState<FileList>()
+    const [message, setMessage] = useState<string>('')
+    const socket = useSocket()
 
     const saveHandler = async () => {
         if (!previewImg) {
@@ -37,12 +40,50 @@ export default function ChatBottom() {
             setPreviewImg(file)
         }
     }
+    const handleSendMsg = async () => {
+        const trimmedMessage = message.trim()
+        if (socket && trimmedMessage) {
+            const timestamp = new Date().toISOString()
+            socket.emit('message', { message: trimmedMessage, timestamp })
+            const bodyData = {
+                crewId: '1',
+                text: trimmedMessage,
+                imageUrl: null,
+                videoUrl: null,
+            }
+            try {
+                const response = await fetch('http://10.10.10.214:8080/v1/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        uuid: '1',
+                    },
+                    body: JSON.stringify(bodyData),
+                })
+
+                if (response.ok) {
+                    console.log('Message sent to server successfully')
+                } else {
+                    console.error('Failed to send message to server')
+                }
+            } catch (error) {
+                console.error('Error sending message to server:', error)
+            }
+            setMessage('')
+        }
+    }
 
     return (
         <>
             <form className="absolute bottom-0 h-26">
                 <div className=" w-screen ">
-                    <textarea className="p-2 w-full h-20" autoFocus />
+                    <textarea
+                        onChange={(e) => setMessage(e.target.value)}
+                        value={message}
+                        name="message"
+                        className="p-2 w-full h-20"
+                        autoFocus
+                    />
                 </div>
                 <div className="flex justify-between items-center px-2 py-1">
                     <div className="flex items-center space-x-1">
@@ -63,7 +104,11 @@ export default function ChatBottom() {
                             <Emoticon />
                         </div>
                     </div>
-                    <button className="w-7 h-7 bg-hobbing-red rounded-full flex items-center justify-center">
+                    <button
+                        type="button"
+                        onClick={handleSendMsg}
+                        className="w-7 h-7 bg-hobbing-red rounded-full flex items-center justify-center"
+                    >
                         <div className="w-5">
                             <Send />
                         </div>
