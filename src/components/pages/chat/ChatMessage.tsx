@@ -1,6 +1,6 @@
 export default function ChatMessage() {
     return (
-        <section className=" bg-gray-200 h-[calc(100vh-6rem)] ">
+        <section className=" bg-gray-200 h-[calc(100svh-6rem)] ">
             <div className=" px-2 py-1">
                 <div className="flex justify-center ">2024년 5월 9일 목요일</div>
                 <div className="flex mb-4 justify-end mt-2">

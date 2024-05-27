@@ -1,62 +1,191 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+import z from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import Input from '@/components/common/Input'
+import RightArrow from '@/components/images/RightArrow'
+import { useSignUpStore } from '@/hooks/useSignUpStore'
+import ProgressBar from '@/components/common/ProgressBar'
+import { signUpStep2Schema } from '@/schemas/signUpSchema'
+
+type SignUpType = z.infer<typeof signUpStep2Schema>
 
 export default function SignUpFormStep2() {
     const [focusedIndex, setFocusedIndex] = useState<number>(0)
+    const { name, id, password, confirmPassword, setName, setId, setPassword, setConfirmPassword } = useSignUpStore()
+
+    const router = useRouter()
+
+    const {
+        register,
+        handleSubmit,
+        trigger,
+        formState: { errors },
+    } = useForm<SignUpType>({
+        resolver: zodResolver(signUpStep2Schema),
+        defaultValues: {
+            name,
+            id,
+            password,
+            confirmPassword,
+        },
+    })
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>, name: keyof SignUpType) => {
+        const { value } = e.target
+        switch (name) {
+            case 'name':
+                setName(value)
+                break
+            case 'id':
+                setId(value)
+                break
+            case 'password':
+                setPassword(value)
+                break
+            case 'confirmPassword':
+                setConfirmPassword(value)
+                break
+        }
+        register(name).onChange(e)
+        trigger(name)
+    }
+
+    const onfocus = (index: number, name: keyof SignUpType) => {
+        setFocusedIndex(index)
+        trigger(name)
+    }
+
+    const onSubmit = () => {
+        router.push('/signup?step=3')
+    }
+
     return (
-        <div className="space-y-3">
-            <Input title="이름" required={true} index={1} focusedIndex={focusedIndex}>
-                <input
-                    id="name"
-                    type="text"
-                    className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium  "
-                    placeholder="이름을 입력해주세요"
-                    onFocus={() => {
-                        setFocusedIndex(1)
-                    }}
-                />
-            </Input>
-            <div className="flex flex-row space-x-2">
-                <Input title="아이디" required={true} index={2} focusedIndex={focusedIndex}>
-                    <input
-                        id="id"
+        <>
+            <div className="w-full h-[60%] px-10 space-y-3">
+                <div className="space-y-1">
+                    <Input
+                        title="이름"
+                        required={true}
+                        index={1}
+                        focusedIndex={focusedIndex}
+                        id="name"
+                        name="name"
                         type="text"
-                        className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium  "
-                        placeholder="아이디를 입력해주세요"
-                        onFocus={() => {
-                            setFocusedIndex(2)
+                        placeholder="이름을 입력해주세요"
+                        value={name}
+                        onChange={(e) => {
+                            onChange(e, 'name')
                         }}
+                        onFocus={() => {
+                            onfocus(1, 'name')
+                        }}
+                        ref={register('name').ref}
                     />
-                </Input>
-                <button className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3">
-                    중복확인
-                </button>
+                    {errors.name && (
+                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
+                            *{errors.name.message}
+                        </p>
+                    )}
+                </div>
+                <div className="space-y-1">
+                    <div className="flex flex-row space-x-2">
+                        <Input
+                            title="아이디"
+                            required={true}
+                            index={2}
+                            focusedIndex={focusedIndex}
+                            id="id"
+                            name="id"
+                            type="text"
+                            placeholder="아이디를 입력해주세요"
+                            value={id}
+                            onChange={(e) => {
+                                onChange(e, 'id')
+                            }}
+                            onFocus={() => {
+                                onfocus(2, 'id')
+                            }}
+                            ref={register('id').ref}
+                        />
+                        <button className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3">
+                            중복확인
+                        </button>
+                    </div>
+                    {errors.id && (
+                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">*{errors.id.message}</p>
+                    )}
+                </div>
+                <div className="space-y-1">
+                    <Input
+                        title="비밀번호"
+                        required={true}
+                        index={3}
+                        focusedIndex={focusedIndex}
+                        id="password"
+                        name="password"
+                        type="password"
+                        value={password}
+                        placeholder="비밀번호를 입력해주세요"
+                        onChange={(e) => {
+                            onChange(e, 'password')
+                        }}
+                        onFocus={() => {
+                            onfocus(3, 'password')
+                        }}
+                        ref={register('password').ref}
+                    />
+                    {errors.password?.message && (
+                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
+                            *{errors.password?.message}
+                        </p>
+                    )}
+                </div>
+                <div className="space-y-1">
+                    <Input
+                        title="비밀번호 확인"
+                        required={true}
+                        index={4}
+                        focusedIndex={focusedIndex}
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        value={confirmPassword}
+                        placeholder="비밀번호를 다시 입력해주세요"
+                        onChange={(e) => {
+                            onChange(e, 'confirmPassword')
+                        }}
+                        onFocus={() => {
+                            onfocus(4, 'confirmPassword')
+                        }}
+                        ref={register('confirmPassword').ref}
+                    />
+                    {errors.confirmPassword?.message && (
+                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
+                            *{errors.confirmPassword?.message}
+                        </p>
+                    )}
+                </div>
             </div>
-            <Input title="비밀번호" required={true} index={3} focusedIndex={focusedIndex}>
-                <input
-                    id="password"
-                    type="password"
-                    className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium  "
-                    placeholder="비밀번호를 입력해주세요"
-                    onFocus={() => {
-                        setFocusedIndex(3)
-                    }}
-                />
-            </Input>
-            <Input title="비밀번호 확인" required={true} index={4} focusedIndex={focusedIndex}>
-                <input
-                    id="passwordCheck"
-                    type="password"
-                    className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium  "
-                    placeholder="비밀번호를 다시 입력해주세요"
-                    onFocus={() => {
-                        setFocusedIndex(4)
-                    }}
-                />
-            </Input>
-        </div>
+            <div className="w-full h-[25%] px-10 flex flex-col justify-around items-center">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-full h-auto">
+                    <button
+                        type="submit"
+                        className="bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8"
+                    >
+                        <p className="font-Pretendard text-white text-[15px] font-bold">NEXT</p>
+                        <RightArrow width={15} height={15} />
+                    </button>
+                </form>
+                <div className="w-5/6 h-auto">
+                    <ProgressBar step={1} total={5} />
+                </div>
+            </div>
+        </>
     )
 }

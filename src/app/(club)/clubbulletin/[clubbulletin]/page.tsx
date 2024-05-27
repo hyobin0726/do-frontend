@@ -2,7 +2,7 @@ import ClubBulletinComment from '@/components/pages/club/ClubBulletinComment'
 
 function clubbulletin() {
     return (
-        <div className="p-4 bg-red-300 h-[calc(100vh-5rem)] ">
+        <div className="p-4 bg-red-300 h-[calc(100svh-5rem)] ">
             <div className="flex items-center mb-4">
                 <div className="bg-gray-400 rounded-full w-12 h-12 flex items-center justify-center text-sm">
                     프로필
