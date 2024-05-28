@@ -1,5 +1,3 @@
-import Link from 'next/link'
-
 export default function ChatMoreModal({
     chatMoreModal,
     setChatMoreModal,
@@ -10,8 +8,8 @@ export default function ChatMoreModal({
     return (
         <>
             {chatMoreModal && (
-                <div className="fixed  right-0 top-0 w-40 h-screen bg-gray-300 z-[1]">
-                    <div className=" p-4 ">
+                <div className="fixed top-0 z-[1]  w-screen h-screen  bg-black bg-opacity-30">
+                    <div className="bg-gray-300 w-1/2  fixed right-0 h-screen">
                         <button className="absolute top-2 right-2" onClick={() => setChatMoreModal(false)}>
                             <img
                                 width="25"
@@ -20,7 +18,6 @@ export default function ChatMoreModal({
                                 alt="모달 닫기"
                             />
                         </button>
-                        <Link href={'/clubdetail/clubhome'}>게시물</Link>
                         <div>사진</div>
                         <div>참여자</div>
                     </div>
