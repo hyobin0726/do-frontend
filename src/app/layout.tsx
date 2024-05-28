@@ -1,8 +1,15 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import KakaoScript from '@/providers/KakaoScript'
 
 const inter = Inter({ subsets: ['latin'] })
+
+declare global {
+    interface Window {
+        Kakao: any
+    }
+}
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -25,6 +32,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>{children}</body>
+            <KakaoScript />
         </html>
     )
 }

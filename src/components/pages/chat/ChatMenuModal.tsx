@@ -1,6 +1,7 @@
 import Album from '@/components/images/Album'
 import Crew from '@/components/images/Crew'
 import Share from '@/components/images/Share'
+import { Button } from '@/components/ui/button'
 
 export default function ChatMenuModal({
     chatMenuModal,
@@ -36,6 +37,18 @@ export default function ChatMenuModal({
             role: 0,
         },
     ]
+    const handlerKakaoShare = () => {
+        const { Kakao } = window
+        Kakao.Share.sendCustom({
+            templateId: 108376,
+            templateArgs: {
+                THU: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/1716864446634Group+1000001922.png',
+                crewName: '해운대 크루',
+                crewIntroduction: '#해운대 #러닝 #취미',
+                path: 'chat',
+            },
+        })
+    }
 
     return (
         <>
@@ -53,7 +66,9 @@ export default function ChatMenuModal({
                         <div className="flex">
                             <div className="font-bold text-lg">해운대 크루 서랍</div>
                             {/* 공유하기 임시버튼 */}
-                            <Share />
+                            <Button onClick={handlerKakaoShare}>
+                                <Share />
+                            </Button>
                         </div>
                         <div className="flex items-center space-x-2 mt-2">
                             <div className="w-5">
@@ -77,7 +92,7 @@ export default function ChatMenuModal({
                                         <div className="ml-4 flex">
                                             <div className="font-bold text-lg">{member.name}</div>
                                             {member.role === 1 && (
-                                                <span className="text-white bg-[#FFB7B3] rounded-lg px-2 py-1 ml-2">
+                                                <span className="text-white text-sm bg-[#FFB7B3] rounded-lg px-2 py-1 ml-2">
                                                     방장
                                                 </span>
                                             )}

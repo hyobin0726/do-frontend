@@ -25,7 +25,7 @@ export default function ChatMessage() {
         }
     }, [socket])
     return (
-        <section className=" bg-[##FBFBFD] h-[calc(100vh-11rem)] ">
+        <section className=" bg-gray-100 h-[calc(100vh-11rem)] ">
             <div className=" px-2 py-4 ">
                 <div className="flex justify-center">
                     <div className="relative bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
