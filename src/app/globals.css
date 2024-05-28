@@ -112,3 +112,45 @@ body {
         url('https://cdn.jsdelivr.net/gh/webfontworld/pretendard/Pretendard-Black.ttf') format('truetype');
     font-display: swap;
 }
+
+@keyframes slideInDown {
+    from {
+        transform: translate3d(0, 30px, 0) scaleY(1);
+        visibility: visible;
+        opacity: 0.5;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOutAlert {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+@keyframes fadeOutBackGround {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+
+.fade-out-alert {
+    animation: fadeOutAlert 0.2s linear forwards;
+}
+
+.fade-out-background {
+    animation: fadeOutBackGround 0.2s linear forwards;
+}

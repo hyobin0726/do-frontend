@@ -14,15 +14,16 @@ import { useSignUpStore } from '@/hooks/useSignUpStore'
 import ProgressBar from '@/components/common/ProgressBar'
 import { signUpStep3Schema } from '@/schemas/signUpSchema'
 import SignUpGenderSelecter from './SignUpGenderSelecter'
-import Clock from '@/components/images/Clock'
+import EmailAuth from './EmailAuth'
+// import Clock from '@/components/images/Clock'
 
 type SignUpType = z.infer<typeof signUpStep3Schema>
 
 export default function SignUpFormStep3() {
+    // const emailAuthInputRef = useRef<HTMLInputElement>(null)
     const [focusedIndex, setFocusedIndex] = useState<number>(0)
-    const [showEmailAuthInputContainer, setShowEmailAuthInputContainer] = useState<boolean>(false)
-    const [emailAuthNumber, setEmailAuthNumber] = useState<string>('')
-    const emailAuthInputRef = useRef<HTMLInputElement>(null)
+    // const [showEmailAuthInputContainer, setShowEmailAuthInputContainer] = useState<boolean>(false)
+    // const [emailAuthNumber, setEmailAuthNumber] = useState<string>('')
 
     const { phoneNumber, setPhoneNumber, email, setEmail, gender, setGender, birthDate, setBirthDate } =
         useSignUpStore()
@@ -77,13 +78,13 @@ export default function SignUpFormStep3() {
         trigger('gender')
     }
 
-    const handleEmailAuthButtonClick = () => {
-        setShowEmailAuthInputContainer(true)
-        setFocusedIndex(3)
-        setTimeout(() => {
-            emailAuthInputRef.current?.focus()
-        }, 0)
-    }
+    // const handleEmailAuthButtonClick = () => {
+    //     setShowEmailAuthInputContainer(true)
+    //     setFocusedIndex(3)
+    //     setTimeout(() => {
+    //         emailAuthInputRef.current?.focus()
+    //     }, 0)
+    // }
 
     return (
         <>
@@ -113,7 +114,26 @@ export default function SignUpFormStep3() {
                         </p>
                     )}
                 </div>
-                <div className={`${errors.email ? 'space-y-1' : 'space-y-3'}`}>
+                <EmailAuth
+                    focusedIndex={focusedIndex}
+                    value={email}
+                    onChange={(e) => onChange(e, 'email')}
+                    onfocus={() => {
+                        onfocus(2, 'email')
+                    }}
+                    ref={register('email').ref}
+                    onfocusIndex={() => {
+                        setFocusedIndex(3)
+                    }}
+                >
+                    {errors.email?.message && (
+                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
+                            *{errors.email?.message}
+                        </p>
+                    )}
+                </EmailAuth>
+
+                {/* <div className={`${errors.email ? 'space-y-1' : 'space-y-3'}`}>
                     <div className="flex flex-row space-x-2">
                         <Input
                             title="이메일"
@@ -167,8 +187,8 @@ export default function SignUpFormStep3() {
                             </button>
                         </div>
                     )}
-                </div>
-                <div className="space-y-1">
+                </div> */}
+                <div className={` ${errors.gender ? 'space-y-1' : ''}`}>
                     <SignUpGenderSelecter
                         index={4}
                         focusedIndex={focusedIndex}
