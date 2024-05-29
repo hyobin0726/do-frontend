@@ -2,16 +2,30 @@
 import RouterBackArrowButton from '@/components/common/RouterBackArrowButton'
 import { useState } from 'react'
 import ChatMenuModal from './ChatMenuModal'
+import ShareKakao from '@/components/common/ShareKakao'
 
 export default function ChatRoomNav() {
+    const crew = {
+        id: 1,
+        name: '해운대 크루',
+        Introduction: '#해운대 #러닝 #취미',
+        profile_url: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/1716864446634Group+1000001922.png',
+    }
+
     const [chatMenu, setChatMenu] = useState<boolean>(false)
     return (
         <>
             <div className="bg-white bg-opacity-50 py-4 px-2">
-                <div className=" mx-auto px-2 flex items-center">
+                <div className="relative  mx-auto px-2 flex items-center">
                     <RouterBackArrowButton />
-                    <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <p className="font-semibold">채팅방 이름</p>
+                    <div className="flex-1 text-center ">
+                        <p className="font-semibold">{crew.name}</p>
+                        <ShareKakao
+                            thumbnail={crew.profile_url}
+                            crewName={crew.name}
+                            crewIntroduction={crew.Introduction}
+                            path={`chatroom/${crew.id}`}
+                        />
                     </div>
                     <img
                         width="25"
