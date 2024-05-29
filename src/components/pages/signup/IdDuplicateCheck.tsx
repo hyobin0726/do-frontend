@@ -52,10 +52,7 @@ export default function IdDuplicateCheck({
                 <br />
                 사용할 수 있는 아이디입니다.
             </p>
-            <button
-                onClick={onAlertChange}
-                className="bg-hobbing-red rounded-xl w-1/2 h-[40px] flex justify-center items-center"
-            >
+            <button onClick={onAlertChange} className="bg-hobbing-red rounded-xl w-[40%] h-[40px] ">
                 <p className="font-Pretendard text-white font-bold text-[15px]">확인</p>
             </button>
         </Alert>
@@ -71,7 +68,7 @@ export default function IdDuplicateCheck({
             </p>
             <button
                 onClick={onAlertChange}
-                className="bg-hobbing-red rounded-xl w-1/2 h-[40px] flex justify-center items-center"
+                className="bg-hobbing-red rounded-xl w-[40%] h-[40px] flex justify-center items-center"
             >
                 <p className="font-Pretendard text-white font-bold text-[15px]">확인</p>
             </button>

@@ -76,8 +76,8 @@ export default function SignUpFormStep3() {
 
     return (
         <>
-            <div className="w-full h-[60%] px-10 space-y-3">
-                <div className="space-y-1">
+            <div className="w-full h-[60%] px-10">
+                <div className="space-y-1 mb-3">
                     <Input
                         title="전화번호"
                         required={true}
@@ -121,7 +121,7 @@ export default function SignUpFormStep3() {
                         </p>
                     )}
                 </EmailAuth>
-                <div className={` ${errors.gender ? 'space-y-1' : ''}`}>
+                <div className={` ${errors.gender ? 'space-y-1' : ''} mb-3`}>
                     <SignUpGenderSelecter
                         index={4}
                         focusedIndex={focusedIndex}

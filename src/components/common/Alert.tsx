@@ -56,15 +56,16 @@ export default function Alert({ type, isAlertOpen, children }: AlertProps) {
                             animation: isAlertOpen ? 'slideInDown 0.4s ease-in-out' : '',
                         }}
                     >
-                        <div className="bg-white w-2/3 rounded-xl p-3 flex flex-col items-center">
+                        <div className="bg-white w-2/3 rounded-xl p-3 flex flex-col items-center divide-y-[1px]">
                             <div className="w-1/5 h-auto border-2 border-hobbing-red rounded-full my-3 p-1">
                                 {type === 'question' && <QuestionMark />}
                                 {type === 'info' && <InfoMark />}
                                 {type === 'error' && <ErrorMark />}
                                 {type === 'success' && <SuccessMark />}
                                 {type === 'warning' && <WarninMark />}
+                                {/* border-hobbing-gray */}
                             </div>
-                            <div className=" flex flex-col justify-center items-center border-t-[1px] py-3 border-hobbing-gray space-y-2">
+                            <div className="w-full flex flex-col justify-center items-center border-t-[1px] py-5 space-y-5">
                                 {children}
                             </div>
                         </div>

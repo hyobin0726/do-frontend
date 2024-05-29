@@ -11,7 +11,7 @@ interface InputProps {
     placeholder: string
     value: string
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-    onFocus: () => void
+    onFocus?: () => void
     ref?: ((instance: HTMLInputElement | null) => void) | RefObject<HTMLInputElement>
     children?: React.ReactNode
 }

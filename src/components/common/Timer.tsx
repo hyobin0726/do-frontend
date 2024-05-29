@@ -1,33 +1,32 @@
-'use client'
-
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import Clock from '../images/Clock'
 
 interface TimerProps {
     min: number
+    handleTimeExpired: () => void
 }
 
-const Timer = forwardRef(({ min }: TimerProps, ref) => {
+const Timer = forwardRef(({ min, handleTimeExpired }: TimerProps, ref) => {
     const [seconds, setSeconds] = useState<number>(min * 60)
-    const [timerActive, setTimerActive] = useState<boolean>(true)
 
     useImperativeHandle(ref, () => ({
         reset: () => {
             setSeconds(min * 60)
-            setTimerActive(true)
         },
     }))
 
     useEffect(() => {
-        if (seconds > 0 && timerActive) {
-            const timer = setInterval(() => {
-                setSeconds((prevSeconds) => prevSeconds - 1)
-            }, 1000)
-            return () => clearInterval(timer)
-        } else {
-            setTimerActive(false)
-        }
-    }, [seconds, timerActive])
+        const timer = setInterval(() => {
+            setSeconds((prevSeconds) => {
+                if (prevSeconds === 0) {
+                    clearInterval(timer)
+                    handleTimeExpired() // 타이머가 만료되면 handleTimeExpired 함수 호출
+                }
+                return Math.max(0, prevSeconds - 1)
+            })
+        }, 1000)
+        return () => clearInterval(timer)
+    }, [min])
 
     const formatTime = (secs: number) => {
         if (isNaN(secs)) return '0:00'
