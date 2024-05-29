@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import z from 'zod'
@@ -15,15 +15,11 @@ import ProgressBar from '@/components/common/ProgressBar'
 import { signUpStep3Schema } from '@/schemas/signUpSchema'
 import SignUpGenderSelecter from './SignUpGenderSelecter'
 import EmailAuth from './EmailAuth'
-// import Clock from '@/components/images/Clock'
 
 type SignUpType = z.infer<typeof signUpStep3Schema>
 
 export default function SignUpFormStep3() {
-    // const emailAuthInputRef = useRef<HTMLInputElement>(null)
     const [focusedIndex, setFocusedIndex] = useState<number>(0)
-    // const [showEmailAuthInputContainer, setShowEmailAuthInputContainer] = useState<boolean>(false)
-    // const [emailAuthNumber, setEmailAuthNumber] = useState<string>('')
 
     const { phoneNumber, setPhoneNumber, email, setEmail, gender, setGender, birthDate, setBirthDate } =
         useSignUpStore()
@@ -78,14 +74,6 @@ export default function SignUpFormStep3() {
         trigger('gender')
     }
 
-    // const handleEmailAuthButtonClick = () => {
-    //     setShowEmailAuthInputContainer(true)
-    //     setFocusedIndex(3)
-    //     setTimeout(() => {
-    //         emailAuthInputRef.current?.focus()
-    //     }, 0)
-    // }
-
     return (
         <>
             <div className="w-full h-[60%] px-10 space-y-3">
@@ -121,10 +109,11 @@ export default function SignUpFormStep3() {
                     onfocus={() => {
                         onfocus(2, 'email')
                     }}
-                    ref={register('email').ref}
+                    inputRef={register('email').ref}
                     onfocusIndex={() => {
                         setFocusedIndex(3)
                     }}
+                    emailAuthButtonActive={errors.email?.message || !email ? true : false}
                 >
                     {errors.email?.message && (
                         <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
@@ -132,62 +121,6 @@ export default function SignUpFormStep3() {
                         </p>
                     )}
                 </EmailAuth>
-
-                {/* <div className={`${errors.email ? 'space-y-1' : 'space-y-3'}`}>
-                    <div className="flex flex-row space-x-2">
-                        <Input
-                            title="이메일"
-                            required={true}
-                            index={2}
-                            focusedIndex={focusedIndex}
-                            id="email"
-                            name="email"
-                            type="email"
-                            placeholder="이메일을 입력해주세요"
-                            value={email}
-                            onChange={(e) => {
-                                onChange(e, 'email')
-                            }}
-                            onFocus={() => {
-                                onfocus(2, 'email')
-                            }}
-                            ref={register('email').ref}
-                        />
-                        <button
-                            className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
-                            onClick={handleEmailAuthButtonClick}
-                        >
-                            {!showEmailAuthInputContainer ? '인증' : '재전송'}
-                        </button>
-                    </div>
-                    {errors.email && (
-                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
-                            *{errors.email.message}
-                        </p>
-                    )}
-                    {showEmailAuthInputContainer && (
-                        <div className="flex flex-row space-x-2">
-                            <Input
-                                index={3}
-                                focusedIndex={focusedIndex}
-                                id="emailAuth"
-                                type="tel"
-                                placeholder="인증번호 입력"
-                                value={emailAuthNumber}
-                                onChange={(e) => setEmailAuthNumber(e.target.value)}
-                                onFocus={() => {
-                                    setFocusedIndex(3)
-                                }}
-                                ref={emailAuthInputRef}
-                            >
-                                <Clock min={3} />
-                            </Input>
-                            <button className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3">
-                                확인
-                            </button>
-                        </div>
-                    )}
-                </div> */}
                 <div className={` ${errors.gender ? 'space-y-1' : ''}`}>
                     <SignUpGenderSelecter
                         index={4}
@@ -230,7 +163,7 @@ export default function SignUpFormStep3() {
                     )}
                 </div>
             </div>
-            <div className="w-full h-[25%] px-10 pt-5 flex flex-col items-center space-y-5">
+            <div className="w-full h-[25%] px-10 flex flex-col justify-around items-center">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-full h-auto">
                     <button
                         type="submit"
@@ -241,7 +174,7 @@ export default function SignUpFormStep3() {
                     </button>
                 </form>
                 <div className="w-5/6 h-auto">
-                    <ProgressBar step={1} total={5} />
+                    <ProgressBar step={2} total={5} />
                 </div>
             </div>
         </>
