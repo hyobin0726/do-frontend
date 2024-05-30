@@ -12,11 +12,22 @@ interface EmailAuthProps {
     inputRef?: RefObject<HTMLInputElement> | RefCallback<HTMLInputElement> | null
     children?: React.ReactNode
     emailAuthButtonActive: boolean
+    emailAvailableHandler?: (emailAvailable: boolean) => void
 }
 
 const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
     (
-        { focusedIndex, value: email, onChange, onfocus, onfocusIndex, inputRef, children, emailAuthButtonActive },
+        {
+            focusedIndex,
+            value: email,
+            onChange,
+            onfocus,
+            onfocusIndex,
+            inputRef,
+            children,
+            emailAuthButtonActive,
+            emailAvailableHandler,
+        },
         ref,
     ) => {
         const emailAuthInputRef = useRef<HTMLInputElement>(null)
@@ -24,10 +35,12 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
         useImperativeHandle(ref, () => emailAuthInputRef.current!)
 
         const [showEmailAuthInputContainer, setShowEmailAuthInputContainer] = useState<boolean>(false)
-        const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
         const [emailAuthNumber, setEmailAuthNumber] = useState<string>('')
-        const [seconds, setSeconds] = useState<number>(5)
+        const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
+        const [alertType, setAlertType] = useState<'warning' | 'success' | 'error'>('warning')
+        const [alertMessage, setAlertMessage] = useState<string>('')
         const timerRef = useRef<NodeJS.Timeout | null>(null)
+        const [seconds, setSeconds] = useState<number>(180)
 
         useEffect(() => {
             if (showEmailAuthInputContainer) {
@@ -45,6 +58,8 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
                 setSeconds((prevSeconds) => {
                     if (prevSeconds <= 0) {
                         clearTimer()
+                        setAlertType('warning')
+                        setAlertMessage('인증시간이 만료되었습니다.')
                         setIsAlertOpen(true)
                         return 0
                     }
@@ -65,7 +80,7 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
             setEmailAuthNumber('')
             GetEmailAuth()
             onfocusIndex()
-            setSeconds(5)
+            setSeconds(180)
             startTimer()
             setTimeout(() => {
                 emailAuthInputRef.current?.focus() // 인증번호 입력 input에 포커스 설정
@@ -74,6 +89,29 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
 
         const GetEmailAuth = () => {
             console.log('GetEmailAuth')
+        }
+
+        const GetEmailAuthNumberCheck = (emailAuthNumber: string) => {
+            console.log('GetEmailAuthNumberCheck:', emailAuthNumber)
+            // 타이머 멈춤
+            clearTimer()
+            // 인증번호 확인
+            if (!emailAuthNumber.trim()) {
+                setAlertType('error')
+                setAlertMessage('인증번호를 입력해주세요.')
+                setIsAlertOpen(true)
+            } else if (emailAuthNumber === '123456') {
+                // 예시로 인증번호 '123456'을 맞다고 가정
+                emailAvailableHandler?.(true)
+                setAlertType('success')
+                setAlertMessage('이메일 인증이 완료되었습니다.')
+                setIsAlertOpen(true)
+            } else {
+                emailAvailableHandler?.(false)
+                setAlertType('warning')
+                setAlertMessage('인증번호가 일치하지 않습니다.')
+                setIsAlertOpen(true)
+            }
         }
 
         const handleCloseAlert = () => {
@@ -139,30 +177,42 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
                                     </p>
                                 </div>
                             </Input>
-                            <button className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3">
+                            <button
+                                onClick={() => GetEmailAuthNumberCheck(emailAuthNumber)}
+                                className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
+                            >
                                 확인
                             </button>
                         </div>
                     )}
                 </div>
                 {isAlertOpen && (
-                    <Alert type="warning" isAlertOpen={isAlertOpen}>
-                        <p className="font-Pretendard text-balance text-center text-[15px]">
-                            인증시간이 만료되었습니다.
-                        </p>
-                        <div className="bg-white flex flex-row justify-center items-center  space-x-3 w-full">
-                            <button
-                                className="w-[40%] h-[40px] border-[1px] border-hobbing-red rounded-xl flex justify-center items-center"
-                                onClick={handleCloseAlert}
-                            >
-                                <p className="font-Pretendard text-hobbing-red text-[15px]"> 닫기</p>
-                            </button>
-                            <button
-                                className="w-[40%] h-[40px] bg-hobbing-red rounded-xl flex justify-center items-center"
-                                onClick={handleResend}
-                            >
-                                <p className="font-Pretendard text-white font-bold text-[15px]"> 재전송</p>
-                            </button>
+                    <Alert type={alertType} isAlertOpen={isAlertOpen}>
+                        <p className="font-Pretendard text-balance text-center text-[15px]">{alertMessage}</p>
+                        <div className="bg-white flex flex-row justify-center items-center space-x-3 w-full">
+                            {alertType === 'warning' ? (
+                                <>
+                                    <button
+                                        className="w-[40%] h-[40px] border-[1px] border-hobbing-red rounded-xl flex justify-center items-center"
+                                        onClick={handleCloseAlert}
+                                    >
+                                        <p className="font-Pretendard text-hobbing-red text-[15px]"> 닫기</p>
+                                    </button>
+                                    <button
+                                        className="w-[40%] h-[40px] bg-hobbing-red rounded-xl flex justify-center items-center"
+                                        onClick={handleResend}
+                                    >
+                                        <p className="font-Pretendard text-white font-bold text-[15px]"> 재전송</p>
+                                    </button>
+                                </>
+                            ) : (
+                                <button
+                                    className="w-[40%] h-[40px] bg-hobbing-red rounded-xl flex justify-center items-center"
+                                    onClick={handleCloseAlert}
+                                >
+                                    <p className="font-Pretendard text-white font-bold text-[15px]"> 확인</p>
+                                </button>
+                            )}
                         </div>
                     </Alert>
                 )}

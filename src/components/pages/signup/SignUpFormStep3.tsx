@@ -20,6 +20,7 @@ type SignUpType = z.infer<typeof signUpStep3Schema>
 
 export default function SignUpFormStep3() {
     const [focusedIndex, setFocusedIndex] = useState<number>(0)
+    const [emailAvailable, setEmailAvailable] = useState<boolean>(false)
 
     const { phoneNumber, setPhoneNumber, email, setEmail, gender, setGender, birthDate, setBirthDate } =
         useSignUpStore()
@@ -74,6 +75,13 @@ export default function SignUpFormStep3() {
         trigger('gender')
     }
 
+    const emailAvailableHandler = (emailAvailable: boolean) => {
+        setEmailAvailable(emailAvailable)
+    }
+
+    const isFormValid =
+        !Object.values(errors).some(Boolean) && phoneNumber && email && gender && birthDate && emailAvailable
+
     return (
         <>
             <div className="w-full h-[60%] px-10">
@@ -114,6 +122,7 @@ export default function SignUpFormStep3() {
                         setFocusedIndex(3)
                     }}
                     emailAuthButtonActive={errors.email?.message || !email ? true : false}
+                    emailAvailableHandler={emailAvailableHandler}
                 >
                     {errors.email?.message && (
                         <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
@@ -166,8 +175,9 @@ export default function SignUpFormStep3() {
             <div className="w-full h-[25%] px-10 flex flex-col justify-around items-center">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-full h-auto">
                     <button
+                        disabled={!isFormValid}
                         type="submit"
-                        className="bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8"
+                        className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
                     >
                         <p className="font-Pretendard text-white text-[15px] font-bold">NEXT</p>
                         <RightArrow width={15} height={15} />
