@@ -26,9 +26,9 @@ export default function SliderModal({ children, isModalOpen, onChangeModal, back
             <div
                 onClick={backgroundClose ? onChangeModal : () => {}}
                 className={`
-                    fixed -top-10 left-0  z-[200]
+                    fixed top-0 left-0  z-[200]
                     w-screen h-svh 
-                    bg-[#222222] bg-opacity-50 
+                    bg-[#000000] bg-opacity-30 
                     transition-all
                     ${isModalOpen ? '' : 'hidden'}`}
             ></div>
@@ -37,7 +37,6 @@ export default function SliderModal({ children, isModalOpen, onChangeModal, back
                     transform: isModalOpen ? 'translateY(0)' : 'translateY(100%)',
                     transition: 'transform 0.4s ease-out',
                 }}
-                // style={{ top: isModalOpen ? "40%" : "100%", transition: "ease-out 0.3s" }}
                 className={`
                     fixed bottom-0 right-0 left-0 z-[300]
                     rounded-t-2xl w-screen 
@@ -46,7 +45,7 @@ export default function SliderModal({ children, isModalOpen, onChangeModal, back
                     flex flex-col justify-center items-center
                 `}
             >
-                <div className="w-full py-2 flex justify-center border-b-[1px]">
+                <div className="w-full py-3 flex justify-center">
                     <svg width="40" height="4" viewBox="0 0 40 4" fill="none">
                         <rect width="40" height="4" rx="2" fill="#E5E5E5" />
                     </svg>

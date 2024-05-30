@@ -6,17 +6,25 @@ import { useRouter } from 'next/navigation'
 import z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSignUpStore } from '@/hooks/useSignUpStore'
+import { signUpStep2Schema } from '@/schemas/signUpSchema'
 
 import Input from '@/components/common/Input'
+import IdDuplicateCheck from './IdDuplicateCheck'
 import RightArrow from '@/components/images/RightArrow'
-import { useSignUpStore } from '@/hooks/useSignUpStore'
 import ProgressBar from '@/components/common/ProgressBar'
-import { signUpStep2Schema } from '@/schemas/signUpSchema'
+import VisibilityOn from '@/components/images/VisibilityOn'
+import VisibilityOff from '@/components/images/VisibilityOff'
 
 type SignUpType = z.infer<typeof signUpStep2Schema>
 
 export default function SignUpFormStep2() {
     const [focusedIndex, setFocusedIndex] = useState<number>(0)
+    const [isIdAvailable, setIsIdAvailable] = useState<boolean>(false)
+    const [isIdDuplicateCheckOpen, setIsIdDuplicateCheckOpen] = useState<boolean>(false)
+    const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false)
+
     const { name, id, password, confirmPassword, setName, setId, setPassword, setConfirmPassword } = useSignUpStore()
 
     const router = useRouter()
@@ -56,6 +64,14 @@ export default function SignUpFormStep2() {
         trigger(name)
     }
 
+    const onAlertChange = () => {
+        setIsIdDuplicateCheckOpen(!isIdDuplicateCheckOpen)
+    }
+
+    const onIdAvailableCheck = () => {
+        setIsIdAvailable(true)
+    }
+
     const onfocus = (index: number, name: keyof SignUpType) => {
         setFocusedIndex(index)
         trigger(name)
@@ -64,6 +80,9 @@ export default function SignUpFormStep2() {
     const onSubmit = () => {
         router.push('/signup?step=3')
     }
+
+    const isFormValid =
+        !Object.values(errors).some(Boolean) && name && id && password && confirmPassword && isIdAvailable
 
     return (
         <>
@@ -113,7 +132,11 @@ export default function SignUpFormStep2() {
                             }}
                             ref={register('id').ref}
                         />
-                        <button className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3">
+                        <button
+                            onClick={onAlertChange}
+                            disabled={!id || !!errors.id}
+                            className={`w-[100px] h-[50px] ${!id || !!errors.id ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} rounded-xl font-Pretendard text-[13px] text-white font-medium px-3`}
+                        >
                             중복확인
                         </button>
                     </div>
@@ -129,7 +152,7 @@ export default function SignUpFormStep2() {
                         focusedIndex={focusedIndex}
                         id="password"
                         name="password"
-                        type="password"
+                        type={isPasswordVisible ? 'text' : 'password'}
                         value={password}
                         placeholder="비밀번호를 입력해주세요"
                         onChange={(e) => {
@@ -139,7 +162,16 @@ export default function SignUpFormStep2() {
                             onfocus(3, 'password')
                         }}
                         ref={register('password').ref}
-                    />
+                    >
+                        <div
+                            onClick={() => {
+                                setIsPasswordVisible(!isPasswordVisible)
+                            }}
+                            className="flex flex-row items-center px-3"
+                        >
+                            {isPasswordVisible ? <VisibilityOn /> : <VisibilityOff />}
+                        </div>
+                    </Input>
                     {errors.password?.message && (
                         <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
                             *{errors.password?.message}
@@ -154,7 +186,7 @@ export default function SignUpFormStep2() {
                         focusedIndex={focusedIndex}
                         id="confirmPassword"
                         name="confirmPassword"
-                        type="password"
+                        type={isConfirmPasswordVisible ? 'text' : 'password'}
                         value={confirmPassword}
                         placeholder="비밀번호를 다시 입력해주세요"
                         onChange={(e) => {
@@ -164,7 +196,16 @@ export default function SignUpFormStep2() {
                             onfocus(4, 'confirmPassword')
                         }}
                         ref={register('confirmPassword').ref}
-                    />
+                    >
+                        <div
+                            onClick={() => {
+                                setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
+                            }}
+                            className="flex flex-row items-center px-3"
+                        >
+                            {isConfirmPasswordVisible ? <VisibilityOn /> : <VisibilityOff />}
+                        </div>
+                    </Input>
                     {errors.confirmPassword?.message && (
                         <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
                             *{errors.confirmPassword?.message}
@@ -175,8 +216,8 @@ export default function SignUpFormStep2() {
             <div className="w-full h-[25%] px-10 flex flex-col justify-around items-center">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-full h-auto">
                     <button
-                        type="submit"
-                        className="bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8"
+                        disabled={!isFormValid}
+                        className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
                     >
                         <p className="font-Pretendard text-white text-[15px] font-bold">NEXT</p>
                         <RightArrow width={15} height={15} />
@@ -186,6 +227,14 @@ export default function SignUpFormStep2() {
                     <ProgressBar step={1} total={5} />
                 </div>
             </div>
+            {!errors.id && (
+                <IdDuplicateCheck
+                    id={id}
+                    isIdDuplicateCheckOpen={isIdDuplicateCheckOpen}
+                    onAlertChange={onAlertChange}
+                    onIdAvailableCheck={onIdAvailableCheck}
+                />
+            )}
         </>
     )
 }

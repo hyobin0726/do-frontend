@@ -6,12 +6,12 @@ interface InputProps {
     index?: number
     focusedIndex?: number
     id: string
-    name?: string // name 속성 추가
+    name?: string
     type: string
     placeholder: string
     value: string
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-    onFocus: () => void
+    onFocus?: () => void
     ref?: ((instance: HTMLInputElement | null) => void) | RefObject<HTMLInputElement>
     children?: React.ReactNode
 }
@@ -46,7 +46,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                         onChange={onChange}
                         onFocus={onFocus}
                         ref={ref}
-                        className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium  "
+                        className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium text-left "
                     />
                 </div>
                 {children}
