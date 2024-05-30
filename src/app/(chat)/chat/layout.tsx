@@ -1,9 +1,9 @@
 import MainNavigation from '@/components/layouts/MainNavigation'
 
-export default function ClubPage() {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            <div>소모임 둘러보기 페이지</div>
+            {children}
             <MainNavigation />
         </>
     )

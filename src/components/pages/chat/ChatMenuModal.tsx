@@ -1,5 +1,4 @@
 import Album from '@/components/images/Album'
-import Crew from '@/components/images/Crew'
 
 export default function ChatMenuModal({
     chatMenuModal,
@@ -60,9 +59,7 @@ export default function ChatMenuModal({
                         </div>
                         <ul>
                             <div className="flex items-center space-x-2 mt-2">
-                                <div className="w-5">
-                                    <Crew />
-                                </div>
+                                <div className="w-5"></div>
                                 <div className="text-[#869AA9]">참여자</div>
                             </div>
                             <div>

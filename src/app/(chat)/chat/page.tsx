@@ -44,7 +44,7 @@ export default function ChatPage() {
     }
 
     return (
-        <div className="h-screen bg-[#FBFBFD]">
+        <div className=" bg-[#FBFBFD]">
             <header className="bg-white bg-opacity-50 py-4">
                 <div className="mx-auto px-4 flex justify-between items-center">
                     <h1 className="text-lg font-bold">채팅</h1>
