@@ -15,6 +15,7 @@ export default function IdDuplicateCheck({
     onIdAvailableCheck,
 }: IdDuplicateCheckProps) {
     const [idUseable, setIdUseable] = useState<boolean>(false)
+    const [idDuplicationCheckMessage, setIdDuplicationCheckMessage] = useState<string>('')
 
     useEffect(() => {
         const checkId = async () => {
@@ -23,7 +24,6 @@ export default function IdDuplicateCheck({
                 setIdUseable(isAvailable)
                 if (isAvailable) {
                     onIdAvailableCheck()
-                    console.log('아이디 사용 가능 + 다음 버튼 활성화')
                 }
             }
         }
@@ -31,18 +31,18 @@ export default function IdDuplicateCheck({
         checkId()
     }, [isIdDuplicateCheckOpen])
 
-    const checkIdDuplicate = async (id: string): Promise<boolean> => {
-        // 여기에 실제 아이디 중복 확인 로직을 추가하세요.
-        // 사용가능한 아이디이면 true, 그렇지 않으면 false를 반환합니다.
-        console.log('checkIdDuplicate', id)
-        // 예시: 서버로부터 응답을 받는 코드
-        // const response = await fetch(`/api/check-id?id=${id}`)
-        // const data = await response.json()
-        // return data.isAvailable
-
-        // 임시로 항상 true를 반환합니다.
-        // return new Promise((resolve) => setTimeout(() => resolve(true), 1000))
-        return true
+    const checkIdDuplicate = async (id: string) => {
+        const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/duplication?loginId=${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        const data = await res.json()
+        console.log(data)
+        setIdUseable(data.isSuccess)
+        setIdDuplicationCheckMessage(data.message)
+        return data.isSuccess
     }
     return idUseable ? (
         <Alert type="success" isAlertOpen={isIdDuplicateCheckOpen}>
@@ -50,7 +50,7 @@ export default function IdDuplicateCheck({
                 <span className="font-Pretendard text-hobbing-red font-bold">{id}</span>
                 은(는)
                 <br />
-                사용할 수 있는 아이디입니다.
+                {idDuplicationCheckMessage}
             </p>
             <button onClick={onAlertChange} className="bg-hobbing-red rounded-xl w-[40%] h-[40px] ">
                 <p className="font-Pretendard text-white font-bold text-[15px]">확인</p>
@@ -62,7 +62,7 @@ export default function IdDuplicateCheck({
                 <span className="font-Pretendard text-hobbing-red font-bold">{id}</span>
                 은(는)
                 <br />
-                사용할 수 없는 아이디입니다.
+                {idDuplicationCheckMessage}
                 <br />
                 다시 입력해주세요.
             </p>
