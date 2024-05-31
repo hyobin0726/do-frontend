@@ -5,7 +5,6 @@ import { useSession, signIn, signOut } from 'next-auth/react'
 export default function Home() {
     const { data: session } = useSession()
     console.log(session)
-    console.log(process.env.BASE_URL)
     // return (
     //     <>
     //         <div className="flex flex-1 bg-fuchsia-200">홈화면</div>

@@ -40,7 +40,18 @@ export const options: NextAuthOptions = {
         //     },
         // }),
     ],
-    callbacks: {},
+    // callbacks: {
+    //     async signIn({ user, account, profile }): Promise<any> {
+    //         if (user) {
+    //             console.log(user.email)
+    //             console.log(user.image)
+    //             console.log(user.name)
+
+    //             return '/'
+    //         }
+    //         return true
+    //     },
+    // },
     pages: {
         signIn: '/login',
         error: '/auth_error',

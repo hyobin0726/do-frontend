@@ -64,7 +64,20 @@ export default function SignUpFormStep2() {
         trigger(name)
     }
 
-    const onAlertChange = () => {
+    const GetLoginIdDUplication = async (id: string) => {
+        const res = await fetch(`${process.env.BASE_URL}/member-service/v1/non-users/duplication?loginId=${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        const data = await res.json()
+        console.log(data)
+        return data
+    }
+
+    const onAlertChange = (id: string) => {
+        GetLoginIdDUplication(id)
         setIsIdDuplicateCheckOpen(!isIdDuplicateCheckOpen)
     }
 
@@ -133,7 +146,9 @@ export default function SignUpFormStep2() {
                             ref={register('id').ref}
                         />
                         <button
-                            onClick={onAlertChange}
+                            onClick={() => {
+                                onAlertChange(id)
+                            }}
                             disabled={!id || !!errors.id}
                             className={`w-[100px] h-[50px] ${!id || !!errors.id ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} rounded-xl font-Pretendard text-[13px] text-white font-medium px-3`}
                         >
@@ -231,7 +246,7 @@ export default function SignUpFormStep2() {
                 <IdDuplicateCheck
                     id={id}
                     isIdDuplicateCheckOpen={isIdDuplicateCheckOpen}
-                    onAlertChange={onAlertChange}
+                    onAlertChange={() => onAlertChange(id)}
                     onIdAvailableCheck={onIdAvailableCheck}
                 />
             )}
