@@ -1,29 +1,41 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useSocket } from '@/providers/SocketProvider'
-
-interface MessageData {
-    message: string
-    timestamp: string
+interface ChatMessageType {
+    uuid: string
+    text: string
+    createdAt: string
 }
-
 export default function ChatMessage() {
-    const [inbox, setInbox] = useState<MessageData[]>([])
-    const socket = useSocket()
-
+    const [messages, setMessages] = useState<ChatMessageType[]>([] as ChatMessageType[])
+    const uuid = 'uuid1'
     useEffect(() => {
-        if (!socket) return
+        async function fetchMessages() {
+            try {
+                const response = await fetch('https://nukfra.site/chat-service/v1/users/chat/1', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        uuid: uuid,
+                    },
+                })
 
-        const handleMessage = (data: MessageData) => {
-            setInbox((prevInbox) => [...prevInbox, data])
+                if (!response.ok) {
+                    throw new Error('Failed to fetch messages')
+                }
+
+                const data = await response.json()
+                console.log(data)
+
+                if (data.isSuccess) {
+                    setMessages([data.data])
+                }
+            } catch (error) {
+                console.error('Error fetching messages:', error)
+            }
         }
 
-        socket.on('message', handleMessage)
-
-        return () => {
-            socket.off('message', handleMessage)
-        }
-    }, [socket])
+        fetchMessages()
+    }, [uuid])
     return (
         <section className=" bg-gray-100 h-[calc(100vh-11rem)] ">
             <div className=" px-2 py-4 ">
@@ -57,14 +69,17 @@ export default function ChatMessage() {
                     </div>
                 </div>
                 <div>
-                    {inbox.map((msg, index) => (
-                        <div key={index} className="flex mb-4 justify-end mt-2">
-                            <div className="text-gray-500 text-sm mr-2 self-end">
-                                {new Date(msg.timestamp).toLocaleTimeString()}
+                    <h2>실시간 메시지</h2>
+                    <div>
+                        {messages.map((message, index) => (
+                            <div key={index} className="flex mb-4 justify-end mt-2">
+                                <div className="text-gray-500 text-sm mr-2 self-end">
+                                    {new Date(message.createdAt).toLocaleTimeString()}
+                                </div>
+                                <div className="bg-hobbing-red text-white py-2 px-4 rounded-lg">{message.text}</div>
                             </div>
-                            <div className="bg-hobbing-red text-white py-2 px-4 rounded-lg">{msg.message}</div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
