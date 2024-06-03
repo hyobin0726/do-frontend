@@ -1,22 +1,41 @@
 'use client'
-import { createContext, useContext, useEffect, useState } from 'react'
-import { io, Socket } from 'socket.io-client'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
-const SocketContext = createContext<Socket | undefined>(undefined)
+const WebSocketContext = createContext<WebSocket | null>(null)
 
-export const useSocket = () => useContext(SocketContext)
+export const useWebSocket = () => {
+    return useContext(WebSocketContext)
+}
 
-export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-    const [socket, setSocket] = useState<Socket | undefined>(undefined)
+const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [ws, setWs] = useState<WebSocket | null>(null)
 
     useEffect(() => {
-        const socketInstance = io('http://localhost:3001')
-        setSocket(socketInstance)
+        const webSocketUrl = `ws://localhost:8080/ws`
+        const webSocket = new WebSocket(webSocketUrl)
+
+        webSocket.onopen = () => {
+            console.log('Connected to ' + webSocketUrl)
+        }
+
+        webSocket.onclose = (error) => {
+            console.log('Disconnected from ' + webSocketUrl)
+            console.log(error)
+        }
+
+        webSocket.onerror = (error) => {
+            console.log('Connection error ' + webSocketUrl)
+            console.log(error)
+        }
+
+        setWs(webSocket)
 
         return () => {
-            socketInstance.disconnect()
+            webSocket.close()
         }
     }, [])
 
-    return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+    return <WebSocketContext.Provider value={ws}>{children}</WebSocketContext.Provider>
 }
+
+export default WebSocketProvider
