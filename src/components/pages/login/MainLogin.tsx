@@ -19,9 +19,11 @@ export default function MainLogin() {
                 <LoginForm />
                 <BasicNextButton path="/" text="로그인" />
                 <GoogleLogin />
-                <div className="w-full flex flex-row justify-around">
-                    <p className="font-Pretendard text-[15px] text-[#646464]">ID/PW 찾기</p>
-                    <Link href="/signup?step=1">
+                <div className="w-full h-[10%] flex flex-row justify-evenly">
+                    <Link href="/account" className="w-[40%] flex justify-center items-center">
+                        <p className="font-Pretendard text-[15px] text-[#646464]">ID/PW 찾기</p>
+                    </Link>
+                    <Link href="/signup?step=1" className="w-[40%] flex justify-center items-center">
                         <p className="font-Pretendard text-[15px] text-hobbing-red underline underline-offset-4 font-bold">
                             회원가입
                         </p>
