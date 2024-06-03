@@ -4,12 +4,10 @@ import Emoticon from '@/components/images/Emoticon'
 import Send from '@/components/images/Send'
 import Image from 'next/image'
 import { ChangeEvent, useState } from 'react'
-import { useSocket } from '@/providers/SocketProvider'
 
 export default function ChatBottom() {
     const [previewImg, setPreviewImg] = useState<FileList>()
     const [message, setMessage] = useState<string>('')
-    const socket = useSocket()
 
     const saveHandler = async () => {
         if (!previewImg) {
@@ -42,35 +40,35 @@ export default function ChatBottom() {
     }
     const handleSendMsg = async () => {
         const trimmedMessage = message.trim()
-        if (socket && trimmedMessage) {
-            const timestamp = new Date().toISOString()
-            socket.emit('message', { message: trimmedMessage, timestamp })
-            const bodyData = {
-                crewId: '1',
-                text: trimmedMessage,
-                imageUrl: null,
-                videoUrl: null,
-            }
-            try {
-                const response = await fetch('http://10.10.10.214:8080/v1/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        uuid: '1',
-                    },
-                    body: JSON.stringify(bodyData),
-                })
 
-                if (response.ok) {
-                    console.log('Message sent to server successfully')
-                } else {
-                    console.error('Failed to send message to server')
-                }
-            } catch (error) {
-                console.error('Error sending message to server:', error)
-            }
-            setMessage('')
+        if (!trimmedMessage) return // Prevent sending empty messages
+
+        const bodyData = {
+            crewId: '2',
+            text: trimmedMessage,
+            imageUrl: null,
+            videoUrl: null,
         }
+
+        try {
+            const response = await fetch('https://nukfra.site/chat-service/v1/users/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    uuid: 'hb',
+                },
+                body: JSON.stringify(bodyData),
+            })
+
+            if (response.ok) {
+                console.log('Message sent to server successfully')
+            } else {
+                console.error('Failed to send message to server')
+            }
+        } catch (error) {
+            console.error('Error sending message to server:', error)
+        }
+        setMessage('')
     }
 
     return (
