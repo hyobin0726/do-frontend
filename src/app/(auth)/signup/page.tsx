@@ -5,7 +5,7 @@ export default function SignupPage({ searchParams }: { searchParams: { [key: str
     const signupStep = Number(searchParams.step)
     return (
         <>
-            <div className="w-[100%] h-full">
+            <div className="w-[100%] h-dvh">
                 <div className="w-full h-[60px] flex items-center px-5">
                     <RouterBackArrowButton />
                 </div>
