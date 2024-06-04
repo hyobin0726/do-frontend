@@ -12,8 +12,8 @@ export default function FindAccount() {
                 </p>
             </div>
             <div className="w-full h-[80%] space-y-5 px-10 pt-5 ">
-                <BasicNextButton path="/account/id" text="아이디 찾기" color="bg-white drop-shadow" />
-                <BasicNextButton path="/account/password" text="비밀번호 찾기" />
+                <BasicNextButton path="/account/id" text="아이디 찾기" theme="white" />
+                <BasicNextButton path="/account/password" text="비밀번호 찾기" theme="red" />
             </div>
         </div>
     )

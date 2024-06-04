@@ -29,7 +29,7 @@ export default function SignUpStep1() {
                 </p>
             </div>
             <div className="w-full h-[50%] space-y-5 px-10" onClick={() => resetSignUpState()}>
-                <BasicNextButton path="/signup?step=2" text="회원가입하기" />
+                <BasicNextButton path="/signup?step=2" text="회원가입하기" theme="red" />
                 <GoogleSignup />
             </div>
             <div className="w-full h-[35%] flex overflow-hidden relative">
