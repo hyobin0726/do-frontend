@@ -14,11 +14,11 @@ export async function POST(req: Request) {
         const formData = await req.formData()
         const files = formData.getAll('img') as File[]
         const body = (await files[0].arrayBuffer()) as Buffer
-
+        const fileName = 'image_' + Date.now() + '_' + files[0].name
         s3Client.send(
             new PutObjectCommand({
                 Bucket: process.env.AWS_S3_BUCKET_NAME as string,
-                Key: Date.now() + files[0].name,
+                Key: fileName,
                 Body: body,
                 ContentType: 'image',
             }),
@@ -27,14 +27,14 @@ export async function POST(req: Request) {
             s3Client,
             new GetObjectCommand({
                 Bucket: process.env.AWS_S3_BUCKET_NAME as string,
-                Key: files[0].name,
+                Key: fileName,
             }),
             { expiresIn: 3600 },
         )
 
-        console.log(imgUrl)
+        // console.log(imgUrl)
 
-        return Response.json({ message: 'OK' })
+        return Response.json({ message: 'OK', imgUrl: imgUrl })
     } catch (error) {
         return Response.error()
     }
