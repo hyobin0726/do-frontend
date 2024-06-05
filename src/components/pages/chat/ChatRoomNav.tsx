@@ -15,7 +15,7 @@ export default function ChatRoomNav() {
     const [chatMenu, setChatMenu] = useState<boolean>(false)
     return (
         <>
-            <div className="bg-white bg-opacity-50 py-4 px-2">
+            <div className="bg-white drop-shadow-sm bg-opacity-50 py-4 px-2 h-[70px]">
                 <div className="relative  mx-auto px-2 flex items-center">
                     <RouterBackArrowButton />
                     <div className="flex-1 text-center ">

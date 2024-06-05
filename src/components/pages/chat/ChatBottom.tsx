@@ -4,8 +4,10 @@ import Emoticon from '@/components/images/Emoticon'
 import Send from '@/components/images/Send'
 import Image from 'next/image'
 import { ChangeEvent, useState } from 'react'
+import { useParams } from 'next/navigation'
 
 export default function ChatBottom() {
+    const params = useParams<{ crewId: string }>()
     const [previewImg, setPreviewImg] = useState<FileList>()
     const [message, setMessage] = useState<string>('')
 
@@ -41,21 +43,21 @@ export default function ChatBottom() {
     const handleSendMsg = async () => {
         const trimmedMessage = message.trim()
 
-        if (!trimmedMessage) return // Prevent sending empty messages
+        if (!trimmedMessage) return
 
         const bodyData = {
-            crewId: '2',
+            crewId: `${params.crewId}`,
             text: trimmedMessage,
             imageUrl: null,
             videoUrl: null,
         }
 
         try {
-            const response = await fetch('https://nukfra.site/chat-service/v1/users/chat', {
+            const response = await fetch(`${process.env.BASE_URL}/chat-service/v1/users/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    uuid: 'hb',
+                    uuid: 'uuid1',
                 },
                 body: JSON.stringify(bodyData),
             })
@@ -72,8 +74,8 @@ export default function ChatBottom() {
     }
 
     return (
-        <>
-            <form className="absolute bottom-0 h-26">
+        <div>
+            <form className=" bottom-0 z-[1] fixed  h-[125px]">
                 <div className=" w-screen ">
                     <textarea
                         onChange={(e) => setMessage(e.target.value)}
@@ -143,6 +145,6 @@ export default function ChatBottom() {
                     </div>
                 )}
             </div>
-        </>
+        </div>
     )
 }
