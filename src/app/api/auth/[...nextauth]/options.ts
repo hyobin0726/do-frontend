@@ -19,7 +19,7 @@ export const options: NextAuthOptions = {
                     console.log('credentials is null')
                     return null
                 }
-                const res = await fetch(`${process.env.API_BASE_URL}/auth-service/v1/non-users/login`, {
+                const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -28,12 +28,12 @@ export const options: NextAuthOptions = {
                         loginId: credentials.loginId,
                         password: credentials.password,
                     }),
-                    cache: 'no-cache',
                 })
                 const data = await res.json()
+                console.log('data', data)
                 if (data.isSuccess === true) {
-                    console.log('login data', data)
-                    return data
+                    console.log('login data', data.data)
+                    return data.data
                 }
                 return null
             },

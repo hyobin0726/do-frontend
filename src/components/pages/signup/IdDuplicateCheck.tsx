@@ -44,27 +44,19 @@ export default function IdDuplicateCheck({
         setIdDuplicationCheckMessage(data.message)
         return data.isSuccess
     }
-    return idUseable ? (
-        <Alert type="success" isAlertOpen={isIdDuplicateCheckOpen}>
+    return (
+        <Alert type={idUseable ? 'success' : 'warning'} isAlertOpen={isIdDuplicateCheckOpen}>
             <p className="font-Pretendard text-balance text-center text-[15px]">
                 <span className="font-Pretendard text-hobbing-red font-bold">{id}</span>
                 은(는)
                 <br />
                 {idDuplicationCheckMessage}
-            </p>
-            <button onClick={onAlertChange} className="bg-hobbing-red rounded-xl w-[40%] h-[40px] ">
-                <p className="font-Pretendard text-white font-bold text-[15px]">확인</p>
-            </button>
-        </Alert>
-    ) : (
-        <Alert type="warning" isAlertOpen={isIdDuplicateCheckOpen}>
-            <p className="font-Pretendard text-balance text-center text-[15px]">
-                <span className="font-Pretendard text-hobbing-red font-bold">{id}</span>
-                은(는)
-                <br />
-                {idDuplicationCheckMessage}
-                <br />
-                다시 입력해주세요.
+                {!idUseable && (
+                    <>
+                        <br />
+                        다시 입력해주세요.
+                    </>
+                )}
             </p>
             <button
                 onClick={onAlertChange}
