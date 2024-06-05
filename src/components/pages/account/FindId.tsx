@@ -3,6 +3,7 @@
 import z from 'zod'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FindIdSchema } from '@/schemas/FindAccountSchema'
@@ -19,10 +20,13 @@ export default function FindId() {
     const [emailAvailable, setEmailAvailable] = useState<boolean>(false)
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [focusedIndex, setFocusedIndex] = useState<number>(0)
+    const [getIdIsSuccess, setGetIdIsSuccess] = useState<boolean>(false)
+    const [getIdMessage, setGetIdMessage] = useState<string>('')
+
+    const router = useRouter()
 
     const {
         register,
-        handleSubmit,
         trigger,
         formState: { errors },
     } = useForm<FindIdType>({
@@ -52,12 +56,25 @@ export default function FindId() {
         trigger(name)
     }
 
-    const onSubmit = () => {
-        setIsAlertOpen(true)
-    }
-
     const emailAvailableHandler = (emailAvailable: boolean) => {
         setEmailAvailable(emailAvailable)
+    }
+
+    const GetIdOnEmail = async () => {
+        const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/user-id `, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+            }),
+        })
+        const data = await res.json()
+        setGetIdIsSuccess(data.isSuccess)
+        setGetIdMessage(data.message)
+        setIsAlertOpen(true)
     }
 
     const isFormValid = !Object.values(errors).some(Boolean) && name && email && emailAvailable
@@ -65,8 +82,8 @@ export default function FindId() {
     return (
         <>
             <div className="px-10 w-full bg-white" style={{ height: 'calc(100svh - 60px)' }}>
-                <div className="w-full h-[20%] flex flex-col justify-end pb-5">
-                    <p className="text-[15px] sm:text-[13px] md:text-[17px] text-black ">
+                <div className="w-full h-[20%] flex flex-col justify-end pb-10">
+                    <p className="text-[15px] sm:text-[13px] md:text-[17px] text-black font-medium ">
                         본인인증 후 이메일로 아이디를 보내드립니다.
                     </p>
                 </div>
@@ -117,26 +134,50 @@ export default function FindId() {
                         )}
                     </EmailAuth>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-full h-auto">
-                    <button
-                        disabled={!isFormValid}
-                        type="submit"
-                        className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
-                    >
-                        <p className="font-Pretendard text-white text-[15px] font-bold">아이디 찾기</p>
-                    </button>
-                </form>
+                <button
+                    disabled={!isFormValid}
+                    type="submit"
+                    onClick={GetIdOnEmail}
+                    className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
+                >
+                    <p className="font-Pretendard text-white text-[15px] font-bold">아이디 찾기</p>
+                </button>
             </div>
             {isAlertOpen && (
-                <Alert type="success" isAlertOpen={isAlertOpen}>
-                    <p className="font-Pretendard text-balance text-center text-[15px]">test</p>
+                <Alert type={getIdIsSuccess == true ? 'success' : 'error'} isAlertOpen={isAlertOpen}>
+                    <p className="font-Pretendard text-balance text-center text-[15px] leading-loose">{getIdMessage}</p>
                     <div className="bg-white flex flex-row justify-center items-center space-x-3 w-full">
-                        <button
-                            onClick={() => setIsAlertOpen(false)}
-                            className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
-                        >
-                            확인
-                        </button>
+                        {getIdIsSuccess == true ? (
+                            <>
+                                <button
+                                    onClick={() => {
+                                        setIsAlertOpen(false)
+                                        router.push('/login')
+                                    }}
+                                    className="w-[100px] h-[50px] border-[1px] border-hobbing-red rounded-xl font-Pretendard text-[13px] text-hobbing-red font-medium px-3"
+                                >
+                                    로그인
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setIsAlertOpen(false)
+                                        router.push('/account/password')
+                                    }}
+                                    className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
+                                >
+                                    비밀번호 찾기
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                onClick={() => {
+                                    window.location.reload() // 화면 새로고침
+                                }}
+                                className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
+                            >
+                                닫기
+                            </button>
+                        )}
                     </div>
                 </Alert>
             )}

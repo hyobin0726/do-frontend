@@ -6,6 +6,7 @@ import RunMonster from '@/components/images/monsters/RunMonster'
 import LoginForm from './LoginForm'
 import BasicNextButton from '@/components/common/BasicNextButton'
 import GoogleLogin from './GoogleLogin'
+import LoginButton from './LoginButton'
 
 export default function MainLogin() {
     return (
@@ -17,7 +18,8 @@ export default function MainLogin() {
             </div>
             <div className="w-full h-[45svh] flex flex-col justify-start items-center space-y-4">
                 <LoginForm />
-                <BasicNextButton path="/" text="로그인" theme="red" />
+                {/* <LoginButton /> */}
+                {/* <BasicNextButton path="/" text="로그인" theme="red" /> */}
                 <GoogleLogin />
                 <div className="w-full h-[10%] flex flex-row justify-evenly">
                     <Link href="/account" className="w-[40%] flex justify-center items-center">

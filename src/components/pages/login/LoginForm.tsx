@@ -3,10 +3,30 @@
 import React, { useState } from 'react'
 
 import DeleteCircle from '@/components/images/DeleteCircle'
+import BasicNextButton from '@/components/common/BasicNextButton'
+import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 
 export default function LoginForm() {
     const [inputId, setInputId] = useState<string>('')
     const [inputPassword, setInputPassword] = useState<string>('')
+
+    const router = useRouter()
+
+    const handleLogin = async () => {
+        const res = await signIn('credentials', {
+            loginId: inputId,
+            password: inputPassword,
+        })
+
+        if (!res?.ok) {
+            // 로그인 실패 시
+            alert(`로그인에 실패하였습니다. 다시 시도해주세요. (error:${res})`)
+        } else {
+            // 로그인 성공 시
+            router.push('/')
+        }
+    }
 
     return (
         <>
@@ -32,8 +52,7 @@ export default function LoginForm() {
                         placeholder="Password"
                         onChange={(e) => setInputPassword(e.target.value)}
                         value={inputPassword}
-                        className="bg-white w-full h-[60px] rounded-b-xl pl-5 font-Pretendard text-[15px] 
-                            caret-hobbing-red focus:outline-none"
+                        className="bg-white w-full h-[60px] rounded-b-xl pl-5 pr-[50px] font-Pretendard text-[15px] caret-hobbing-red focus:outline-none"
                     />
                     <div
                         onClick={() => setInputPassword('')}
@@ -43,6 +62,10 @@ export default function LoginForm() {
                     </div>
                 </div>
             </form>
+
+            <div onClick={handleLogin}>
+                <BasicNextButton text="로그인" theme="red" />
+            </div>
         </>
     )
 }

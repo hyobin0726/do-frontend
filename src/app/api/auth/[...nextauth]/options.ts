@@ -1,5 +1,5 @@
 import { NextAuthOptions } from 'next-auth'
-// import CredentialsProvider from 'next-auth/providers/credentials'
+import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 
 export const options: NextAuthOptions = {
@@ -8,41 +8,52 @@ export const options: NextAuthOptions = {
             clientId: process.env.GOOGLE_CLIENT_ID || '',
             clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
         }),
-        // CredentialsProvider({
-        //     name: 'Credentials',
-        //     credentials: {
-        //         loginId: { label: 'Login ID', type: 'text' },
-        //         password: { label: 'Password', type: 'password' },
-        //     },
-        //     async authorize(credentials, req) {
-        //         if (!credentials?.loginId || !credentials?.password) {
-        //             return null
-        //         }
-        // const res = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         loginId: credentials.loginId,
-        //         password: credentials.password,
-        //     }),
-        // })
-        // if (res.ok) {
-        //     const user = await res.json()
-        //     console.log(user)
-
-        //     return user
-        // }
-        //         const user = { id: 'qwe123', password: 'qwe123' }
-        //         if (user) return user
-        //         return null
-        //     },
-        // }),
+        CredentialsProvider({
+            name: 'Credentials',
+            credentials: {
+                loginId: { label: 'loginId', type: 'text' },
+                password: { label: 'Password', type: 'password' },
+            },
+            async authorize(credentials, req): Promise<any> {
+                if (!credentials?.loginId || !credentials?.password) {
+                    console.log('credentials is null')
+                    return null
+                }
+                const res = await fetch(`${process.env.API_BASE_URL}/auth-service/v1/non-users/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        loginId: credentials.loginId,
+                        password: credentials.password,
+                    }),
+                    cache: 'no-cache',
+                })
+                const data = await res.json()
+                if (data.isSuccess === true) {
+                    console.log('login data', data)
+                    return data
+                }
+                return null
+            },
+        }),
     ],
     callbacks: {
-        async signIn(user, profile) {
+        async signIn({ user, profile }): Promise<any> {
             return true
+        },
+        async jwt({ token, user }) {
+            return { ...token, ...user }
+        },
+
+        async session({ session, token }) {
+            session.user = token as any
+            return session
+        },
+
+        async redirect({ url, baseUrl }) {
+            return url.startsWith(baseUrl) ? url : baseUrl
         },
     },
     pages: {
