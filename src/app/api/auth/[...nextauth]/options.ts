@@ -30,9 +30,7 @@ export const options: NextAuthOptions = {
                     }),
                 })
                 const data = await res.json()
-                console.log('data', data)
                 if (data.isSuccess === true) {
-                    console.log('login data', data.data)
                     return data.data
                 }
                 return null
