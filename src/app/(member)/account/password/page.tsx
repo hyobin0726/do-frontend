@@ -1,5 +1,5 @@
 import PageHeader from '@/components/common/PageHeader'
-import FindPassword from '@/components/pages/account/FincPassword'
+import FindPassword from '@/components/pages/account/FindPassword'
 
 export default function ResetPwPage() {
     return (
