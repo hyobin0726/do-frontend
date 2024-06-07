@@ -75,10 +75,10 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
             }
         }
 
-        const handleEmailAuthButtonClick = () => {
+        const handleEmailAuthButtonClick = (email: string) => {
             setShowEmailAuthInputContainer(true)
             setEmailAuthNumber('')
-            GetEmailAuth()
+            GetEmailAuth(email)
             onfocusIndex()
             setSeconds(180)
             startTimer()
@@ -87,21 +87,38 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
             }, 100)
         }
 
-        const GetEmailAuth = () => {
-            console.log('GetEmailAuth')
+        const GetEmailAuth = async (email: string) => {
+            const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/email/auth`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            })
+            const data = await res.json()
         }
 
-        const GetEmailAuthNumberCheck = (emailAuthNumber: string) => {
-            console.log('GetEmailAuthNumberCheck:', emailAuthNumber)
-            // 타이머 멈춤
-            clearTimer()
-            // 인증번호 확인
+        const GetEmailAuthNumberCheck = async (email: string, emailAuthNumber: string) => {
             if (!emailAuthNumber.trim()) {
                 setAlertType('error')
                 setAlertMessage('인증번호를 입력해주세요.')
                 setIsAlertOpen(true)
-            } else if (emailAuthNumber === '123456') {
-                // 예시로 인증번호 '123456'을 맞다고 가정
+                return
+            }
+            const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/email/check`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    authCode: emailAuthNumber,
+                }),
+            })
+            const data = await res.json()
+
+            if (data.isSuccess === true) {
+                clearTimer()
                 emailAvailableHandler?.(true)
                 setAlertType('success')
                 setAlertMessage('이메일 인증이 완료되었습니다.')
@@ -118,9 +135,9 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
             setIsAlertOpen(false)
         }
 
-        const handleResend = () => {
+        const handleResend = (email: string) => {
             setIsAlertOpen(false)
-            handleEmailAuthButtonClick()
+            handleEmailAuthButtonClick(email)
         }
 
         const formatTime = (secs: number) => {
@@ -151,7 +168,9 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
                         <button
                             disabled={emailAuthButtonActive}
                             className={`w-[100px] h-[50px] ${emailAuthButtonActive ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} rounded-xl font-Pretendard text-[13px] text-white font-medium px-3`}
-                            onClick={handleEmailAuthButtonClick}
+                            onClick={() => {
+                                handleEmailAuthButtonClick(email)
+                            }}
                         >
                             {!showEmailAuthInputContainer ? '인증' : '재전송'}
                         </button>
@@ -178,7 +197,7 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
                                 </div>
                             </Input>
                             <button
-                                onClick={() => GetEmailAuthNumberCheck(emailAuthNumber)}
+                                onClick={() => GetEmailAuthNumberCheck(email, emailAuthNumber)}
                                 className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
                             >
                                 확인
@@ -200,7 +219,9 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
                                     </button>
                                     <button
                                         className="w-[40%] h-[40px] bg-hobbing-red rounded-xl flex justify-center items-center"
-                                        onClick={handleResend}
+                                        onClick={() => {
+                                            handleResend(email)
+                                        }}
                                     >
                                         <p className="font-Pretendard text-white font-bold text-[15px]"> 재전송</p>
                                     </button>

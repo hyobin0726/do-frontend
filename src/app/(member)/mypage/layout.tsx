@@ -1,9 +1,9 @@
 import MainNavigation from '@/components/layouts/MainNavigation'
 
-export default function MYPage() {
+export default function MypageLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            <div>마이페이지</div>
+            {children}
             <MainNavigation />
         </>
     )

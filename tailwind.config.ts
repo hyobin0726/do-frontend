@@ -9,6 +9,7 @@ const config: Config = {
             },
             colors: {
                 'hobbing-bg-pink': '#FFDBD7',
+                'hobbing-bg-gray': '#F8F8F8',
                 'hobbing-pink': '#FF8595',
                 'hobbing-light-pink': '#FFF9F9',
                 'hobbing-red': '#F76D67',
