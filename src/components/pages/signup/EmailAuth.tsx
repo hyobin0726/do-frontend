@@ -96,7 +96,6 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
                 body: JSON.stringify({ email }),
             })
             const data = await res.json()
-            console.log(data)
         }
 
         const GetEmailAuthNumberCheck = async (email: string, emailAuthNumber: string) => {
@@ -106,9 +105,6 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
                 setIsAlertOpen(true)
                 return
             }
-            // 인증번호 확인
-            console.log(email, emailAuthNumber)
-            console.log(typeof emailAuthNumber)
             const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/email/check`, {
                 method: 'POST',
                 headers: {

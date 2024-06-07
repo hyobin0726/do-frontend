@@ -39,7 +39,6 @@ export default function IdDuplicateCheck({
             },
         })
         const data = await res.json()
-        console.log(data)
         setIdUseable(data.isSuccess)
         setIdDuplicationCheckMessage(data.message)
         return data.isSuccess
