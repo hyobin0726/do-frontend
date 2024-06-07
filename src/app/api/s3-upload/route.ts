@@ -29,7 +29,7 @@ export async function POST(req: Request) {
                 Bucket: process.env.AWS_S3_BUCKET_NAME as string,
                 Key: fileName,
             }),
-            { expiresIn: 3600 },
+            { expiresIn: 604800 },
         )
 
         // console.log(imgUrl)

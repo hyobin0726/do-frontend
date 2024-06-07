@@ -23,7 +23,7 @@ interface OldMessagesType {
 }
 export default function ChatMessage() {
     const params = useParams<{ crewId: string }>()
-    console.log('params:', params)
+    // console.log('params:', params)
     const [messages, setMessages] = useState<ChatMessageType[]>([] as ChatMessageType[])
     const [oldMessages, setOldMessages] = useState<OldMessagesType[]>([] as OldMessagesType[])
 
@@ -63,36 +63,37 @@ export default function ChatMessage() {
             eventSource.close()
         }
     }, [uuid])
+
     useEffect(() => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
         }
     }, [messages])
-    console.log('lastmessages:', messages[0]?.createdAt)
+
     //  이전내역 조회
-    // useEffect(() => {
-    //     const fetchOldMessages = async () => {
-    //         try {
-    //             const response = await fetch(
-    //                 `${process.env.BASE_URL}/crew-service/v1/users/chat/history/${params.crewId}?since=${messages[0]?.createdAt}`,
-    //             )
-    //             if (response.ok) {
-    //                 const data: { data: OldMessagesType[] } = await response.json()
-    //                 setOldMessages(data.data)
-    //                 console.log('data:', data.data)
-    //             } else {
-    //                 console.error('Failed to fetch old messages')
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching old messages:', error)
-    //         }
-    //     }
-    //     fetchOldMessages()
-    // }, [messages[0]?.createdAt, params.crewId])
+    useEffect(() => {
+        const fetchOldMessages = async () => {
+            try {
+                const response = await fetch(
+                    `${process.env.BASE_URL}/crew-service/v1/users/chat/history/${params.crewId}?page=0`,
+                )
+                if (response.ok) {
+                    const data: { data: OldMessagesType[] } = await response.json()
+                    setOldMessages(data.data)
+                    console.log('data:', data.data)
+                } else {
+                    console.error('Failed to fetch old messages')
+                }
+            } catch (error) {
+                console.error('Error fetching old messages:', error)
+            }
+        }
+        fetchOldMessages()
+    }, [messages[0]?.createdAt, params.crewId])
     return (
         <section className="bg-[#F8F8F8] h-[calc(100dvh-195px)] overflow-y-scroll ">
             <div className=" px-2 py-4 ">
-                {oldMessages &&
+                {/* {oldMessages &&
                     oldMessages.map((messageGroup) => (
                         <div key={messageGroup.date}>
                             <h3>{messageGroup.date}</h3>
@@ -100,7 +101,8 @@ export default function ChatMessage() {
                                 <p key={chat.createdAt}>{chat.text}</p>
                             ))}
                         </div>
-                    ))}
+                    ))} */}
+
                 <div className="flex justify-center">
                     <div className="relative bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
                         2024년 5월 9일 목요일
@@ -111,7 +113,7 @@ export default function ChatMessage() {
                     {messages.map((message, index) => (
                         <div key={index}>
                             <div
-                                className={`flex mb-4 mt-2 ${message.uuid === 'uuid1' ? 'justify-end' : 'justify-start'}`}
+                                className={`flex mb-4 mt-2 ${message.uuid === uuid ? 'justify-end' : 'justify-start'}`}
                             >
                                 {message.uuid === uuid ? (
                                     <>

@@ -3,8 +3,10 @@ import RouterBackArrowButton from '@/components/common/RouterBackArrowButton'
 import { useState } from 'react'
 import ChatMenuModal from './ChatMenuModal'
 import ShareKakao from '@/components/common/ShareKakao'
+import { useParams } from 'next/navigation'
 
 export default function ChatRoomNav() {
+    const params = useParams<{ crewId: string }>()
     const crew = {
         id: 1,
         name: '해운대 크루',
@@ -37,7 +39,7 @@ export default function ChatRoomNav() {
                     />
                 </div>
             </div>
-            <ChatMenuModal chatMenuModal={chatMenu} setChatMenuModal={setChatMenu} />
+            <ChatMenuModal chatMenuModal={chatMenu} setChatMenuModal={setChatMenu} crewId={params.crewId} />
         </>
     )
 }

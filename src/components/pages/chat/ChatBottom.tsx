@@ -11,7 +11,6 @@ export default function ChatBottom() {
     const [previewImg, setPreviewImg] = useState<FileList>()
     const [message, setMessage] = useState<string>('')
     const [imgUrl, setImgUrl] = useState<string | null>(null)
-    console.log('imgUrl', imgUrl)
     const saveHandler = async () => {
         if (!previewImg) {
             return
@@ -28,7 +27,7 @@ export default function ChatBottom() {
 
             if (result.message == 'OK') {
                 setImgUrl(result.imgUrl)
-                alert('이미지가 저장되었습니다.')
+                // alert('이미지가 저장되었습니다.')
                 handleSendMsg(result.imgUrl)
             }
         } catch (error) {
@@ -45,7 +44,6 @@ export default function ChatBottom() {
     }
 
     const handleSendMsg = async (imgUrl: string | null) => {
-        console.log('send message')
         const trimmedMessage = message.trim()
 
         if (!trimmedMessage && !imgUrl) return
@@ -65,7 +63,7 @@ export default function ChatBottom() {
                 },
                 body: JSON.stringify(bodyData),
             })
-            console.log(bodyData)
+
             if (response.ok) {
                 console.log('Message sent to server successfully')
             } else {
