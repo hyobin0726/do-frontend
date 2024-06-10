@@ -49,7 +49,7 @@ export default function LocationModal({
                                 <div
                                     key={range.id}
                                     onClick={() => {
-                                        onRegionRangeChange(range.id)
+                                        onRegionRangeChange(range.selectRange)
                                         setRegionCircleRange(range.range)
                                     }}
                                     className={`rounded-full flex justify-center items-center ${
