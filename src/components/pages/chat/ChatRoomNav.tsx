@@ -3,8 +3,10 @@ import RouterBackArrowButton from '@/components/common/RouterBackArrowButton'
 import { useState } from 'react'
 import ChatMenuModal from './ChatMenuModal'
 import ShareKakao from '@/components/common/ShareKakao'
+import { useParams } from 'next/navigation'
 
 export default function ChatRoomNav() {
+    const params = useParams<{ crewId: string }>()
     const crew = {
         id: 1,
         name: '해운대 크루',
@@ -15,7 +17,7 @@ export default function ChatRoomNav() {
     const [chatMenu, setChatMenu] = useState<boolean>(false)
     return (
         <>
-            <div className="bg-white bg-opacity-50 py-4 px-2">
+            <div className="bg-white drop-shadow-sm bg-opacity-50 py-4 px-2 h-[70px]">
                 <div className="relative  mx-auto px-2 flex items-center">
                     <RouterBackArrowButton />
                     <div className="flex-1 text-center ">
@@ -37,7 +39,7 @@ export default function ChatRoomNav() {
                     />
                 </div>
             </div>
-            <ChatMenuModal chatMenuModal={chatMenu} setChatMenuModal={setChatMenu} />
+            <ChatMenuModal chatMenuModal={chatMenu} setChatMenuModal={setChatMenu} crewId={params.crewId} />
         </>
     )
 }
