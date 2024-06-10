@@ -17,32 +17,39 @@ export default function ChatMessage() {
     const uuid = 'uuid1'
     // 실시간 조회
     useEffect(() => {
-        const EventSource = EventSourcePolyfill || NativeEventSource
-        const eventSource = new EventSource(`${process.env.BASE_URL}/chat-service/v1/users/chat/${params.crewId}`, {
-            headers: {
-                uuid: uuid,
-            },
-            heartbeatTimeout: 86400000,
-            withCredentials: true,
-        })
+        const connectToSSE = () => {
+            const EventSource = EventSourcePolyfill || NativeEventSource
+            const eventSource = new EventSource(`${process.env.BASE_URL}/chat-service/v1/users/chat/${params.crewId}`, {
+                headers: {
+                    uuid: uuid,
+                },
+                heartbeatTimeout: 86400000,
+                withCredentials: true,
+            })
 
-        eventSource.onmessage = (event) => {
-            try {
-                const data = JSON.parse(event.data)
-                if (data.isSuccess) {
-                    setMessages((prevMessages) => [...prevMessages, data.data])
-                } else {
-                    console.error('Server error:', data.message)
+            eventSource.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data)
+                    if (data.isSuccess) {
+                        setMessages((prevMessages) => [...prevMessages, data.data])
+                    } else {
+                        console.error('Server error:', data.message)
+                    }
+                } catch (error) {
+                    console.error('Error parsing message:', error)
                 }
-            } catch (error) {
-                console.error('Error parsing message:', error)
             }
-        }
 
-        eventSource.onerror = (error) => {
-            console.error('EventSource failed:', error)
-            eventSource.close()
+            eventSource.onerror = (error) => {
+                console.error('EventSource failed:', error)
+                eventSource.close()
+                setTimeout(() => {
+                    connectToSSE()
+                }, 5000)
+            }
+            return eventSource
         }
+        const eventSource = connectToSSE()
 
         return () => {
             eventSource.close()

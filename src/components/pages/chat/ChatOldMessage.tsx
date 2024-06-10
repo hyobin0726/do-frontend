@@ -21,7 +21,7 @@ interface ChatListType {
 
 export default function ChatOldMessage() {
     const params = useParams<{ crewId: string }>()
-    const [oldMessages, setOldMessages] = useState<OldMessagesType[]>([] as OldMessagesType[])
+    const [oldMessages, setOldMessages] = useState<OldMessagesType['chatList'] | []>([])
     const [currentPage, setCurrentPage] = useState<number>(0)
     const [isFetching, setIsFetching] = useState<boolean>(false)
     const [lastPage, setLastPage] = useState<number>(Infinity)
@@ -50,7 +50,7 @@ export default function ChatOldMessage() {
                     },
                 )
                 if (response.ok) {
-                    const data: { data: OldMessagesType[] } = await response.json()
+                    const data: { data: OldMessagesType } = await response.json()
 
                     if (data.data.chatList.length > 0) {
                         console.log('data:', data.data)
@@ -58,7 +58,7 @@ export default function ChatOldMessage() {
                             setOldMessages(data.data.chatList)
                         } else {
                             setOldMessages((prev) => [...data.data.chatList, ...prev])
-                            // 화면 내용은 유지하고 스크롤 위치만 조정
+
                             if (prevScrollHeight !== null && chatContainerRef.current) {
                                 const newScrollTop = chatContainerRef.current.scrollHeight - prevScrollHeight
                                 chatContainerRef.current.scrollTop = newScrollTop
@@ -117,7 +117,7 @@ export default function ChatOldMessage() {
     }, [oldMessages])
     return (
         <div ref={chatContainerRef} style={{ height: '630px', overflow: 'scroll' }}>
-            <div ref={loaderRef} style={{ height: '1px' }}></div> {/* 스크롤 감지를 위한 로더 */}
+            <div ref={loaderRef} style={{ height: '1px' }}></div>
             {oldMessages &&
                 oldMessages.map((messageGroup, idx) => (
                     <div key={idx}>
