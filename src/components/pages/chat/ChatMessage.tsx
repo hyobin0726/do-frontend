@@ -10,7 +10,6 @@ interface ChatMessageType {
     entryExitNotice: string
     createdAt: string
 }
-
 export default function ChatMessage() {
     const params = useParams<{ crewId: string }>()
     const [messages, setMessages] = useState<ChatMessageType[]>([] as ChatMessageType[])

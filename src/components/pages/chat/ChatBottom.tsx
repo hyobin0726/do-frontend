@@ -11,6 +11,7 @@ export default function ChatBottom() {
     const [previewImg, setPreviewImg] = useState<FileList>()
     const [message, setMessage] = useState<string>('')
     const [imgUrl, setImgUrl] = useState<string | null>(null)
+
     const saveHandler = async () => {
         if (!previewImg) {
             return

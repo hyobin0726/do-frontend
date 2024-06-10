@@ -10,15 +10,30 @@ interface InputProps {
     type: string
     placeholder: string
     value: string
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
     onFocus?: () => void
     ref?: ((instance: HTMLInputElement | null) => void) | RefObject<HTMLInputElement>
     children?: React.ReactNode
+    readOnly?: boolean // readOnly를 boolean으로 변경
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
     (
-        { title, required, index, focusedIndex, id, name, type, placeholder, value, onChange, onFocus, children },
+        {
+            title,
+            required,
+            index,
+            focusedIndex,
+            id,
+            name,
+            type,
+            placeholder,
+            value,
+            onChange,
+            onFocus,
+            children,
+            readOnly, // boolean으로 변경된 readOnly prop
+        },
         ref,
     ) => {
         return (
@@ -46,7 +61,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                         onChange={onChange}
                         onFocus={onFocus}
                         ref={ref}
-                        className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium text-left "
+                        readOnly={readOnly} // readOnly 속성을 boolean으로 설정
+                        className="w-full h-auto outline-none border-none bg-transparent caret-hobbing-pink text-[13px] sm:text-[12px] md:text-[15px] font-Pretendard font-medium text-left"
                     />
                 </div>
                 {children}
