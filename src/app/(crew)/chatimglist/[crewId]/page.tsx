@@ -35,7 +35,13 @@ export default async function ChatImgList({ params }: { params: { crewId: string
                 {crewImgList &&
                     crewImgList.map((crewImg) => (
                         <div key={crewImg.date}>
-                            <h2>{crewImg.date}</h2>
+                            {new Date(crewImg.date).toLocaleDateString('ko-KR', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                weekday: 'long',
+                            })}
+
                             <div className="grid grid-cols-3 ">
                                 {crewImg.chats.map((chat, idx) => (
                                     <div key={idx} className="m-1">
