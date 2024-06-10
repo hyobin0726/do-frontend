@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-import RightArrow from '@/components/images/RightArrow'
 import ProgressBar from '@/components/common/ProgressBar'
+import { useSignUpStore } from '@/hooks/useSignUpStore'
 import RegionAddInput from '../region/RegionAddInput'
 import { KakaoMapRange } from '@/lib/KakaoMapRange'
+import SignupButton from './SignupButton'
 
 export default function SignUpRegionRegistration() {
     const [regionName, setRegionName] = useState<string>('')
@@ -13,6 +14,8 @@ export default function SignUpRegionRegistration() {
     const [regionLatitude, setRegionLatitude] = useState<number>(0)
     const [regionLongitude, setRegionLongitude] = useState<number>(0)
     const [regionRange, setRegionRange] = useState<number>(KakaoMapRange[0].id)
+
+    const { name, id, password, email, phoneNumber, gender, birthDate } = useSignUpStore()
 
     const onRegionChange = (
         regionName: string,
@@ -29,14 +32,6 @@ export default function SignUpRegionRegistration() {
     const onRegionRangeChange = (range: number) => {
         setRegionRange(range)
     }
-
-    useEffect(() => {
-        console.log('regionName: ', regionName)
-        console.log('regionCode: ', regionCode)
-        console.log('regionLatitude: ', regionLatitude)
-        console.log('regionLongitude: ', regionLongitude)
-        console.log('regionRange: ', regionRange)
-    }, [regionName, regionCode, regionLatitude, regionLongitude, regionRange])
 
     return (
         <div className="w-full" style={{ height: 'calc(100svh - 60px)' }}>
@@ -63,18 +58,20 @@ export default function SignUpRegionRegistration() {
                 />
             </div>
             <div className="w-full h-[25%] px-10 flex flex-col justify-around items-center">
-                <form
-                    // onSubmit={handleSubmit(onSubmit)}
-                    className="space-y-3 w-full h-auto"
-                >
-                    <button
-                        type="submit"
-                        className="bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8"
-                    >
-                        <p className="font-Pretendard text-white text-[15px] font-bold">NEXT</p>
-                        <RightArrow width={15} height={15} />
-                    </button>
-                </form>
+                <SignupButton
+                    name={name}
+                    id={id}
+                    password={password}
+                    phoneNumber={phoneNumber}
+                    email={email}
+                    gender={gender}
+                    birthDate={birthDate}
+                    regionName={regionName}
+                    regionCode={regionCode}
+                    regionLatitude={regionLatitude}
+                    regionLongitude={regionLongitude}
+                    regionRange={regionRange}
+                />
                 <div className="w-5/6 h-auto">
                     <ProgressBar step={3} total={5} />
                 </div>
