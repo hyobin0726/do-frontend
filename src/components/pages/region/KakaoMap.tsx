@@ -21,8 +21,6 @@ export default function KakaoMap({ selectedRange, onRegionChange }: KakaoMapProp
     const [map, setMap] = useState<any>(null)
     const [marker, setMarker] = useState<any>(null)
     const [circle, setCircle] = useState<any>(null)
-    const [currentLatitute, setCurrentLatitute] = useState<number>(0)
-    const [currentLongitute, setCurrentLongitute] = useState<number>(0)
 
     useEffect(() => {
         // 카카오 지도 API 로드 후 초기화
@@ -60,8 +58,6 @@ export default function KakaoMap({ selectedRange, onRegionChange }: KakaoMapProp
             pos.coords.latitude, // 위도
             pos.coords.longitude, // 경도
         )
-        setCurrentLatitute(pos.coords.latitude)
-        setCurrentLongitute(pos.coords.longitude)
         getLocationInfo(pos.coords.latitude, pos.coords.longitude)
 
         // 지도를 이동시킴
