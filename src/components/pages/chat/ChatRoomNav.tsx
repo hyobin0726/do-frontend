@@ -4,9 +4,19 @@ import { useState } from 'react'
 import ChatMenuModal from './ChatMenuModal'
 import ShareKakao from '@/components/common/ShareKakao'
 import { useParams } from 'next/navigation'
+interface ChatMessageType {
+    uuid: string
+    text: string
+    imageUrl: string
+    entryExitNotice: string
+    createdAt: string
+}
 
-export default function ChatRoomNav() {
+export default function ChatRoomNav({ lastMessage }: { lastMessage: ChatMessageType }) {
+    console.log('lastMessage:', lastMessage)
     const params = useParams<{ crewId: string }>()
+    const [chatMenu, setChatMenu] = useState<boolean>(false)
+
     const crew = {
         id: 1,
         name: '해운대 크루',
@@ -14,12 +24,40 @@ export default function ChatRoomNav() {
         profile_url: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/1716864446634Group+1000001922.png',
     }
 
-    const [chatMenu, setChatMenu] = useState<boolean>(false)
+    const disconnectChat = async () => {
+        const BodyData = {
+            crewId: '1',
+            connectionStatus: false,
+            lastReadAt: lastMessage?.createdAt,
+        }
+        console.log('BodyData:', BodyData)
+        try {
+            const response = await fetch(`${process.env.BASE_URL}/chat-service/v1/users/chat/connection`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Uuid: 'uuid1',
+                },
+                body: JSON.stringify(BodyData),
+                cache: 'force-cache',
+            })
+            if (response.ok) {
+                console.log('Last message info sent successfully')
+            } else {
+                console.error('Failed to send last message info')
+            }
+        } catch (error) {
+            console.error('Error sending last message info:', error)
+        }
+    }
+
     return (
         <>
             <div className="bg-white drop-shadow-sm bg-opacity-50 py-4 px-2 h-[70px]">
                 <div className="relative  mx-auto px-2 flex items-center">
-                    <RouterBackArrowButton />
+                    <div onClick={() => disconnectChat()}>
+                        <RouterBackArrowButton />
+                    </div>
                     <div className="flex-1 text-center ">
                         <p className="font-semibold">{crew.name}</p>
                         <ShareKakao
