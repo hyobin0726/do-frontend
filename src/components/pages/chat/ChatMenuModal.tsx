@@ -1,12 +1,17 @@
 import Album from '@/components/images/Album'
+import Crew from '@/components/images/Crew'
+import Link from 'next/link'
 
 export default function ChatMenuModal({
     chatMenuModal,
     setChatMenuModal,
+    crewId,
 }: {
     chatMenuModal: boolean
     setChatMenuModal: React.Dispatch<React.SetStateAction<boolean>>
+    crewId: string
 }) {
+    console.log('crewId:', crewId)
     const crew = [
         {
             id: 1,
@@ -38,7 +43,7 @@ export default function ChatMenuModal({
     return (
         <>
             {chatMenuModal && (
-                <div className="fixed top-0 z-[1]  w-screen h-screen  bg-black bg-opacity-30 ">
+                <div className="fixed top-0 z-[2]  w-screen h-screen  bg-black bg-opacity-30 ">
                     <div className="bg-white w-2/3  fixed right-0 h-screen p-4">
                         <button className="absolute top-2 right-2" onClick={() => setChatMenuModal(false)}>
                             <img
@@ -51,15 +56,17 @@ export default function ChatMenuModal({
                         <div className="flex">
                             <div className="font-bold text-lg">해운대 크루 서랍</div>
                         </div>
-                        <div className="flex items-center space-x-2 mt-2">
+                        <Link href={`/chatimglist/${crewId}`} className="flex items-center space-x-2 mt-2">
                             <div className="w-5">
                                 <Album />
                             </div>
                             <div className="text-[#869AA9] ml-2">사진</div>
-                        </div>
+                        </Link>
                         <ul>
-                            <div className="flex items-center space-x-2 mt-2">
-                                <div className="w-5"></div>
+                            <div className="flex items-center space-x-2 mt-2 mb-2">
+                                <div className="w-5">
+                                    <Crew isActive={false} />
+                                </div>
                                 <div className="text-[#869AA9]">참여자</div>
                             </div>
                             <div>
