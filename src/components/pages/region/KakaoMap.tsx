@@ -85,7 +85,7 @@ export default function KakaoMap({ selectedRange, onRegionChange }: KakaoMapProp
             strokeOpacity: 1, // 선의 불투명도
             strokeStyle: 'solid', // 선의 스타일
             fillColor: '#FFDBD7', // 채우기 색깔
-            fillOpacity: 0.4, // 채우기 불투명도
+            fillOpacity: 0.3, // 채우기 불투명도
         })
 
         // 지도에 원을 표시

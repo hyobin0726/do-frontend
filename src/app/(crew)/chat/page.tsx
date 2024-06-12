@@ -1,5 +1,3 @@
-import Notification from '@/components/images/Notification'
-import Search from '@/components/images/Search'
 import Link from 'next/link'
 
 export default function ChatPage() {
@@ -45,19 +43,6 @@ export default function ChatPage() {
 
     return (
         <div className=" bg-[#FBFBFD]">
-            <header className="bg-white bg-opacity-50 py-4">
-                <div className="mx-auto px-4 flex justify-between items-center">
-                    <h1 className="text-lg font-bold">채팅</h1>
-                    <div className="flex items-center space-x-4">
-                        <div className="w-5">
-                            <Search />
-                        </div>
-                        <div className="w-5">
-                            <Notification />
-                        </div>
-                    </div>
-                </div>
-            </header>
             <main className="mx-auto ">
                 <ul>
                     {chatRooms.map((room) => (
