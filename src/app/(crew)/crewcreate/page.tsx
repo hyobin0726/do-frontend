@@ -1,4 +1,7 @@
 'use client'
+
+import Album from '@/components/images/Album'
+import CrewImage from '@/components/images/crewImage'
 import { useState } from 'react'
 
 function CrewCreate() {
@@ -11,9 +14,14 @@ function CrewCreate() {
     }
 
     return (
-        <div>
-            <div>소모임 개설</div>
-            <div>소모임 이미지</div>
+        <div className="flex flex-col items-center space-y-4  p-4">
+            <div className="relative w-1/2 bg-red-400">
+                <CrewImage />
+                <div className="absolute bottom-2 right-2 w-5 bg-red-500  rounded-full">
+                    <Album />
+                </div>
+            </div>
+
             <input type="file" />
             <button
                 id="dropdownDefaultButton"
