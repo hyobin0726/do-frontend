@@ -28,7 +28,7 @@ export default function ChatOldMessage() {
     const [prevScrollHeight, setPrevScrollHeight] = useState<number | null>(null)
     const chatContainerRef = useRef<HTMLDivElement>(null)
     const loaderRef = useRef<HTMLDivElement>(null)
-    const uuid = 'uuid1'
+    const uuid = 'uuid1234'
     //  이전내역 조회
     useEffect(() => {
         const fetchOldMessages = async () => {
@@ -45,7 +45,7 @@ export default function ChatOldMessage() {
                     `${process.env.BASE_URL}/crew-service/v1/users/chat/history/${params.crewId}?page=${currentPage}`,
                     {
                         headers: {
-                            uuid: uuid,
+                            Uuid: uuid,
                         },
                     },
                 )
@@ -73,7 +73,7 @@ export default function ChatOldMessage() {
                     console.error('Failed to fetch old messages')
                 }
             } catch (error) {
-                console.error('Error fetching old messages:', error)
+                console.error('이전내역 패치 실패', error)
             } finally {
                 setIsFetching(false)
             }

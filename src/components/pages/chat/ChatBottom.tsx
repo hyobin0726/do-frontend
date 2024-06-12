@@ -10,6 +10,7 @@ export default function ChatBottom() {
     const params = useParams<{ crewId: string }>()
     const [previewImg, setPreviewImg] = useState<FileList>()
     const [message, setMessage] = useState<string>('')
+    const uuid = 'uuid1234'
 
     const saveHandler = async () => {
         if (!previewImg) {
@@ -58,7 +59,7 @@ export default function ChatBottom() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    uuid: 'uuid1',
+                    Uuid: uuid,
                 },
                 body: JSON.stringify(bodyData),
             })

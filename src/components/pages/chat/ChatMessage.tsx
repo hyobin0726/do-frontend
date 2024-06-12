@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react'
 import { EventSourcePolyfill } from 'event-source-polyfill'
 import { useParams } from 'next/navigation'
-import ChatRoomNav from './ChatRoomNav'
 
 interface ChatMessageType {
     uuid: string
@@ -15,7 +14,7 @@ interface ChatMessageType {
 export default function ChatMessage() {
     const params = useParams<{ crewId: string }>()
     const [messages, setMessages] = useState<ChatMessageType[]>([] as ChatMessageType[])
-    const uuid = 'uuid1'
+    const uuid = 'uuid1234'
 
     useEffect(() => {
         const ConnectionChat = async () => {
@@ -29,7 +28,7 @@ export default function ChatMessage() {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        Uuid: 'uuid1',
+                        Uuid: uuid,
                     },
                     body: JSON.stringify(BodyData),
                     cache: 'no-cache',
@@ -47,13 +46,14 @@ export default function ChatMessage() {
         }
         ConnectionChat()
     }, [params.crewId, uuid])
+
     // 실시간 조회
     useEffect(() => {
         const connectToSSE = () => {
             const EventSource = EventSourcePolyfill
             const eventSource = new EventSource(`${process.env.BASE_URL}/chat-service/v1/users/chat/${params.crewId}`, {
                 headers: {
-                    uuid: uuid,
+                    Uuid: uuid,
                 },
             })
 
@@ -202,7 +202,6 @@ export default function ChatMessage() {
                     ))}
                 </div>
             </div>
-            <ChatRoomNav lastMessage={messages[messages.length - 1]} />
         </section>
     )
 }

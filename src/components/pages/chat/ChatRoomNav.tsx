@@ -1,19 +1,12 @@
 'use client'
 import RouterBackArrowButton from '@/components/common/RouterBackArrowButton'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ChatMenuModal from './ChatMenuModal'
 import ShareKakao from '@/components/common/ShareKakao'
 import { useParams } from 'next/navigation'
-interface ChatMessageType {
-    uuid: string
-    text: string
-    imageUrl: string
-    entryExitNotice: string
-    createdAt: string
-}
 
-export default function ChatRoomNav({ lastMessage }: { lastMessage: ChatMessageType }) {
-    console.log('lastMessage:', lastMessage)
+export default function ChatRoomNav() {
+    const uuid = 'uuid1234'
     const params = useParams<{ crewId: string }>()
     const [chatMenu, setChatMenu] = useState<boolean>(false)
 
@@ -28,7 +21,7 @@ export default function ChatRoomNav({ lastMessage }: { lastMessage: ChatMessageT
         const BodyData = {
             crewId: '1',
             connectionStatus: false,
-            lastReadAt: lastMessage?.createdAt,
+            lastReadAt: Date.now(),
         }
         console.log('BodyData:', BodyData)
         try {
@@ -36,7 +29,7 @@ export default function ChatRoomNav({ lastMessage }: { lastMessage: ChatMessageT
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Uuid: 'uuid1',
+                    Uuid: uuid,
                 },
                 body: JSON.stringify(BodyData),
                 cache: 'force-cache',
@@ -50,6 +43,18 @@ export default function ChatRoomNav({ lastMessage }: { lastMessage: ChatMessageT
             console.error('Error sending last message info:', error)
         }
     }
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            event.preventDefault()
+            disconnectChat()
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload)
+        }
+    }, [])
 
     return (
         <>
