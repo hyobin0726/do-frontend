@@ -40,35 +40,43 @@ export default function LocationModal({
                     </p>
                 </div>
                 <div className="relative w-full h-[calc(100%-60px)]">
-                    <div className="absolute top-0 w-full h-[75%]">
+                    <div className="absolute top-0 w-full h-[80%]">
                         <KakaoMap selectedRange={regionCircleRange} onRegionChange={onRegionChange} />
                     </div>
-                    <div className="absolute bottom-0 w-full h-[30%] z-[550] bg-white rounded-t-2xl flex flex-col justify-center items-center space-y-3">
-                        <div className="bg-hobbing-bg-pink  w-[80%] h-[5px] rounded-full flex flex-row justify-between items-center  ">
-                            {KakaoMapRange.map((range) => (
-                                <div
-                                    key={range.id}
-                                    onClick={() => {
-                                        onRegionRangeChange(range.selectRange)
-                                        setRegionCircleRange(range.range)
-                                    }}
-                                    className={`rounded-full flex justify-center items-center ${
-                                        regionRange === range.id
-                                            ? 'w-[15px] h-[15px] bg-hobbing-red drop-shadow-md'
-                                            : 'w-[13px] h-[13px] bg-hobbing-bg-pink'
-                                    }`}
-                                />
-                            ))}
+                    <div className="absolute bottom-0 w-full h-[25%] z-[550] bg-white rounded-t-2xl flex flex-col justify-end items-center  drop-shadow-[0_-10px_20px_rgba(0,0,0,0.2)]">
+                        <div className="w-full h-1/2 flex space-y-5 flex-col justify-center    items-center">
+                            <div className="bg-hobbing-bg-pink  w-[80%] h-[5px] rounded-full flex flex-row justify-between items-center  ">
+                                {KakaoMapRange.map((range) => (
+                                    <div
+                                        key={range.id}
+                                        onClick={() => {
+                                            onRegionRangeChange(range.id)
+                                            setRegionCircleRange(range.range)
+                                        }}
+                                        className={`rounded-full flex justify-center items-center ${
+                                            regionRange === range.id
+                                                ? 'w-[15px] h-[15px] bg-hobbing-red drop-shadow-md'
+                                                : 'w-[13px] h-[13px] bg-hobbing-bg-pink'
+                                        }`}
+                                    />
+                                ))}
+                            </div>
+                            <div className="w-[85%] h-auto flex flex-row justify-between">
+                                {KakaoMapRange.map((range) => (
+                                    <p
+                                        key={range.id}
+                                        className={`${range.id == 1 || range.id == 4 ? 'text-black' : 'text-transparent'} text-[12px] sm:text-[10px] md:text-[14px]`}
+                                    >
+                                        {range.name}
+                                    </p>
+                                ))}
+                            </div>
                         </div>
-                        <div className="w-[85%] h-auto flex flex-row justify-between">
-                            {KakaoMapRange.map((range) => (
-                                <p
-                                    key={range.id}
-                                    className={`${range.id == 1 || range.id == 4 ? 'text-black' : 'text-transparent'} text-[12px] sm:text-[10px] md:text-[14px]`}
-                                >
-                                    {range.name}
-                                </p>
-                            ))}
+
+                        <div className="w-full h-1/3 bg-hobbing-red flex justify-center items-center">
+                            <p className="text-[13px] text-white">
+                                활동지역을 등록해 내 주변 추천 취미 소모임을 확인해보세요!
+                            </p>
                         </div>
                     </div>
                 </div>

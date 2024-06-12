@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import MainNavigation from '@/components/layouts/MainNavigation'
 
 export default function CrewPage() {
     return (
@@ -8,7 +7,6 @@ export default function CrewPage() {
             <Link href={'/crew/crewcreate'} className="bg-red-200 flex">
                 소모임 만들기
             </Link>
-            <MainNavigation />
         </>
     )
 }
