@@ -16,14 +16,16 @@ export default function ChatRoomNav() {
         Introduction: '#해운대 #러닝 #취미',
         profile_url: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/1716864446634Group+1000001922.png',
     }
+    // 날짜형식고민
+    // const event = new Date()
 
     const disconnectChat = async () => {
         const BodyData = {
-            crewId: '1',
+            crewId: params.crewId,
             connectionStatus: false,
             lastReadAt: Date.now(),
         }
-        console.log('BodyData:', BodyData)
+
         try {
             const response = await fetch(`${process.env.BASE_URL}/chat-service/v1/users/chat/connection`, {
                 method: 'PUT',

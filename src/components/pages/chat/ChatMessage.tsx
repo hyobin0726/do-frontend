@@ -15,12 +15,14 @@ export default function ChatMessage() {
     const params = useParams<{ crewId: string }>()
     const [messages, setMessages] = useState<ChatMessageType[]>([] as ChatMessageType[])
     const uuid = 'uuid1234'
+    // const event = new Date()
 
     useEffect(() => {
         const ConnectionChat = async () => {
             const BodyData = {
                 crewId: params.crewId,
                 connectionStatus: true,
+                // lastReadAt: event.toISOString(),
             }
 
             try {
