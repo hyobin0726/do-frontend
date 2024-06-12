@@ -15,7 +15,7 @@ function ChatList() {
             try {
                 const response = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/chat/latest/list`, {
                     headers: {
-                        Uuid: 'uuid1234',
+                        Uuid: 'uuid2',
                     },
                 })
                 if (response.ok) {
@@ -49,7 +49,7 @@ function ChatList() {
     return (
         <main className="mx-auto ">
             <ul>
-                {chatList.map((room) => (
+                {chatList?.map((room) => (
                     <Link href={`/chatroom/${room.crewId}`} key={room.crewId}>
                         <div className="flex justify-between items-center mb-2 p-4">
                             <div className="flex items-center space-x-4">

@@ -28,7 +28,7 @@ export default function ChatOldMessage() {
     const [prevScrollHeight, setPrevScrollHeight] = useState<number | null>(null)
     const chatContainerRef = useRef<HTMLDivElement>(null)
     const loaderRef = useRef<HTMLDivElement>(null)
-    const uuid = 'uuid1234'
+    const uuid = 'uuid2'
     //  이전내역 조회
     useEffect(() => {
         const fetchOldMessages = async () => {
@@ -115,6 +115,7 @@ export default function ChatOldMessage() {
             scrollToBottom()
         }
     }, [oldMessages])
+    console.log(currentPage)
     return (
         <div ref={chatContainerRef} style={{ height: '630px', overflow: 'scroll' }}>
             <div ref={loaderRef} style={{ height: '1px' }}></div>

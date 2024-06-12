@@ -10,7 +10,7 @@ export default function ChatBottom() {
     const params = useParams<{ crewId: string }>()
     const [previewImg, setPreviewImg] = useState<FileList>()
     const [message, setMessage] = useState<string>('')
-    const uuid = 'uuid1234'
+    const uuid = 'uuid2'
 
     const saveHandler = async () => {
         if (!previewImg) {

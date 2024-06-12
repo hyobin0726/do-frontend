@@ -6,7 +6,7 @@ import ShareKakao from '@/components/common/ShareKakao'
 import { useParams } from 'next/navigation'
 
 export default function ChatRoomNav() {
-    const uuid = 'uuid1234'
+    const uuid = 'uuid2'
     const params = useParams<{ crewId: string }>()
     const [chatMenu, setChatMenu] = useState<boolean>(false)
 
@@ -17,13 +17,13 @@ export default function ChatRoomNav() {
         profile_url: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/1716864446634Group+1000001922.png',
     }
     // 날짜형식고민
-    // const event = new Date()
+    const event = new Date()
 
     const disconnectChat = async () => {
         const BodyData = {
             crewId: params.crewId,
             connectionStatus: false,
-            lastReadAt: Date.now(),
+            lastReadAt: event.toISOString(),
         }
 
         try {
