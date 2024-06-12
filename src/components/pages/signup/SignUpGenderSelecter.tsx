@@ -20,7 +20,12 @@ const SignUpGenderSelecter = forwardRef<HTMLInputElement, InputProps>(
 
         const handleGenderChange = (gender: string) => {
             setSelectedGender(gender)
-            onChange(gender)
+            // onChange(gender)
+            if (gender === '여성') {
+                onChange('FEMALE')
+            } else if (gender === '남성') {
+                onChange('MALE')
+            }
             setIsModalOpen(!isModalOpen)
         }
 
