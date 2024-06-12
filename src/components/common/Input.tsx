@@ -36,6 +36,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         },
         ref,
     ) => {
+        const now_utc = Date.now()
+        const timeOff = new Date().getTimezoneOffset() * 60000
+        const today = new Date(now_utc - timeOff).toISOString().split('T')[0]
+        const birthDateElement = document.getElementById('birthDate')
+        if (birthDateElement) {
+            birthDateElement.setAttribute('max', today)
+        }
+
         return (
             <div
                 className={`w-full h-[50px] px-3 rounded-xl border-[1px] flex flex-row justify-center 
