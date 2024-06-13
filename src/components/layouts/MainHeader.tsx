@@ -5,7 +5,7 @@ interface MainHeaderProps {
 
 export default function MainHeader({ title, children }: MainHeaderProps) {
     return (
-        <header className="bg-white sticky top-0 w-full h-[60px] py-4 drop-shadow-sm">
+        <header className="bg-white sticky top-0 w-full h-[60px] py-4 drop-shadow-sm z-[1000]">
             <div className="mx-auto px-4 flex justify-between items-center">
                 <div className="w-[30%] h-full">
                     <p className="text-lg font-bold">{title}</p>

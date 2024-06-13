@@ -38,19 +38,46 @@ export const options: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async signIn({ user, profile }): Promise<any> {
+        async signIn({ user, profile }) {
+            // user = Credential
+            // profile = Google
+            // console.log('user', user)
+            // console.log('profile', profile)
+            // if (profile) {
+            //     console.log('profile', profile)
+            //     return true
+            // }
+            // console.log('user', user)
             return true
         },
         async jwt({ token, user }) {
+            // if (user) {
+            //     console.log('jwt async function user : ', user)
+            // }
+            // if (token) {
+            //     console.log('jwt async function token : ', token)
+            // }
             return { ...token, ...user }
         },
 
         async session({ session, token }) {
+            // if (token) {
+            //     console.log('session async function token : ', token)
+            // }
+            // if (session) {
+            //     console.log('session async function session : ', session)
+            // }
             session.user = token as any
             return session
         },
 
         async redirect({ url, baseUrl }) {
+            // if (url) {
+            //     console.log('redirect async function url : ', url)
+            // }
+            // if (baseUrl) {
+            //     console.log('redirect async function baseUrl : ', baseUrl)
+            // }
             return url.startsWith(baseUrl) ? url : baseUrl
         },
     },
