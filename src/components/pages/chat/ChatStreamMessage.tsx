@@ -11,7 +11,7 @@ interface ChatMessageType {
     createdAt: string
 }
 
-export default function ChatMessage() {
+export default function ChatStreamMessage() {
     const params = useParams<{ crewId: string }>()
     const [messages, setMessages] = useState<ChatMessageType[]>([] as ChatMessageType[])
     const uuid = 'uuid2'
@@ -102,7 +102,7 @@ export default function ChatMessage() {
 
     return (
         <section>
-            <div className="z-[500]">
+            <div className="">
                 {messages.length > 0 && (
                     <div className="flex justify-center">
                         <div className=" bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">

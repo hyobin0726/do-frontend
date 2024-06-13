@@ -1,6 +1,6 @@
 'use client'
 import { useParams } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface OldMessagesType {
     lastPage: number
@@ -19,16 +19,22 @@ interface ChatListType {
     ]
 }
 
-export default function ChatOldMessage() {
+export default function ChatOldMessage({
+    currentPage,
+    setIsFetching,
+    chatContainerRef,
+}: {
+    currentPage: number
+    setIsFetching: React.Dispatch<React.SetStateAction<boolean>>
+    chatContainerRef: React.RefObject<HTMLDivElement>
+}) {
+    console.log('currentPage:', currentPage)
     const params = useParams<{ crewId: string }>()
     const [oldMessages, setOldMessages] = useState<OldMessagesType['chatList'] | []>([])
-    const [currentPage, setCurrentPage] = useState<number>(0)
-    const [isFetching, setIsFetching] = useState<boolean>(false)
     const [lastPage, setLastPage] = useState<number>(Infinity)
     const [prevScrollHeight, setPrevScrollHeight] = useState<number | null>(null)
-    const chatContainerRef = useRef<HTMLDivElement>(null)
-    const loaderRef = useRef<HTMLDivElement>(null)
     const uuid = 'uuid2'
+
     //  이전내역 조회
     useEffect(() => {
         const fetchOldMessages = async () => {
@@ -56,6 +62,13 @@ export default function ChatOldMessage() {
                         console.log('data:', data.data)
                         if (currentPage === 0) {
                             setOldMessages(data.data.chatList)
+                            if (chatContainerRef.current) {
+                                setTimeout(() => {
+                                    if (chatContainerRef.current) {
+                                        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+                                    }
+                                }, 0)
+                            }
                         } else {
                             setOldMessages((prev) => [...data.data.chatList, ...prev])
 
@@ -79,51 +92,15 @@ export default function ChatOldMessage() {
             }
         }
         fetchOldMessages()
-    }, [currentPage, params.crewId, prevScrollHeight])
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                const first = entries[0]
-                if (first.isIntersecting && !isFetching) {
-                    setCurrentPage((prev) => prev + 1)
-                }
-            },
-            {
-                root: chatContainerRef.current,
-                threshold: 1.0,
-            },
-        )
+    }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage, uuid])
 
-        if (loaderRef.current) {
-            observer.observe(loaderRef.current)
-        }
-
-        return () => {
-            if (loaderRef.current) {
-                observer.unobserve(loaderRef.current)
-            }
-        }
-    }, [isFetching])
-
-    const scrollToBottom = () => {
-        if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
-        }
-    }
-    useEffect(() => {
-        if (currentPage === 0 && chatContainerRef.current) {
-            scrollToBottom()
-        }
-    }, [oldMessages])
-    console.log(currentPage)
     return (
-        <div ref={chatContainerRef} style={{ height: '630px', overflow: 'scroll' }}>
-            <div ref={loaderRef} style={{ height: '1px' }}></div>
+        <div>
             {oldMessages &&
                 oldMessages.map((messageGroup, idx) => (
                     <div key={idx}>
                         <div className="flex justify-center">
-                            <div className="relative bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
+                            <div className=" bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
                                 {new Date(messageGroup.date).toLocaleDateString('ko-KR', {
                                     year: 'numeric',
                                     month: 'long',
