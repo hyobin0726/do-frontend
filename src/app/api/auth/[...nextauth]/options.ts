@@ -51,12 +51,12 @@ export const options: NextAuthOptions = {
             return true
         },
         async jwt({ token, user }) {
-            // if (user) {
-            //     console.log('jwt async function user : ', user)
-            // }
-            // if (token) {
-            //     console.log('jwt async function token : ', token)
-            // }
+            if (user) {
+                console.log('jwt async function user : ', user)
+            }
+            if (token) {
+                console.log('jwt async function token : ', token)
+            }
             return { ...token, ...user }
         },
 

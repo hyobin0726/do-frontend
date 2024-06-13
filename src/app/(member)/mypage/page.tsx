@@ -24,6 +24,7 @@ export default function MypagePage() {
                                     <Link
                                         key={index}
                                         href={data.path}
+                                        scroll={false}
                                         className="flex flex-row justify-between items-center px-1 py-2"
                                     >
                                         <p className="text-[15px]">{data.name}</p>
