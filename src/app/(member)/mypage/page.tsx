@@ -19,25 +19,25 @@ export default function MypagePage() {
                             <p className="font-bold text-[18px]">{category.category}</p>
                         </div>
                         {category.data.map((data, index) => (
-                            <>
+                            <div key={index} className="flex flex-row justify-between items-center px-1 py-2">
                                 {data.path ? (
                                     <Link
                                         key={index}
                                         href={data.path}
                                         scroll={false}
-                                        className="flex flex-row justify-between items-center px-1 py-2"
+                                        className="w-full h-full flex flex-row justify-between items-center"
                                     >
                                         <p className="text-[15px]">{data.name}</p>
                                         <RightArrow width={12} height={12} color="#FF8595" />
                                     </Link>
                                 ) : (
                                     // 로그아웃 기능 추가
-                                    <div key={index} className="flex flex-row justify-between items-center px-1 py-2">
+                                    <>
                                         <p className="text-[15px]">{data.name}</p>
                                         <RightArrow width={12} height={12} color="#FF8595" />
-                                    </div>
+                                    </>
                                 )}
-                            </>
+                            </div>
                         ))}
                     </div>
                 ))}
