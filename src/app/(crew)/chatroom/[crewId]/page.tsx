@@ -38,26 +38,6 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
         }
     }, [isFetching])
 
-    // const scrollToBottom = () => {
-    //     if (chatContainerRef.current) {
-    //         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
-    //     }
-    // }
-    // useEffect(() => {
-    //     if (currentPage === 0 && chatContainerRef.current) {
-    //         setTimeout(() => {
-    //             scrollToBottom()
-    //         }, 5000)
-    //     }
-    // }, [currentPage, chatContainerRef])
-    // // 초기 로드 시 스크롤을 하단으로 설정
-    // useEffect(() => {
-    //     if (chatContainerRef.current && isInitialLoad.current) {
-    //         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
-    //         isInitialLoad.current = false // 초기 로드 완료 후 false로 설정
-    //     }
-    // }, [])
-
     return (
         <section
             className="bg-[#F8F8F8] "

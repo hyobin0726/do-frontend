@@ -106,7 +106,12 @@ export default function ChatStreamMessage() {
                 {messages.length > 0 && (
                     <div className="flex justify-center">
                         <div className=" bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
-                            여기까지 읽었습니다.
+                            {new Date().toLocaleDateString('ko-KR', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                weekday: 'long',
+                            })}
                         </div>
                     </div>
                 )}

@@ -8,15 +8,13 @@ interface OldMessagesType {
 }
 interface ChatListType {
     date: string
-    chats: [
-        {
-            uuid: string
-            text: string
-            imageUrl: string
-            entryExitNotice: string
-            createdAt: string
-        },
-    ]
+    chats: {
+        uuid: string
+        text: string
+        imageUrl: string
+        entryExitNotice: string
+        createdAt: string
+    }[]
 }
 
 export default function ChatOldMessage({
@@ -30,7 +28,7 @@ export default function ChatOldMessage({
 }) {
     console.log('currentPage:', currentPage)
     const params = useParams<{ crewId: string }>()
-    const [oldMessages, setOldMessages] = useState<OldMessagesType['chatList'] | []>([])
+    const [oldMessages, setOldMessages] = useState<OldMessagesType['chatList']>([])
     const [lastPage, setLastPage] = useState<number>(Infinity)
     const [prevScrollHeight, setPrevScrollHeight] = useState<number | null>(null)
     const uuid = 'uuid2'
@@ -70,11 +68,16 @@ export default function ChatOldMessage({
                                 }, 0)
                             }
                         } else {
+                            const lastMessageDate = oldMessages[oldMessages.length - 1].date
+                            const currentMessageDate = data.data.chatList[0].date
                             setOldMessages((prev) => [...data.data.chatList, ...prev])
 
                             if (prevScrollHeight !== null && chatContainerRef.current) {
                                 const newScrollTop = chatContainerRef.current.scrollHeight - prevScrollHeight
                                 chatContainerRef.current.scrollTop = newScrollTop
+                            }
+                            if (lastMessageDate !== currentMessageDate) {
+                                setOldMessages((prev) => [...prev, { date: currentMessageDate, chats: [] }])
                             }
                         }
                         setLastPage(data.data.lastPage)
@@ -99,17 +102,18 @@ export default function ChatOldMessage({
             {oldMessages &&
                 oldMessages.map((messageGroup, idx) => (
                     <div key={idx}>
-                        <div className="flex justify-center">
-                            <div className=" bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
-                                {new Date(messageGroup.date).toLocaleDateString('ko-KR', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                    weekday: 'long',
-                                })}
+                        {idx === 0 || messageGroup.date !== oldMessages[idx - 1]?.date ? (
+                            <div className="flex justify-center">
+                                <div className="bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
+                                    {new Date(messageGroup.date).toLocaleDateString('ko-KR', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        weekday: 'long',
+                                    })}
+                                </div>
                             </div>
-                        </div>
-
+                        ) : null}
                         {messageGroup.chats.map((chat, index) => (
                             <div key={index}>
                                 <div
