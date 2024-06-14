@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Alert from '@/components/common/Alert'
 import RegionAddInput from './RegionAddInput'
 import { KakaoMapRange } from '@/lib/KakaoMapRange'
@@ -19,6 +19,7 @@ export default function InitialRegionRegistration() {
     const [alertMessage, setAlertMessage] = useState<string>('')
 
     const auth = useGetClientToken()
+    const router = useRouter()
 
     const onRegionChange = (
         regionName: string,
@@ -116,7 +117,7 @@ export default function InitialRegionRegistration() {
                                 <button
                                     onClick={() => {
                                         handleAlert()
-                                        redirect('/')
+                                        router.push('/')
                                     }}
                                     className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
                                 >
