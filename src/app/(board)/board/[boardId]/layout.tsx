@@ -1,6 +1,6 @@
-import ClubBulletinBottom from '@/components/pages/club/ClubBulletinBottom'
+import BoardBottom from '@/components/pages/board/BoardBottom'
 
-export default function ClubBulletinLayout({ children }: { children: React.ReactNode }) {
+export default function BoardLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <header className="border-b-2 py-4 bg-red-200 relative">
@@ -18,7 +18,7 @@ export default function ClubBulletinLayout({ children }: { children: React.React
                 </div>
             </header>
             {children}
-            <ClubBulletinBottom />
+            <BoardBottom />
         </>
     )
 }

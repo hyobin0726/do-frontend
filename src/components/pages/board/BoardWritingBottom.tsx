@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
-function ClubWritingBottom() {
+function BoardWritingBottom() {
     const multiRef = useRef<HTMLInputElement>(null)
     const [multiImages, setMultiImages] = useState<Array<File>>([])
 
@@ -76,4 +76,4 @@ function ClubWritingBottom() {
         </div>
     )
 }
-export default ClubWritingBottom
+export default BoardWritingBottom

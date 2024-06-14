@@ -1,4 +1,4 @@
-function ClubBulletinComment() {
+function BoardComment() {
     return (
         <div className="bg-red-100  ">
             <div className="flex items-center mb-2">
@@ -21,4 +21,4 @@ function ClubBulletinComment() {
     )
 }
 
-export default ClubBulletinComment
+export default BoardComment

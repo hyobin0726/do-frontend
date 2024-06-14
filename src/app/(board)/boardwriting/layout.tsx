@@ -1,6 +1,6 @@
-import ClubWritingBottom from '@/components/pages/club/ClubWritingBottom'
+import BoardWritingBottom from '@/components/pages/board/BoardWritingBottom'
 
-export default function ClubWritingLayout({ children }: { children: React.ReactNode }) {
+export default function BoardWritingLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <header className="border-b-2 py-4 bg-red-200 relative">
@@ -18,7 +18,7 @@ export default function ClubWritingLayout({ children }: { children: React.ReactN
                 </div>
             </header>
             {children}
-            <ClubWritingBottom />
+            <BoardWritingBottom />
         </>
     )
 }

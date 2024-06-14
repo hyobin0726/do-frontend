@@ -1,7 +1,7 @@
 import ChatBottom from '@/components/pages/chat/ChatBottom'
 import ChatRoomNav from '@/components/pages/chat/ChatRoomNav'
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function ChatRoomLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <ChatRoomNav />

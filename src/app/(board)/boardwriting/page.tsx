@@ -1,4 +1,4 @@
-function ClubWriting() {
+function BoardWriting() {
     return (
         <div className="h-[calc(100svh-10.5rem)]">
             <textarea
@@ -8,4 +8,4 @@ function ClubWriting() {
         </div>
     )
 }
-export default ClubWriting
+export default BoardWriting
