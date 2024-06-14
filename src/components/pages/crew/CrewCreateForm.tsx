@@ -9,7 +9,7 @@ export default function CrewCreateForm({
     onCrewName: (crewName: string) => void
     onIntroduction: (crewDescription: string) => void
     onHashTagList: (hashTags: string[]) => void
-    onJoinType: (joinType: string) => void
+    onJoinType: (joinType: number) => void
 }) {
     const [crewName, setCrewName] = useState('')
     const [crewNameValue, setCrewNameValue] = useState('')
@@ -17,7 +17,7 @@ export default function CrewCreateForm({
     const [crewDescriptionValue, setCrewDescriptionValue] = useState('')
     const [inputHashTag, setInputHashTag] = useState('')
     const [hashTags, setHashTags] = useState<string[]>([])
-    const [selectedJoinType, setSelectedJoinType] = useState<string>('public')
+    const [selectedJoinType, setSelectedJoinType] = useState<number>(0)
 
     const handleCrewName = (event: React.ChangeEvent<HTMLInputElement>) => {
         const crewName = event.target.value
@@ -85,8 +85,8 @@ export default function CrewCreateForm({
         }
     }
     const handleJoinTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedJoinType(e.target.value)
-        onJoinType(e.target.value)
+        setSelectedJoinType(Number(e.target.value))
+        onJoinType(Number(e.target.value))
     }
 
     return (
@@ -162,7 +162,7 @@ export default function CrewCreateForm({
                                 id="public"
                                 name="joinType"
                                 value="public"
-                                checked={selectedJoinType === 'public'}
+                                checked={selectedJoinType === 0}
                                 onChange={handleJoinTypeChange}
                             />
                             <label htmlFor="public" className="text-sm text-gray-700">
@@ -175,7 +175,7 @@ export default function CrewCreateForm({
                                 id="private"
                                 name="joinType"
                                 value="private"
-                                checked={selectedJoinType === 'private'}
+                                checked={selectedJoinType === 1}
                                 onChange={handleJoinTypeChange}
                             />
                             <label htmlFor="private" className="text-sm text-gray-700">
