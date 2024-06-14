@@ -1,6 +1,12 @@
-export default function Location() {
+export default function Location({ width, height }: { width?: string; height?: string }) {
     return (
-        <svg width="13" height="17" viewBox="0 0 13 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+            width={width ? width : '13'}
+            height={height ? height : '17'}
+            viewBox="0 0 13 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"

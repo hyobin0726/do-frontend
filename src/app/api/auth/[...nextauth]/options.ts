@@ -38,19 +38,66 @@ export const options: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async signIn({ user, profile }): Promise<any> {
+        async signIn({ user, profile }) {
+            // user = Credential
+            // profile = Google
+            // console.log('user', user)
+            // console.log('profile', profile)
+            // if (profile) {
+            //     console.log('profile externalId', profile.sub)
+            //     console.log('profile name', profile.name)
+            //     console.log('profile email', profile.email)
+            //     const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/login/google`, {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+            //         body: JSON.stringify({
+            //             externalId: profile.sub,
+            //             name: profile.name,
+            //             email: profile.email,
+            //         }),
+            //     })
+            //     if (res.ok) {
+            //         const getData = await res.json()
+            //         console.log('res.ok -> google user : ', getData, profile.name)
+            //         return false
+            //     } else {
+            //         console.log('google user', res.statusText)
+            //         return false
+            //     }
+            // }
             return true
+
+            // console.log('user', user)
         },
         async jwt({ token, user }) {
-            return { ...token, ...user }
+            if (user) {
+                // 사용자가 처음 로그인할 때 user 객체가 존재
+                token.accessToken = user.accessToken
+                token.refreshToken = user.refreshToken
+                token.uuid = user.uuid
+            }
+            return token
         },
 
         async session({ session, token }) {
-            session.user = token as any
+            session.user = {
+                accessToken: token.accessToken,
+                refreshToken: token.refreshToken,
+                uuid: token.uuid,
+            }
+            // console.log('session async function session : ', session)
             return session
         },
 
         async redirect({ url, baseUrl }) {
+            // if (url) {
+            //     console.log('redirect async function url : ', url)
+            // }
+            // if (baseUrl) {
+            //     console.log('redirect async function baseUrl : ', baseUrl)
+            // }
             return url.startsWith(baseUrl) ? url : baseUrl
         },
     },

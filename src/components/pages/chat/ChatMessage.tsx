@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill'
+import { EventSourcePolyfill } from 'event-source-polyfill'
 import { useParams } from 'next/navigation'
 
 interface ChatMessageType {
@@ -17,20 +17,29 @@ export default function ChatMessage() {
     // 실시간 조회
     useEffect(() => {
         const connectToSSE = () => {
-            const EventSource = EventSourcePolyfill || NativeEventSource
+            const EventSource = EventSourcePolyfill
             const eventSource = new EventSource(`${process.env.BASE_URL}/chat-service/v1/users/chat/${params.crewId}`, {
                 headers: {
                     uuid: uuid,
                 },
-                heartbeatTimeout: 86400000,
-                withCredentials: true,
             })
 
             eventSource.onmessage = (event) => {
                 try {
                     const data = JSON.parse(event.data)
                     if (data.isSuccess) {
-                        setMessages((prevMessages) => [...prevMessages, data.data])
+                        setMessages((prevMessages) => {
+                            const newMessage = data.data as ChatMessageType
+
+                            const isDuplicate = prevMessages.some(
+                                (message) => message.createdAt === newMessage.createdAt,
+                            )
+
+                            if (!isDuplicate) {
+                                return [...prevMessages, newMessage]
+                            }
+                            return prevMessages
+                        })
                     } else {
                         console.error('Server error:', data.message)
                     }
@@ -53,7 +62,7 @@ export default function ChatMessage() {
         return () => {
             eventSource.close()
         }
-    }, [uuid])
+    }, [uuid, params.crewId])
 
     return (
         <section>
