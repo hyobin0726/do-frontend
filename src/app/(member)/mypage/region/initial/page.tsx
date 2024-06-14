@@ -1,3 +1,5 @@
+import PageHeader from '@/components/common/PageHeader'
+import InitialRegionRegistration from '@/components/pages/region/InitialRegionRegistration'
 import { useGetServerToken } from '@/actions/useGetServerToken'
 import { redirect } from 'next/navigation'
 
@@ -12,20 +14,18 @@ const getUserRegions = async (token: string) => {
     return data.isSuccess
 }
 
-export default async function HomePage() {
+export default async function InitialRegionPage() {
     const auth = await useGetServerToken()
     const isUserRegionsExist = await getUserRegions(auth.token)
 
-    if (auth) {
-        if (!isUserRegionsExist) {
-            redirect('/mypage/region/initial')
-        }
-        return <div className="flex flex-1 bg-fuchsia-200">홈화면??</div>
+    if (isUserRegionsExist) {
+        redirect('/mypage/region')
     }
 
     return (
         <>
-            Not signed in <br />
+            <PageHeader title="활동지역 등록" />
+            <InitialRegionRegistration />
         </>
     )
 }

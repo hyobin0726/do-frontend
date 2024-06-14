@@ -7,6 +7,7 @@ import Alert from '@/components/common/Alert'
 import { useRouter } from 'next/navigation'
 
 interface SignupButtonProps {
+    isFormValid: boolean | string
     name: string
     id: string
     password: string
@@ -14,14 +15,10 @@ interface SignupButtonProps {
     email: string
     gender: string
     birthDate: string
-    regionName: string
-    regionCode: number
-    regionLatitude: number
-    regionLongitude: number
-    regionRange: number
 }
 
 export default function SignupButton({
+    isFormValid,
     name,
     id,
     password,
@@ -29,11 +26,6 @@ export default function SignupButton({
     email,
     gender,
     birthDate,
-    regionName,
-    regionCode,
-    regionLatitude,
-    regionLongitude,
-    regionRange,
 }: SignupButtonProps) {
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [alertType, setAlertType] = useState<'question' | 'info' | 'error' | 'success' | 'warning'>('question')
@@ -48,38 +40,8 @@ export default function SignupButton({
     const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        // 모든 필드가 비어있을 경우
-        if (
-            !name &&
-            !id &&
-            !password &&
-            !phoneNumber &&
-            !email &&
-            !gender &&
-            !birthDate &&
-            !regionName &&
-            !regionCode &&
-            !regionLatitude &&
-            !regionLongitude &&
-            !regionRange
-        ) {
-            setAlertMessage('회원정보와 지역 정보를 모두 입력해주세요.')
-            setAlertType('error')
-            handleAlert()
-            return
-        }
-
-        // 회원 정보만 비어있을 경우
         if (!name || !id || !password || !phoneNumber || !email || !gender || !birthDate) {
             setAlertMessage('회원정보를 모두 입력해주세요.')
-            setAlertType('warning')
-            handleAlert()
-            return
-        }
-
-        // 지역 정보만 비어있을 경우
-        if (!regionName || !regionCode || !regionLatitude || !regionLongitude || !regionRange) {
-            setAlertMessage('지역을 선택해주세요.')
             setAlertType('warning')
             handleAlert()
             return
@@ -108,36 +70,20 @@ export default function SignupButton({
             handleAlert()
             return
         } else {
-            const regionResponse = await fetch(`${process.env.BASE_URL}/crew-service/v1/non-users/region/sign-up`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    uuid: signUpData.data.uuid,
-                    addressName: regionName,
-                    legalCode: regionCode,
-                    latitude: regionLatitude,
-                    longitude: regionLongitude,
-                    currentSelectedRange: regionRange,
-                }),
-            })
-            const regionData = await regionResponse.json()
-            if (regionData.isSuccess === true) {
-                setAlertMessage('회원가입이 완료되었습니다.')
-                setAlertType('success')
-                handleAlert()
-                return
-            }
+            setAlertMessage('회원가입이 완료되었습니다.')
+            setAlertType('success')
+            handleAlert()
+            return
         }
     }
 
     return (
         <>
-            <form onSubmit={handleSignUp} className="w-full h-auto">
+            <form onSubmit={handleSignUp} className="w-full h-[25%] px-10 flex flex-col justify-center items-center">
                 <button
+                    disabled={!isFormValid}
                     type="submit"
-                    className="bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8"
+                    className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
                 >
                     <p className="font-Pretendard text-white text-[15px] font-bold">회원가입</p>
                     <RightArrow width={15} height={15} />
@@ -175,7 +121,7 @@ export default function SignupButton({
                                 <button
                                     onClick={() => {
                                         handleAlert()
-                                        router.push('/signup?step=1')
+                                        router.push('/signup')
                                     }}
                                     className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
                                 >

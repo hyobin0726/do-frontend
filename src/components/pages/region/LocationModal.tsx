@@ -50,11 +50,11 @@ export default function LocationModal({
                                     <div
                                         key={range.id}
                                         onClick={() => {
-                                            onRegionRangeChange(range.id)
+                                            onRegionRangeChange(range.selectRange)
                                             setRegionCircleRange(range.range)
                                         }}
                                         className={`rounded-full flex justify-center items-center ${
-                                            regionRange === range.id
+                                            regionRange === range.selectRange
                                                 ? 'w-[15px] h-[15px] bg-hobbing-red drop-shadow-md'
                                                 : 'w-[13px] h-[13px] bg-hobbing-bg-pink'
                                         }`}
@@ -72,12 +72,14 @@ export default function LocationModal({
                                 ))}
                             </div>
                         </div>
-
-                        <div className="w-full h-1/3 bg-hobbing-red flex justify-center items-center">
+                        <button
+                            onClick={handleLocationModalOpen}
+                            className="w-full h-1/3 bg-hobbing-red flex justify-center items-center"
+                        >
                             <p className="text-[13px] text-white">
                                 활동지역을 등록해 내 주변 추천 취미 소모임을 확인해보세요!
                             </p>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
