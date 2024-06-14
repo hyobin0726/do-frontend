@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Album from '@/components/images/Album'
 import CrewImage from '@/components/images/crewImage'
 
-export default function CrewImageUpload() {
+export default function CrewImageUpload({ onImageSelected }: { onImageSelected: (imageFile: File) => void }) {
     const [crewImage, setCrewImage] = useState<File | null>(null)
 
     const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,6 +13,7 @@ export default function CrewImageUpload() {
             const selectedFile = file[0]
             if (selectedFile.type.startsWith('image/')) {
                 setCrewImage(selectedFile)
+                onImageSelected(selectedFile)
             } else {
                 alert('이미지 파일만 업로드할 수 있습니다.')
             }
@@ -24,7 +25,7 @@ export default function CrewImageUpload() {
             console.log('업로드된 파일 이름:', crewImage.name)
         }
     }, [crewImage])
-
+    // console.log(crewImage, 'crewImage')
     return (
         <div>
             <div className="relative w-40 h-50">

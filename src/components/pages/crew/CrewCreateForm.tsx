@@ -1,6 +1,16 @@
 'use client'
 import { useState } from 'react'
-export default function CrewCreateForm() {
+export default function CrewCreateForm({
+    onCrewName,
+    onIntroduction,
+    onHashTagList,
+    onJoinType,
+}: {
+    onCrewName: (crewName: string) => void
+    onIntroduction: (crewDescription: string) => void
+    onHashTagList: (hashTags: string[]) => void
+    onJoinType: (joinType: string) => void
+}) {
     const [crewName, setCrewName] = useState('')
     const [crewNameValue, setCrewNameValue] = useState('')
     const [crewDescription, setCrewDescription] = useState('')
@@ -12,6 +22,7 @@ export default function CrewCreateForm() {
     const handleCrewName = (event: React.ChangeEvent<HTMLInputElement>) => {
         const crewName = event.target.value
         setCrewName(crewName)
+        onCrewName(crewName)
         if (crewName.trim().length < 1) {
             setCrewNameValue('1자 이상 입력해주세요')
         } else {
@@ -25,6 +36,7 @@ export default function CrewCreateForm() {
             crewDescription = crewDescription.substring(0, 200)
         }
         setCrewDescription(crewDescription)
+        onIntroduction(crewDescription)
         if (crewDescription.trim().length < 1) {
             setCrewDescriptionValue('1자 이상 입력해주세요')
         } else setCrewDescriptionValue('')
@@ -50,7 +62,7 @@ export default function CrewCreateForm() {
             }
             return [...prevHashTags, newHashTag]
         })
-
+        onHashTagList([...hashTags, newHashTag])
         setInputHashTag('')
     }
 
@@ -74,11 +86,12 @@ export default function CrewCreateForm() {
     }
     const handleJoinTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedJoinType(e.target.value)
+        onJoinType(e.target.value)
     }
 
     return (
         <>
-            <div className="w-full h-auto space-y-3">
+            <div className="w-full h-auto space-y-2">
                 <div className="space-y-1">
                     <div className="flex justify-between mb-2">
                         <p className="text-gray-600 text-sm ml-1 font-semibold">소모임 이름</p>
@@ -101,7 +114,7 @@ export default function CrewCreateForm() {
                     </div>
                     <textarea
                         placeholder="소모임 소개글 작성해주세요."
-                        className={`w-full h-[100px] p-3 rounded-xl border-[1px] flex flex-row justify-center outline-none
+                        className={`w-full h-[80px] p-3 rounded-xl border-[1px] flex flex-row justify-center outline-none
                      ${crewDescription.length > 200 || crewDescriptionValue ? 'border-hobbing-pink bg-hobbing-light-pink' : 'bg-white border-hobbing-gray'}`}
                         maxLength={200}
                         value={crewDescription}
