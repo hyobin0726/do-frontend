@@ -29,7 +29,7 @@ export default function ResetPassword() {
     const [getIdIsSuccess, setGetIdIsSuccess] = useState<boolean>(false)
     const [getIdMessage, setGetIdMessage] = useState<string>('')
 
-    const token = useGetClientToken()
+    const auth = useGetClientToken()
 
     const {
         register,
@@ -63,14 +63,10 @@ export default function ResetPassword() {
     }
 
     const GetPasswordOnEmail = async () => {
-        console.log('prevPassword', prevPassword)
-        console.log('password', password)
-        console.log('confirmPassword', confirmPassword)
-        console.log('token', token)
         const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/users/password`, {
             method: 'PATCH',
             headers: {
-                Authorization: token,
+                Authorization: auth.token,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({

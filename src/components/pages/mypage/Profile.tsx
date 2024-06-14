@@ -1,12 +1,11 @@
-import DefaultProfileImage from '@/components/images/DefaultProfileImage'
 import Edit from '@/components/images/Edit'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Profile() {
     const profileData = {
-        // profileImage: 'https://despbukkit.s3.ap-northeast-2.amazonaws.com/RPGCLASS_BELPHEGOR.png',
-        profileImage: '',
+        profileImage:
+            'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/image_1718266148717_Frame%201000004039.png',
         name: '김하빙',
         // message: '',
         // message: '여기상메와야함',
@@ -26,22 +25,17 @@ export default function Profile() {
                 </Link>
                 <div className="w-full h-full flex flex-col items-center space-y-2">
                     <div className="w-[100px] h-[100px]">
-                        {/* 프로필 이미지 확인해서 있는경우 없는경우 분기처리하기 */}
-                        {profileData.profileImage ? (
-                            <Image
-                                src={profileData.profileImage}
-                                alt="profile image"
-                                width={100}
-                                height={100}
-                                className="rounded-full"
-                                style={{
-                                    width: '100px',
-                                    height: '100px',
-                                }}
-                            />
-                        ) : (
-                            <DefaultProfileImage />
-                        )}
+                        <Image
+                            src={profileData.profileImage}
+                            alt="profile image"
+                            width={100}
+                            height={100}
+                            className="rounded-full"
+                            style={{
+                                width: '100px',
+                                height: '100px',
+                            }}
+                        />
                     </div>
                     <div className="w-full h-full">
                         <p className="font-bold text-[20px] text-center">{profileData.name}</p>
