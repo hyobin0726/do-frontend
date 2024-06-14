@@ -50,11 +50,11 @@ export default function LocationModal({
                                     <div
                                         key={range.id}
                                         onClick={() => {
-                                            onRegionRangeChange(range.id)
+                                            onRegionRangeChange(range.selectRange)
                                             setRegionCircleRange(range.range)
                                         }}
                                         className={`rounded-full flex justify-center items-center ${
-                                            regionRange === range.id
+                                            regionRange === range.selectRange
                                                 ? 'w-[15px] h-[15px] bg-hobbing-red drop-shadow-md'
                                                 : 'w-[13px] h-[13px] bg-hobbing-bg-pink'
                                         }`}

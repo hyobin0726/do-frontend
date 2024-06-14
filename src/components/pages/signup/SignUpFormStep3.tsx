@@ -183,19 +183,6 @@ export default function SignUpFormStep3() {
                 gender={gender}
                 birthDate={birthDate}
             />
-            {/* <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="w-full h-[25%] px-10 flex flex-col justify-around items-center"
-            >
-                <button
-                    disabled={!isFormValid}
-                    type="submit"
-                    className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
-                >
-                    <p className="font-Pretendard text-white text-[15px] font-bold">NEXT</p>
-                    <RightArrow width={15} height={15} />
-                </button>
-            </form> */}
         </>
     )
 }
