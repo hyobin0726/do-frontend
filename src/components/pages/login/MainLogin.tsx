@@ -21,7 +21,7 @@ export default function MainLogin() {
                     <Link href="/account" className="w-[40%] flex justify-center items-center">
                         <p className="font-Pretendard text-[15px] text-[#646464]">ID/PW 찾기</p>
                     </Link>
-                    <Link href="/signup?step=1" className="w-[40%] flex justify-center items-center">
+                    <Link href="/signup" className="w-[40%] flex justify-center items-center">
                         <p className="font-Pretendard text-[15px] text-hobbing-red underline underline-offset-4 font-bold">
                             회원가입
                         </p>

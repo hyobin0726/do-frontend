@@ -58,7 +58,7 @@ export default function SignUpRegionRegistration() {
                 />
             </div>
             <div className="w-full h-[25%] px-10 flex flex-col justify-around items-center">
-                <SignupButton
+                {/* <SignupButton
                     name={name}
                     id={id}
                     password={password}
@@ -71,7 +71,7 @@ export default function SignUpRegionRegistration() {
                     regionLatitude={regionLatitude}
                     regionLongitude={regionLongitude}
                     regionRange={regionRange}
-                />
+                /> */}
                 <div className="w-5/6 h-auto">
                     <ProgressBar step={3} total={5} />
                 </div>
