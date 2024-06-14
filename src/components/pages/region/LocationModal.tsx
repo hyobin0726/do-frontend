@@ -72,12 +72,14 @@ export default function LocationModal({
                                 ))}
                             </div>
                         </div>
-
-                        <div className="w-full h-1/3 bg-hobbing-red flex justify-center items-center">
+                        <button
+                            onClick={handleLocationModalOpen}
+                            className="w-full h-1/3 bg-hobbing-red flex justify-center items-center"
+                        >
                             <p className="text-[13px] text-white">
                                 활동지역을 등록해 내 주변 추천 취미 소모임을 확인해보세요!
                             </p>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>

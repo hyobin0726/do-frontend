@@ -2,7 +2,6 @@ import { useGetServerToken } from '@/actions/useGetServerToken'
 import { redirect } from 'next/navigation'
 
 const getUserRegions = async (token: string) => {
-    console.log('token', token)
     const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/region/address-names`, {
         method: 'GET',
         headers: {
@@ -10,27 +9,23 @@ const getUserRegions = async (token: string) => {
         },
     })
     const data = await res.json()
-    return data.status
+    return data.isSuccess
 }
 
 export default async function HomePage() {
-    // const router = useRouter()
     const auth = await useGetServerToken()
-    // console.log('auth', auth)
+    const isUserRegionsExist = await getUserRegions(auth.token)
 
-    const userRegions = await getUserRegions(auth.token)
-    console.log(userRegions)
     if (auth) {
-        if (userRegions === 'REGION401') {
-            // return <div className="flex flex-1 bg-fuchsia-200">지역을 등록해주세요</div>
+        if (!isUserRegionsExist) {
             redirect('/mypage/region/initial')
         }
         return <div className="flex flex-1 bg-fuchsia-200">홈화면??</div>
     }
+
     return (
         <>
             Not signed in <br />
-            {/* <button onClick={() => signIn()}>Sign in</button> */}
         </>
     )
 }

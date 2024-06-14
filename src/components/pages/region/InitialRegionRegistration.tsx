@@ -33,7 +33,6 @@ export default function InitialRegionRegistration() {
     }
 
     const onRegionRangeChange = (range: number) => {
-        console.log(range)
         setRegionRange(range)
     }
 
@@ -58,7 +57,7 @@ export default function InitialRegionRegistration() {
             }),
         })
         const data = await res.json()
-        setAlertMessage(data.message)
+        setAlertMessage(data.isSuccess ? '최초 활동지역이 등록되었습니다!' : data.message)
         setAlertType(data.isSuccess ? 'success' : 'error')
         handleAlert()
     }
