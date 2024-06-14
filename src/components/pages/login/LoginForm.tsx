@@ -15,6 +15,7 @@ export default function LoginForm() {
         signIn('credentials', {
             loginId: inputId,
             password: inputPassword,
+            callbackUrl: '/',
         })
     }
 
