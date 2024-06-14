@@ -14,8 +14,8 @@ const getUserRegions = async (token: string) => {
 
 export default async function HomePage() {
     const auth = await useGetServerToken()
+    console.log(auth.token)
     const isUserRegionsExist = await getUserRegions(auth.token)
-
     if (auth) {
         if (!isUserRegionsExist) {
             redirect('/mypage/region/initial')
