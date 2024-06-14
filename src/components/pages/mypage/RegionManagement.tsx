@@ -1,3 +1,11 @@
+import RightArrow from '@/components/images/RightArrow'
+import RegionDelete from '../region/RegionDelete'
+import RegionModify from '../region/RegionModify'
+import RegionAdd from '../region/RegionAdd'
+import Link from 'next/link'
+
+import Location from '@/components/images/Location'
+
 interface RegionManagementProps {
     data: regionData[]
 }
@@ -9,14 +17,43 @@ interface regionData {
 
 export default function RegionManagement({ data }: RegionManagementProps) {
     return (
-        <>
-            {/* {data.map((region) => (
-                <div key={region.regionId}>
-                    <div>{region.addressName}</div>
-                    <div>수정</div>
-                    <div>삭제</div>
-                </div>
-            ))} */}
-        </>
+        <div className="w-full" style={{ height: 'calc(100svh - 60px)' }}>
+            <div className="w-full h-[30%] flex flex-col justify-end pb-5 px-10 space-y-3">
+                <p className=" font-Pretendard text-[28px] sm:text-[25px] md:text-[30px] font-extrabold">
+                    활동 지역을
+                    <br />
+                    추가해보세요!
+                </p>
+                <p className=" font-Pretendard text-[13px] sm:text-[12px] md:text-[15px] text-[#646464]">
+                    내 활동 지역은 최대 3개까지 등록할 수 있습니다.
+                    <br />
+                    확인 버튼을 눌러 변경사항을 저장해주세요.
+                </p>
+            </div>
+            <div className="w-full h-[40%] px-10 flex flex-col items-center">
+                {data.map((region) => (
+                    <div key={region.regionId} className=" w-full flex flex-row items-center space-x-3 my-3">
+                        <div className="w-3/5 h-[40px] bg-white flex flex-row items-center border-b-[1px] border-hobbing-red">
+                            <div className="flex flex-row items-center px-3">
+                                <Location />
+                            </div>
+                            {region.addressName}
+                        </div>
+                        <RegionModify />
+                        <RegionDelete regionId={region.regionId} />
+                    </div>
+                ))}
+                {data.length < 3 && <RegionAdd />}
+            </div>
+            <div className="w-full h-[25%] px-10 flex flex-col justify-center items-center">
+                <Link
+                    href={'/mypage'}
+                    className="bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8"
+                >
+                    <p className="font-Pretendard text-white text-[15px] font-bold">확인</p>
+                    <RightArrow width={15} height={15} />
+                </Link>
+            </div>
+        </div>
     )
 }

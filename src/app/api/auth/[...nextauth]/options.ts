@@ -1,6 +1,7 @@
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
+import { signOut } from 'next-auth/react'
 
 export const options: NextAuthOptions = {
     providers: [
@@ -31,7 +32,11 @@ export const options: NextAuthOptions = {
                 })
                 const data = await res.json()
                 if (data.isSuccess === true) {
-                    return data.data
+                    return {
+                        ...data.data,
+                        accessTokenExpires: Date.now() + 3 * 60 * 1000, // 3 minutes
+                        refreshTokenExpires: Date.now() + 15 * 60 * 1000, // 15 minutes
+                    }
                 }
                 return null
             },
@@ -39,65 +44,80 @@ export const options: NextAuthOptions = {
     ],
     callbacks: {
         async signIn({ user, profile }) {
-            // user = Credential
-            // profile = Google
-            // console.log('user', user)
-            // console.log('profile', profile)
-            // if (profile) {
-            //     console.log('profile externalId', profile.sub)
-            //     console.log('profile name', profile.name)
-            //     console.log('profile email', profile.email)
-            //     const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/login/google`, {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //         body: JSON.stringify({
-            //             externalId: profile.sub,
-            //             name: profile.name,
-            //             email: profile.email,
-            //         }),
-            //     })
-            //     if (res.ok) {
-            //         const getData = await res.json()
-            //         console.log('res.ok -> google user : ', getData, profile.name)
-            //         return false
-            //     } else {
-            //         console.log('google user', res.statusText)
-            //         return false
-            //     }
-            // }
             return true
-
-            // console.log('user', user)
         },
         async jwt({ token, user }) {
             if (user) {
-                // 사용자가 처음 로그인할 때 user 객체가 존재
                 token.accessToken = user.accessToken
                 token.refreshToken = user.refreshToken
+                token.accessTokenExpires = user.accessTokenExpires
+                token.refreshTokenExpires = user.refreshTokenExpires
                 token.uuid = user.uuid
+            } else if (Date.now() > token.refreshTokenExpires) {
+                console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+                console.log('==============================================')
+                console.log('Refresh token has expired')
+                console.log('==============================================')
+                signOut({ redirect: false })
+                return {
+                    ...token,
+                    error: 'RefreshTokenExpired',
+                }
+            } else if (Date.now() > token.accessTokenExpires) {
+                // Access token has expired, try to refresh it
+                try {
+                    console.log('token', token.accessToken)
+                    console.log('token', token.refreshToken)
+                    const response = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/re-issue`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            refreshToken: `${token.refreshToken}`,
+                        }),
+                    })
+                    const data = await response.json()
+                    console.log('data', data)
+                    if (data.isSuccess === true) {
+                        token.accessToken = data.data.accessToken
+                        token.refreshToken = data.data.refreshToken // 갱신된 리프레시 토큰 저장
+                        token.accessTokenExpires = Date.now() + 3 * 60 * 1000 // 3 minutes
+                        token.refreshTokenExpires = Date.now() + 15 * 60 * 1000 // 15 minutes
+                    } else {
+                        throw new Error('Failed to refresh access token')
+                    }
+                } catch (error) {
+                    console.log('==============================================')
+                    console.error('Error refreshing access token', error)
+                    console.log('==============================================')
+                    return {
+                        ...token,
+                        error: 'RefreshAccessTokenError',
+                    }
+                }
             }
+            // Refresh token has expired
+
             return token
         },
-
         async session({ session, token }) {
+            console.log('token', token)
+            console.log('==============================================')
+            console.log('token.iat', new Date(token.iat * 1000).toLocaleString('ko-KR'))
+            console.log('token.exp', new Date(token.exp * 1000).toLocaleString('ko-KR'))
+            console.log('token.accessTokenExpires', new Date(token.accessTokenExpires).toLocaleString('ko-KR'))
+            console.log('token.refreshTokenExpires', new Date(token.refreshTokenExpires).toLocaleString('ko-KR'))
+            console.log('==============================================')
             session.user = {
                 accessToken: token.accessToken,
                 refreshToken: token.refreshToken,
                 uuid: token.uuid,
             }
-            // console.log('session async function session : ', session)
+            session.error = token.error
             return session
         },
-
         async redirect({ url, baseUrl }) {
-            // if (url) {
-            //     console.log('redirect async function url : ', url)
-            // }
-            // if (baseUrl) {
-            //     console.log('redirect async function baseUrl : ', baseUrl)
-            // }
             return url.startsWith(baseUrl) ? url : baseUrl
         },
     },

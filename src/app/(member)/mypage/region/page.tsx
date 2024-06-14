@@ -4,6 +4,7 @@ import { useGetServerToken } from '@/actions/useGetServerToken'
 import Link from 'next/link'
 
 const getUserRegions = async (token: string) => {
+    // console.log(token)
     const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/region/address-names`, {
         method: 'GET',
         headers: {

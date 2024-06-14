@@ -13,13 +13,7 @@ interface RegionAddInputProps {
     name: string
     value: string
     regionRange: number
-    onRegionChange: (
-        regionname: string,
-        regionCode: number,
-        regionLatitude: number,
-        regionLongitude: number,
-        regionRange: number,
-    ) => void
+    onRegionChange: (regionname: string, regionCode: number, regionLatitude: number, regionLongitude: number) => void
     onRegionRangeChange: (range: number) => void
 }
 
