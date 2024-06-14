@@ -9,12 +9,12 @@ import GoogleLogin from './GoogleLogin'
 export default function MainLogin() {
     return (
         <>
-            <div className="w-full h-[35svh] flex justify-center items-end">
+            <div className="w-full h-[30svh] flex justify-center items-end">
                 <div className="w-1/2 h-1/2 mb-10">
                     <HOBBINGLogo />
                 </div>
             </div>
-            <div className="w-full h-[45svh] flex flex-col justify-start items-center space-y-4">
+            <div className="w-full h-[50svh] flex flex-col justify-start items-center space-y-4">
                 <LoginForm />
                 <GoogleLogin />
                 <div className="w-full h-[10%] flex flex-row justify-evenly">
