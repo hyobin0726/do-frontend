@@ -4,7 +4,6 @@ import { useGetServerToken } from '@/actions/useGetServerToken'
 import Link from 'next/link'
 
 const getUserRegions = async (token: string) => {
-    console.log('token', token)
     const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/region/address-names`, {
         method: 'GET',
         headers: {
@@ -18,7 +17,6 @@ const getUserRegions = async (token: string) => {
 export default async function RegionPage() {
     const auth = await useGetServerToken()
     const userRegions = await getUserRegions(auth.token)
-    console.log(userRegions)
 
     return (
         <>

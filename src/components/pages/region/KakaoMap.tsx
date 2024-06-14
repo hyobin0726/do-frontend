@@ -104,14 +104,8 @@ export default function KakaoMap({ selectedRange, onRegionChange }: KakaoMapProp
             },
         )
         const data = await res.json()
-        // console.log(data.documents[1])
-        onRegionChange(
-            data.documents[1].region_3depth_name,
-            data.documents[1].code,
-            data.documents[1].y,
-            data.documents[1].x,
-            selectedRange,
-        )
+        const regionName = data.documents[0].region_2depth_name + ' ' + data.documents[0].region_3depth_name
+        onRegionChange(regionName, data.documents[0].code, data.documents[0].y, data.documents[0].x, selectedRange)
     }
 
     return <div id="map" className="w-full h-full" />

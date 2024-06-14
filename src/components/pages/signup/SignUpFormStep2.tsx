@@ -12,7 +12,6 @@ import { signUpStep2Schema } from '@/schemas/signUpSchema'
 import Input from '@/components/common/Input'
 import IdDuplicateCheck from './IdDuplicateCheck'
 import RightArrow from '@/components/images/RightArrow'
-import ProgressBar from '@/components/common/ProgressBar'
 import VisibilityOn from '@/components/images/VisibilityOn'
 import VisibilityOff from '@/components/images/VisibilityOff'
 
@@ -213,20 +212,18 @@ export default function SignUpFormStep2() {
                     )}
                 </div>
             </div>
-            <div className="w-full h-[25%] px-10 flex flex-col justify-around items-center">
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-full h-auto">
-                    <button
-                        disabled={!isFormValid}
-                        className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
-                    >
-                        <p className="font-Pretendard text-white text-[15px] font-bold">NEXT</p>
-                        <RightArrow width={15} height={15} />
-                    </button>
-                </form>
-                <div className="w-5/6 h-auto">
-                    <ProgressBar step={1} total={5} />
-                </div>
-            </div>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="w-full h-[25%] px-10 flex flex-col justify-center items-center"
+            >
+                <button
+                    disabled={!isFormValid}
+                    className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
+                >
+                    <p className="font-Pretendard text-white text-[15px] font-bold">NEXT</p>
+                    <RightArrow width={15} height={15} />
+                </button>
+            </form>
             {!errors.id && (
                 <IdDuplicateCheck
                     id={id}
