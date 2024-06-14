@@ -3,7 +3,7 @@ import Notification from '@/components/images/Notification'
 import MainHeader from '@/components/layouts/MainHeader'
 import Search from '@/components/images/Search'
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function ChatLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <MainHeader title="채팅">

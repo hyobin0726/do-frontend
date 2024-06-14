@@ -21,7 +21,7 @@ export const MainNavigationData: MainNavigationDataType[] = [
         id: 2,
         title: '게시판',
         icon: Folder,
-        url: '/crewdetail/crewboard',
+        url: '/board',
     },
     {
         id: 3,

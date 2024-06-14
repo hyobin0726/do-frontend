@@ -1,6 +1,5 @@
-import ClubBulletinComment from '@/components/pages/club/ClubBulletinComment'
-
-function clubbulletin() {
+import BoardComment from '@/components/pages/board/BoardComment'
+function Board() {
     return (
         <div className="p-4 bg-red-300 h-[calc(100svh-5rem)] ">
             <div className="flex items-center mb-4">
@@ -25,8 +24,8 @@ function clubbulletin() {
                     <span>댓글 1000개</span>
                 </button>
             </div>
-            <ClubBulletinComment />
+            <BoardComment />
         </div>
     )
 }
-export default clubbulletin
+export default Board

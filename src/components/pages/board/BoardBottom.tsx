@@ -1,4 +1,4 @@
-function ClubBulletinBottom() {
+function BoardBottom() {
     return (
         <form className=" absolute bottom-0 h-12 flex w-full p-1 bg-gray-300">
             <div className="flex-grow">
@@ -10,4 +10,4 @@ function ClubBulletinBottom() {
         </form>
     )
 }
-export default ClubBulletinBottom
+export default BoardBottom
