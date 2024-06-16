@@ -4,16 +4,8 @@ import { useEffect, useState } from 'react'
 import BoardProfile from './BoardProfile'
 import BoardLikeAndComment from './BoardLikeAndComment'
 import BoardImage from './BoardImage'
-
-interface BoardType {
-    boardId: string
-    content: string
-    writerUuid: string
-    pinned: boolean
-    createdAt: string
-    updatedAt: boolean
-    imageUrls: string[]
-}
+import Link from 'next/link'
+import { BoardType } from '@/type/BoardType'
 
 export default function Board({ boardId }: { boardId: string }) {
     const [board, setBoard] = useState<BoardType>({} as BoardType)
@@ -43,15 +35,14 @@ export default function Board({ boardId }: { boardId: string }) {
     }, [boardId])
 
     return (
-        <div className="p-5 space-y-3 border-[1px] border-hobbing-gray ">
-            <div className="flex items-center ">
-                <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
-            </div>
-            <div>
+        <div className="p-5 space-y-2 border-[1px] border-hobbing-gray ">
+            <Link href={`/board/${board.boardId}`} className=" space-y-2 ">
+                <div className="flex items-center ">
+                    <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
+                </div>
                 <p>{board.content}</p>
-            </div>
-            <BoardImage imageUrls={board.imageUrls} />
-
+                <BoardImage imageUrls={board.imageUrls} />
+            </Link>
             <BoardLikeAndComment />
         </div>
     )
