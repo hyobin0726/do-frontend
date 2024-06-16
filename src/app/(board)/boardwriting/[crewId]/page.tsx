@@ -68,7 +68,7 @@ function BoardWriting({ params }: { params: { crewId: string } }) {
             const response = await fetch(`${process.env.BASE_URL}/board-service/v1/users/crew/board/${crewId}`, {
                 method: 'POST',
                 headers: {
-                    Authorization: `${auth.token}`,
+                    Uuid: `${auth.token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(bodyData),
@@ -76,7 +76,7 @@ function BoardWriting({ params }: { params: { crewId: string } }) {
             const responseData = await response.json()
             if (responseData.isSuccess === true) {
                 console.log('게시글 작성 완료')
-                router.push(`/board`)
+                router.push(`/board/`)
             } else {
                 console.error('게시글 작성 실패:')
             }
