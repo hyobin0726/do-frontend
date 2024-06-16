@@ -1,4 +1,5 @@
 import { useGetServerToken } from '@/actions/useGetServerToken'
+import BoardComment from '@/components/pages/board/BoardComment'
 import BoardImage from '@/components/pages/board/BoardImage'
 import BoardLikeAndComment from '@/components/pages/board/BoardLikeAndComment'
 import BoardProfile from '@/components/pages/board/BoardProfile'
@@ -27,7 +28,7 @@ export default async function Board({ params }: { params: { boardId: string } })
     const board: BoardType = await GetBoard(boardId)
 
     return (
-        <div className="space-y-3 p-3">
+        <div className="space-y-3 p-3 h-[calc(100dvh-110px)] overflow-y-scroll">
             <div className="flex items-center mb-4">
                 <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
             </div>
@@ -36,7 +37,7 @@ export default async function Board({ params }: { params: { boardId: string } })
             </div>
             <BoardImage imageUrls={board.imageUrls} />
             <BoardLikeAndComment />
-            {/* <BoardComment /> */}
+            <BoardComment />
         </div>
     )
 }
