@@ -1,13 +1,25 @@
+import Send from '@/components/images/Send'
+
 function BoardBottom() {
     return (
-        <form className=" absolute bottom-0 h-12 flex w-full p-1 bg-gray-300">
-            <div className="flex-grow">
-                <input type="text" className="p-2 flex-grow rounded-xl w-full" placeholder="메시지를 입력하세요." />
+        <form className="fixed bottom-0 w-full  z-[100]">
+            <div className="flex justify-between items-center px-3 py-2">
+                <input
+                    type="text"
+                    className="flex-grow p-2 rounded-full border border-hobbing-gray focus:outline-none"
+                    placeholder="메시지를 입력하세요."
+                />
+                <button
+                    type="button"
+                    className="w-9 h-9 bg-hobbing-red rounded-full flex items-center justify-center ml-2"
+                >
+                    <div className="w-6">
+                        <Send />
+                    </div>
+                </button>
             </div>
-            <button className=" p-1">
-                <img width="25" src="https://img.icons8.com/ios-filled/50/sent.png" alt="전송" />
-            </button>
         </form>
     )
 }
+
 export default BoardBottom

@@ -1,31 +1,42 @@
-import BoardComment from '@/components/pages/board/BoardComment'
-function Board() {
+import { useGetServerToken } from '@/actions/useGetServerToken'
+import BoardImage from '@/components/pages/board/BoardImage'
+import BoardLikeAndComment from '@/components/pages/board/BoardLikeAndComment'
+import BoardProfile from '@/components/pages/board/BoardProfile'
+import { BoardType } from '@/type/BoardType'
+
+async function GetBoard(boardId: string) {
+    const auth = await useGetServerToken()
+    const response = await fetch(`${process.env.BASE_URL}/board-service/v1/users/crew/board/${boardId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Uuid: `${auth.token}`,
+        },
+    })
+    const data = await response.json()
+    if (data.isSuccess === true) {
+        console.log('게시글을 불러왔습니다.', data.data)
+    } else {
+        console.error('게시글을 불러오는데 실패했습니다.')
+    }
+    return data.data
+}
+export default async function Board({ params }: { params: { boardId: string } }) {
+    const boardId: string = params.boardId
+    console.log('boardId', boardId)
+    const board: BoardType = await GetBoard(boardId)
+
     return (
-        <div className="p-4 bg-red-300 h-[calc(100svh-5rem)] ">
+        <div className="space-y-3 p-3">
             <div className="flex items-center mb-4">
-                <div className="bg-gray-400 rounded-full w-12 h-12 flex items-center justify-center text-sm">
-                    프로필
-                </div>
-                <div className="ml-3">
-                    <p>작성자 이름</p>
-                    <p>2024년 5월 21일</p>
-                </div>
+                <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
             </div>
-            <div className="mb-4">
-                <p>게시글 내용</p>
+            <div>
+                <p>{board.content}</p>
             </div>
-            <div className="flex items-center  border-t-2 mb-4">
-                <button className="flex items-center text-gray-500 mt-3">
-                    <div className="bg-gray-400 rounded-full w-7 h-7 flex items-center justify-center text-sm">굳</div>
-                    <span>좋아요 1000개</span>
-                </button>
-                <button className="flex items-center text-gray-500 mt-3">
-                    <div className="bg-gray-400 rounded-full w-7 h-7 flex items-center justify-center text-sm">댓</div>
-                    <span>댓글 1000개</span>
-                </button>
-            </div>
-            <BoardComment />
+            <BoardImage imageUrls={board.imageUrls} />
+            <BoardLikeAndComment />
+            {/* <BoardComment /> */}
         </div>
     )
 }
-export default Board
