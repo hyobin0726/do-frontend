@@ -7,7 +7,7 @@ import { signIn } from 'next-auth/react'
 export default function GoogleSignup() {
     return (
         <div
-            onClick={() => signIn('google')}
+            onClick={() => signIn('google', { callbackUrl: '/' })}
             className="bg-white h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8 drop-shadow-md"
         >
             <div className="flex flex-row space-x-2">

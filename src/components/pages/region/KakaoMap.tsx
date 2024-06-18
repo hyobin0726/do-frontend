@@ -8,13 +8,7 @@ declare global {
 
 interface KakaoMapProps {
     selectedRange: number
-    onRegionChange: (
-        regionName: string,
-        regionCode: number,
-        regionLatitude: number,
-        regionLongitude: number,
-        regionRange: number,
-    ) => void
+    onRegionChange: (regionName: string, regionCode: number, regionLatitude: number, regionLongitude: number) => void
 }
 
 export default function KakaoMap({ selectedRange, onRegionChange }: KakaoMapProps) {
@@ -105,7 +99,7 @@ export default function KakaoMap({ selectedRange, onRegionChange }: KakaoMapProp
         )
         const data = await res.json()
         const regionName = data.documents[0].region_2depth_name + ' ' + data.documents[0].region_3depth_name
-        onRegionChange(regionName, data.documents[0].code, data.documents[0].y, data.documents[0].x, selectedRange)
+        onRegionChange(regionName, data.documents[0].code, data.documents[0].y, data.documents[0].x)
     }
 
     return <div id="map" className="w-full h-full" />

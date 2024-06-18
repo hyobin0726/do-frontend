@@ -43,13 +43,13 @@ export default function InitialRegionRegistration() {
 
     const handleInitialRegion = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/non-users/region/sign-up`, {
+        const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/region/base`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `${auth.token}`,
             },
             body: JSON.stringify({
-                uuid: auth.uuid,
                 addressName: regionName,
                 legalCode: regionCode,
                 latitude: regionLatitude,
@@ -67,18 +67,18 @@ export default function InitialRegionRegistration() {
 
     return (
         <>
-            <div className="w-full" style={{ height: 'calc(100svh - 60px)' }}>
-                <div className="w-full h-[25%] flex flex-col justify-end pb-5 px-10 space-y-3">
+            <main className="w-full" style={{ height: 'calc(100svh - 60px)' }}>
+                <section className="w-full h-[25%] flex flex-col justify-end pb-5 px-10 space-y-3">
                     <p className=" font-Pretendard text-[28px] sm:text-[25px] md:text-[30px] font-extrabold">
                         활동하려는 지역을
                         <br />
-                        추가해보세요!
+                        등록해보세요!
                     </p>
                     <p className=" font-Pretendard text-[13px] sm:text-[12px] md:text-[15px] text-[#646464]">
                         내 활동 지역은 마이페이지에서 추가 또는 변경할 수 있습니다.
                     </p>
-                </div>
-                <div className="w-full h-[50%] flex flex-col pt-5 px-10">
+                </section>
+                <section className="w-full h-[50%] flex flex-col pt-5 px-10">
                     <RegionAddInput
                         title="활동지역"
                         required={true}
@@ -89,21 +89,20 @@ export default function InitialRegionRegistration() {
                         onRegionChange={onRegionChange}
                         onRegionRangeChange={onRegionRangeChange}
                     />
-                </div>
-                <form
-                    onSubmit={handleInitialRegion}
-                    className="w-full h-[25%] px-10 flex flex-col justify-center items-center"
-                >
-                    <button
-                        disabled={!isFormValid}
-                        type="submit"
-                        className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
-                    >
-                        <p className="font-Pretendard text-white text-[15px] font-bold">활동지역 등록</p>
-                        <RightArrow width={15} height={15} />
-                    </button>
-                </form>
-            </div>
+                </section>
+                <section className="w-full h-[25%] px-10 flex flex-col justify-center items-center">
+                    <form onSubmit={handleInitialRegion} className="w-full">
+                        <button
+                            disabled={!isFormValid}
+                            type="submit"
+                            className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
+                        >
+                            <p className="font-Pretendard text-white text-[15px] font-bold">활동지역 등록</p>
+                            <RightArrow width={15} height={15} />
+                        </button>
+                    </form>
+                </section>
+            </main>
             {isAlertOpen && (
                 <Alert type={alertType} isAlertOpen={isAlertOpen}>
                     {alertType === 'success' ? (

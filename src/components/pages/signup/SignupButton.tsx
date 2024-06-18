@@ -15,6 +15,7 @@ interface SignupButtonProps {
     email: string
     gender: string
     birthDate: string
+    externalId?: string
 }
 
 export default function SignupButton({
@@ -26,6 +27,7 @@ export default function SignupButton({
     email,
     gender,
     birthDate,
+    externalId,
 }: SignupButtonProps) {
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [alertType, setAlertType] = useState<'question' | 'info' | 'error' | 'success' | 'warning'>('question')
@@ -46,49 +48,86 @@ export default function SignupButton({
             handleAlert()
             return
         }
+        console.log('회원가입 정보:', name, id, password, phoneNumber, email, gender, birthDate)
 
-        const signUpResponse = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/sign-up`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                phoneNumber: phoneNumber,
-                gender: gender,
-                loginId: id,
-                password: password,
-                birth: birthDate,
-            }),
-        })
-        const signUpData = await signUpResponse.json()
+        if (externalId) {
+            console.log('외부 로그인 정보:', externalId)
+            const signUpResponse = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/sign-up`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    externalId: externalId,
+                    name: name,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    gender: gender,
+                    loginId: id,
+                    password: password,
+                    birth: birthDate,
+                }),
+            })
+            const signUpData = await signUpResponse.json()
 
-        if (signUpData.isSuccess === false) {
-            setAlertMessage(signUpData.message)
-            setAlertType('error')
-            handleAlert()
-            return
+            if (signUpData.isSuccess === false) {
+                setAlertMessage(signUpData.message)
+                setAlertType('error')
+                handleAlert()
+                return
+            } else {
+                setAlertMessage('회원가입이 완료되었습니다.')
+                setAlertType('success')
+                handleAlert()
+                return
+            }
         } else {
-            setAlertMessage('회원가입이 완료되었습니다.')
-            setAlertType('success')
-            handleAlert()
-            return
+            console.log('일반 로그인 정보:')
+            const signUpResponse = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/sign-up`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    gender: gender,
+                    loginId: id,
+                    password: password,
+                    birth: birthDate,
+                }),
+            })
+            const signUpData = await signUpResponse.json()
+
+            if (signUpData.isSuccess === false) {
+                setAlertMessage(signUpData.message)
+                setAlertType('error')
+                handleAlert()
+                return
+            } else {
+                setAlertMessage('회원가입이 완료되었습니다.')
+                setAlertType('success')
+                handleAlert()
+                return
+            }
         }
     }
 
     return (
         <>
-            <form onSubmit={handleSignUp} className="w-full h-[25%] px-10 flex flex-col justify-center items-center">
-                <button
-                    disabled={!isFormValid}
-                    type="submit"
-                    className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
-                >
-                    <p className="font-Pretendard text-white text-[15px] font-bold">회원가입</p>
-                    <RightArrow width={15} height={15} />
-                </button>
-            </form>
+            <section className="w-full h-[25%] px-10 flex flex-col justify-center items-center bg-green-100">
+                <form onSubmit={handleSignUp} className="w-full">
+                    <button
+                        disabled={!isFormValid}
+                        type="submit"
+                        className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
+                    >
+                        <p className="font-Pretendard text-white text-[15px] font-bold">회원가입</p>
+                        <RightArrow width={15} height={15} />
+                    </button>
+                </form>
+            </section>
             {isAlertOpen && (
                 <Alert type={alertType} isAlertOpen={isAlertOpen}>
                     {alertType === 'success' ? (

@@ -30,7 +30,7 @@ export default async function ChatImgList({ params }: { params: { crewId: string
 
     return (
         <>
-            <PageHeader title="사진첩" />
+            <PageHeader />
             <div className="p-4">
                 {crewImgList &&
                     crewImgList.map((crewImg) => (

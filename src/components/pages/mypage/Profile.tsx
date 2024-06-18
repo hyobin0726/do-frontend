@@ -15,7 +15,7 @@ export default function Profile() {
 
     return (
         <>
-            <div className="relative w-full h-auto bg-white rounded-2xl drop-shadow py-5 flex items-center flex-col">
+            <section className="relative w-full h-auto bg-white rounded-2xl drop-shadow py-5 flex items-center flex-col">
                 <Link
                     href={'/mypage/edit'}
                     scroll={false}
@@ -46,7 +46,7 @@ export default function Profile() {
                         </div>
                     )}
                 </div>
-            </div>
+            </section>
         </>
     )
 }
