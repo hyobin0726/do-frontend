@@ -24,12 +24,13 @@ export default function SignUpFormStep3() {
         id,
         password,
         phoneNumber,
-        setPhoneNumber,
         email,
-        setEmail,
         gender,
-        setGender,
         birthDate,
+        externalId,
+        setPhoneNumber,
+        setEmail,
+        setGender,
         setBirthDate,
     } = useSignUpStore()
 
@@ -85,7 +86,7 @@ export default function SignUpFormStep3() {
 
     return (
         <>
-            <div className="w-full h-[60%] px-10">
+            <section className="w-full h-[60%] px-10">
                 <div className="space-y-1 mb-3">
                     <Input
                         title="전화번호"
@@ -172,7 +173,7 @@ export default function SignUpFormStep3() {
                         </p>
                     )}
                 </div>
-            </div>
+            </section>
             <SignupButton
                 isFormValid={isFormValid}
                 name={name}
@@ -182,6 +183,7 @@ export default function SignUpFormStep3() {
                 email={email}
                 gender={gender}
                 birthDate={birthDate}
+                externalId={externalId}
             />
         </>
     )

@@ -12,15 +12,15 @@ export default function MypagePage() {
     return (
         <>
             <MainHeader title="마이페이지" />
-            <div className="w-full h-[calc(100dvh-120px)] bg-hobbing-bg-gray p-5 overflow-y-scroll space-y-3 scrollbar-hide">
+            <main className="w-full h-[calc(100dvh-120px)] bg-hobbing-bg-gray p-5 overflow-y-scroll space-y-3 scrollbar-hide">
                 <Profile />
                 {MypageData.map((category, index) => (
-                    <div key={index} className="bg-white rounded-2xl drop-shadow py-3 px-4 flex flex-col space-y-2">
+                    <section key={index} className="bg-white rounded-2xl drop-shadow py-3 px-4 flex flex-col space-y-2">
                         <div className="w-full border-b-[1px] border-hobbing-gray p-1">
                             <p className="font-bold text-[18px]">{category.category}</p>
                         </div>
                         {category.data.map((data, index) => (
-                            <div key={index} className="flex flex-row justify-between items-center bg-blue-100">
+                            <div key={index} className="flex flex-row justify-between items-center ">
                                 {data.path ? (
                                     <Link
                                         key={index}
@@ -37,9 +37,9 @@ export default function MypagePage() {
                                 )}
                             </div>
                         ))}
-                    </div>
+                    </section>
                 ))}
-            </div>
+            </main>
             <MainNavigation />
         </>
     )

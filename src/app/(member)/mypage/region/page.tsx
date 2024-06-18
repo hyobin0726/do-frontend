@@ -1,10 +1,8 @@
 import PageHeader from '@/components/common/PageHeader'
 import RegionManagement from '@/components/pages/mypage/RegionManagement'
 import { useGetServerToken } from '@/actions/useGetServerToken'
-import Link from 'next/link'
 
 const getUserRegions = async (token: string) => {
-    // console.log(token)
     const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/region/address-names`, {
         method: 'GET',
         headers: {
@@ -21,9 +19,8 @@ export default async function RegionPage() {
 
     return (
         <>
-            <PageHeader title="활동지역 관리" />
+            <PageHeader />
             <RegionManagement data={userRegions} />
-            <Link href={'/mypage'}>확인</Link>
         </>
     )
 }

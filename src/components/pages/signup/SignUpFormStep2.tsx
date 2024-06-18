@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import React, { useState, useEffect, use } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -24,13 +24,39 @@ export default function SignUpFormStep2() {
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false)
 
-    const { name, id, password, confirmPassword, setName, setId, setPassword, setConfirmPassword } = useSignUpStore()
+    const {
+        name,
+        id,
+        password,
+        confirmPassword,
+        setName,
+        setId,
+        setPassword,
+        setConfirmPassword,
+        setEmail,
+        setExternalId,
+    } = useSignUpStore()
 
     const router = useRouter()
+    const searchParams = useSearchParams()
+
+    useEffect(() => {
+        const nameParam = searchParams.get('name')
+        const emailParam = searchParams.get('email')
+        const externalIdParam = searchParams.get('externalId')
+        if (nameParam) {
+            setName(nameParam)
+        }
+        if (emailParam) {
+            setEmail(emailParam)
+        }
+        if (externalIdParam) {
+            setExternalId(externalIdParam)
+        }
+    }, [searchParams, setName, setEmail])
 
     const {
         register,
-        handleSubmit,
         trigger,
         formState: { errors },
     } = useForm<SignUpType>({
@@ -76,39 +102,52 @@ export default function SignUpFormStep2() {
         trigger(name)
     }
 
-    const onSubmit = () => {
-        router.push('/signup?step=3')
-    }
-
     const isFormValid =
         !Object.values(errors).some(Boolean) && name && id && password && confirmPassword && isIdAvailable
 
     return (
         <>
-            <div className="w-full h-[60%] px-10 space-y-3">
+            <section className="w-full h-[60%] px-10 space-y-3">
                 <div className="space-y-1">
-                    <Input
-                        title="이름"
-                        required={true}
-                        index={1}
-                        focusedIndex={focusedIndex}
-                        id="name"
-                        name="name"
-                        type="text"
-                        placeholder="이름을 입력해주세요"
-                        value={name}
-                        onChange={(e) => {
-                            onChange(e, 'name')
-                        }}
-                        onFocus={() => {
-                            onfocus(1, 'name')
-                        }}
-                        ref={register('name').ref}
-                    />
-                    {errors.name && (
-                        <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
-                            *{errors.name.message}
-                        </p>
+                    {name ? (
+                        <Input
+                            title="이름"
+                            required={true}
+                            index={1}
+                            focusedIndex={focusedIndex}
+                            id="name"
+                            name="name"
+                            type="text"
+                            placeholder="이름을 입력해주세요"
+                            value={name}
+                            readOnly={true}
+                        />
+                    ) : (
+                        <>
+                            <Input
+                                title="이름"
+                                required={true}
+                                index={1}
+                                focusedIndex={focusedIndex}
+                                id="name"
+                                name="name"
+                                type="text"
+                                placeholder="이름을 입력해주세요"
+                                value={name}
+                                onChange={(e) => {
+                                    onChange(e, 'name')
+                                }}
+                                onFocus={() => {
+                                    onfocus(1, 'name')
+                                }}
+                                ref={register('name').ref}
+                            />
+                            {errors.name && (
+                                <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
+                                    *{errors.name.message}
+                                </p>
+                            )}
+                        </>
                     )}
                 </div>
                 <div className="space-y-1">
@@ -211,19 +250,19 @@ export default function SignUpFormStep2() {
                         </p>
                     )}
                 </div>
-            </div>
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="w-full h-[25%] px-10 flex flex-col justify-center items-center"
-            >
+            </section>
+            <section className="w-full h-[25%] px-10 flex flex-col justify-center items-center">
                 <button
                     disabled={!isFormValid}
+                    onClick={() => {
+                        router.push('/signup?step=3')
+                    }}
                     className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
                 >
                     <p className="font-Pretendard text-white text-[15px] font-bold">NEXT</p>
                     <RightArrow width={15} height={15} />
                 </button>
-            </form>
+            </section>
             {!errors.id && (
                 <IdDuplicateCheck
                     id={id}

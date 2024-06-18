@@ -24,7 +24,7 @@ export default async function InitialRegionPage() {
 
     return (
         <>
-            <PageHeader title="활동지역 등록" />
+            <PageHeader />
             <InitialRegionRegistration />
         </>
     )

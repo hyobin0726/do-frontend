@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { FindIdSchema } from '@/schemas/FindAccountSchema'
 
 import Input from '@/components/common/Input'
-import EmailAuth from '@/components/pages/signup/EmailAuth'
 import Alert from '@/components/common/Alert'
 
 type FindIdType = z.infer<typeof FindIdSchema>
@@ -17,7 +16,6 @@ type FindIdType = z.infer<typeof FindIdSchema>
 export default function FindId() {
     const [name, setName] = useState<string>('')
     const [email, setEmail] = useState<string>('')
-    const [emailAvailable, setEmailAvailable] = useState<boolean>(false)
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [focusedIndex, setFocusedIndex] = useState<number>(0)
     const [getIdIsSuccess, setGetIdIsSuccess] = useState<boolean>(false)
@@ -56,11 +54,8 @@ export default function FindId() {
         trigger(name)
     }
 
-    const emailAvailableHandler = (emailAvailable: boolean) => {
-        setEmailAvailable(emailAvailable)
-    }
-
-    const GetIdOnEmail = async () => {
+    const GetIdOnEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
         const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/user-id `, {
             method: 'POST',
             headers: {
@@ -77,14 +72,14 @@ export default function FindId() {
         setIsAlertOpen(true)
     }
 
-    const isFormValid = !Object.values(errors).some(Boolean) && name && email && emailAvailable
+    const isFormValid = !Object.values(errors).some(Boolean) && name && email
 
     return (
         <>
-            <div className="px-10 w-full bg-white" style={{ height: 'calc(100svh - 60px)' }}>
+            <form className="px-10 w-full bg-white" style={{ height: 'calc(100svh - 60px)' }} onSubmit={GetIdOnEmail}>
                 <div className="w-full h-[20%] flex flex-col justify-end pb-10">
                     <p className="text-[15px] sm:text-[13px] md:text-[17px] text-black font-medium">
-                        본인인증 후 이메일로
+                        가입하신 이메일로
                         <br />
                         아이디를 보내드립니다.
                     </p>
@@ -115,42 +110,48 @@ export default function FindId() {
                             </p>
                         )}
                     </div>
-                    <EmailAuth
-                        focusedIndex={focusedIndex}
-                        value={email}
-                        onChange={(e) => onChange(e, 'email')}
-                        onfocus={() => {
-                            onfocus(2, 'email')
-                        }}
-                        inputRef={register('email').ref}
-                        onfocusIndex={() => {
-                            setFocusedIndex(3)
-                        }}
-                        emailAuthButtonActive={errors.email?.message || !email ? true : false}
-                        emailAvailableHandler={emailAvailableHandler}
-                    >
-                        {errors.email?.message && (
+                    <div className="space-y-1">
+                        <Input
+                            title="이메일"
+                            required={true}
+                            index={2}
+                            focusedIndex={focusedIndex}
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="이메일을 입력해주세요"
+                            value={email}
+                            onChange={(e) => {
+                                onChange(e, 'email')
+                            }}
+                            onFocus={() => {
+                                onfocus(2, 'email')
+                            }}
+                            ref={register('email').ref}
+                        />
+                        {errors.email && (
                             <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
-                                *{errors.email?.message}
+                                *{errors.email.message}
                             </p>
                         )}
-                    </EmailAuth>
+                    </div>
                 </div>
                 <button
                     disabled={!isFormValid}
                     type="submit"
-                    onClick={GetIdOnEmail}
                     className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
                 >
                     <p className="font-Pretendard text-white text-[15px] font-bold">아이디 찾기</p>
                 </button>
-            </div>
+            </form>
             {isAlertOpen && (
                 <Alert type={getIdIsSuccess == true ? 'success' : 'error'} isAlertOpen={isAlertOpen}>
-                    <p className="font-Pretendard text-balance text-center text-[15px] leading-loose">{getIdMessage}</p>
-                    <div className="bg-white flex flex-row justify-center items-center space-x-3 w-full">
-                        {getIdIsSuccess == true ? (
-                            <>
+                    {getIdIsSuccess == true ? (
+                        <>
+                            <p className="font-Pretendard text-balance text-center text-[15px] leading-loose">
+                                {getIdMessage}
+                            </p>
+                            <div className="bg-white flex flex-row justify-center items-center space-x-3 w-full">
                                 <button
                                     onClick={() => {
                                         setIsAlertOpen(false)
@@ -169,18 +170,29 @@ export default function FindId() {
                                 >
                                     비밀번호 찾기
                                 </button>
-                            </>
-                        ) : (
-                            <button
-                                onClick={() => {
-                                    window.location.reload() // 화면 새로고침
-                                }}
-                                className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
-                            >
-                                닫기
-                            </button>
-                        )}
-                    </div>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <p className="font-Pretendard text-balance text-center text-[15px] leading-loose">
+                                {getIdMessage}
+                                <br />
+                                다시 시도해주세요.
+                            </p>
+                            <div className="bg-white flex flex-row justify-center items-center space-x-3 w-full">
+                                <button
+                                    onClick={() => {
+                                        setName('')
+                                        setEmail('')
+                                        setIsAlertOpen(false)
+                                    }}
+                                    className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
+                                >
+                                    닫기
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </Alert>
             )}
         </>
