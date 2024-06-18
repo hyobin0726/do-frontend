@@ -12,6 +12,5 @@ export default async function postLogout() {
         },
     })
     const data = await res.json()
-    console.log(data)
     return data.isSuccess
 }

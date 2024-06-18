@@ -1,14 +1,14 @@
 'use client'
-import postLogout from '@/api/auth/logout'
+import postLogout from '@/api/auth/postLogout'
 
 import { signOut } from 'next-auth/react'
 import RightArrow from '@/components/images/RightArrow'
 
-export default async function Logout() {
+export default function Logout() {
     const handleSignOut = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = await postLogout()
-        if (data === true) {
+        if (data) {
             signOut()
         }
     }
