@@ -1,18 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useGetClientToken } from '@/actions/useGetClientToken'
+
 import { KakaoMapRange } from '@/lib/KakaoMapRange'
 import Close from '@/components/images/Close'
+import putRegion from '@/api/crew/putRegion'
 import KakaoMap from './KakaoMap'
 
-export default function RegionAddModal({
+interface regionType {
+    addressName: string
+    latitude: number
+    longitude: number
+    currentSelectedRange: number
+}
+
+export default function RegionModifyModal({
     handleLocationModalOpen,
     handleAlertOpen,
+    prevRegionId,
+    prevRegionData,
 }: {
     handleLocationModalOpen: () => void
     handleAlertOpen: (message: string, status: string) => void
+    prevRegionId: number
+    prevRegionData: regionType
 }) {
     const [regionName, setRegionName] = useState<string>('')
     const [regionCode, setRegionCode] = useState<number>(0)
@@ -21,7 +33,6 @@ export default function RegionAddModal({
     const [regionRange, setRegionRange] = useState<number>(KakaoMapRange[0].selectRange)
     const [regionCircleRange, setRegionCircleRange] = useState<number>(3000)
 
-    const auth = useGetClientToken()
     const router = useRouter()
 
     const onRegionChange = (
@@ -36,29 +47,19 @@ export default function RegionAddModal({
         setRegionLongitude(regionLongitude)
     }
 
-    const onRegionAdd = async () => {
-        const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/region`, {
-            method: 'POST',
-            headers: {
-                Authorization: `${auth.token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                addressName: regionName,
-                legalCode: regionCode,
-                latitude: regionLatitude,
-                longitude: regionLongitude,
-                currentSelectedRange: regionRange,
-            }),
-        })
-        const data = await res.json()
-        console.log(data)
-        if (data.isSuccess) {
-            handleLocationModalOpen()
+    useEffect(() => {
+        if (prevRegionData.addressName === regionName) {
+            setRegionRange(prevRegionData.currentSelectedRange)
+            setRegionCircleRange(prevRegionData.currentSelectedRange * 1000)
+        }
+    }, [])
+
+    const onRegionModify = async () => {
+        const res = await putRegion(prevRegionId, regionName, regionCode, regionLatitude, regionLongitude, regionRange)
+        handleLocationModalOpen()
+        handleAlertOpen(res.message, res.status)
+        if (res.isSuccess) {
             router.refresh()
-        } else {
-            handleAlertOpen(data.message, data.status)
-            handleLocationModalOpen()
         }
     }
 
@@ -71,7 +72,7 @@ export default function RegionAddModal({
                         className="absolute left-5 h-[60px] w-[50px] flex items-center"
                     />
                     <p className="w-full text-center font-Pretendard text-[20px] sm:text-[18px] md:text-[23px] font-bold ">
-                        활동지역 추가
+                        활동지역 수정
                     </p>
                 </div>
                 <div className="relative w-full h-[calc(100%-60px)]">
@@ -108,11 +109,13 @@ export default function RegionAddModal({
                             </div>
                         </div>
                         <button
-                            onClick={onRegionAdd}
+                            onClick={onRegionModify}
                             className="w-full h-1/3 bg-hobbing-red flex flex-col justify-center items-center space-y-1"
                         >
-                            <p className="text-[15px] font-bold underline text-white">{regionName}</p>
-                            <p className="text-[15px]  text-white">활동지역에 추가하기</p>
+                            <p className="text-[15px] font-bold underline text-white">
+                                {prevRegionData.addressName} ⇢ {regionName}
+                            </p>
+                            <p className="text-[15px]  text-white">활동지역 수정하기</p>
                         </button>
                     </div>
                 </div>
