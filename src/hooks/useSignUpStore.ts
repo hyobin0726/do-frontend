@@ -9,6 +9,7 @@ interface SignUpState {
     email: string
     gender: string
     birthDate: string
+    externalId: string
     setName: (name: string) => void
     setId: (id: string) => void
     setPassword: (password: string) => void
@@ -17,6 +18,7 @@ interface SignUpState {
     setEmail: (email: string) => void
     setGender: (gender: string) => void
     setBirthDate: (birthDate: string) => void
+    setExternalId: (externalId: string) => void
 }
 
 export const useSignUpStore = create<SignUpState>((set) => ({
@@ -28,6 +30,7 @@ export const useSignUpStore = create<SignUpState>((set) => ({
     email: '',
     gender: '',
     birthDate: '',
+    externalId: '',
     setName: (name) => set({ name }),
     setId: (id) => set({ id }),
     setPassword: (password) => set({ password }),
@@ -36,4 +39,5 @@ export const useSignUpStore = create<SignUpState>((set) => ({
     setEmail: (email) => set({ email }),
     setGender: (gender) => set({ gender }),
     setBirthDate: (birthDate) => set({ birthDate }),
+    setExternalId: (externalId) => set({ externalId }),
 }))

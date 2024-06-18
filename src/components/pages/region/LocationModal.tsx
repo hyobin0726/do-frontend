@@ -10,13 +10,7 @@ interface LocationModalProps {
     handleLocationModalOpen: () => void
     regionRange: number
     onRegionRangeChange: (range: number) => void
-    onRegionChange: (
-        regionName: string,
-        regionCode: number,
-        regionLatitude: number,
-        regionLongitude: number,
-        regionRange: number,
-    ) => void
+    onRegionChange: (regionName: string, regionCode: number, regionLatitude: number, regionLongitude: number) => void
 }
 
 export default function LocationModal({

@@ -62,7 +62,8 @@ export default function ResetPassword() {
         trigger(name)
     }
 
-    const GetPasswordOnEmail = async () => {
+    const GetPasswordOnEmail = async (e: React.FormEvent) => {
+        e.preventDefault()
         const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/users/password`, {
             method: 'PATCH',
             headers: {
@@ -84,15 +85,15 @@ export default function ResetPassword() {
 
     return (
         <>
-            <div className="px-10 w-full bg-white" style={{ height: 'calc(100svh - 60px)' }}>
-                <div className="w-full h-[20%] flex flex-col justify-end pb-10">
+            <main className="px-10 w-full bg-white" style={{ height: 'calc(100svh - 60px)' }}>
+                <section className="w-full h-[20%] flex flex-col justify-end pb-10">
                     <p className="text-[15px] sm:text-[13px] md:text-[17px] text-black font-medium">
                         기존 비밀번호와
                         <br />
                         새로운 비밀번호를 입력해주세요.
                     </p>
-                </div>
-                <div className="w-full h-[50%] space-y-3">
+                </section>
+                <section className="w-full h-[60%] space-y-3">
                     <Input
                         title="이전 비밀번호"
                         required={true}
@@ -109,7 +110,6 @@ export default function ResetPassword() {
                         onFocus={() => setFocusedIndex(1)}
                         // ref={register('name').ref}
                     />
-
                     <div className="space-y-1">
                         <Input
                             title="비밀번호"
@@ -178,16 +178,19 @@ export default function ResetPassword() {
                             )}
                         </div>
                     </div>
-                </div>
-                <button
-                    disabled={!isFormValid}
-                    type="submit"
-                    onClick={GetPasswordOnEmail}
-                    className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
-                >
-                    <p className="font-Pretendard text-white text-[15px] font-bold">비밀번호 변경하기</p>
-                </button>
-            </div>
+                </section>
+                <section className="w-full h-[20%]">
+                    <form onSubmit={GetPasswordOnEmail} className="w-full">
+                        <button
+                            disabled={!isFormValid}
+                            type="submit"
+                            className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
+                        >
+                            <p className="font-Pretendard text-white text-[15px] font-bold">비밀번호 변경하기</p>
+                        </button>
+                    </form>
+                </section>
+            </main>
             {isAlertOpen && (
                 <Alert type={getIdIsSuccess ? 'success' : 'error'} isAlertOpen={isAlertOpen}>
                     {getIdIsSuccess ? (
@@ -215,8 +218,10 @@ export default function ResetPassword() {
                             <div className="bg-white flex flex-row justify-center items-center space-x-3 w-full"></div>
                             <button
                                 onClick={() => {
+                                    setPrevPassword('')
+                                    setPassword('')
+                                    setConfirmPassword('')
                                     setIsAlertOpen(false)
-                                    window.location.reload() // 화면 새로고침
                                 }}
                                 className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
                             >
