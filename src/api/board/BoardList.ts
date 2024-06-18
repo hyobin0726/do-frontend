@@ -1,11 +1,11 @@
 'use server'
 import { useGetServerToken } from '@/actions/useGetServerToken'
 
-export const getCrewBoardList = async (crewId: string) => {
+export const getCrewBoardList = async (crewId: string, page: number) => {
     const auth = await useGetServerToken()
     // console.log(crewId, auth, page)
     const res = await fetch(
-        `${process.env.BASE_URL}/board-service/v1/users/crew/board/${crewId}/board-list?page=0&size=3`,
+        `${process.env.BASE_URL}/board-service/v1/users/crew/board/${crewId}/board-list?page=${page}&size=7`,
         {
             method: 'GET',
             headers: {

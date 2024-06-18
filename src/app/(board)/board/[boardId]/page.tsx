@@ -31,10 +31,7 @@ export default async function Board({ params }: { params: { boardId: string } })
         <main className="space-y-3 p-3 h-[calc(100dvh-110px)] overflow-y-scroll">
             <div className="flex items-center mb-4">
                 <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
-                <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
             </div>
-            <div>
-                <p>{board.content}</p>
             <div>
                 <p>{board.content}</p>
             </div>
