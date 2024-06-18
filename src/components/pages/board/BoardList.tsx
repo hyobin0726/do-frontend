@@ -2,57 +2,68 @@
 import Board from './Board'
 import { useGetClientToken } from '@/actions/useGetClientToken'
 import { useEffect, useRef, useState } from 'react'
-import { useBoardStore } from '@/hooks/useBoardStore'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface BoardListIds {
     boardId: string
     pinned: boolean
 }
-export default function BoardList() {
+
+export default function BoardList({ data, crewId }: { data: BoardListIds[]; crewId: string }) {
     const auth = useGetClientToken()
-    const { selectedCrewId } = useBoardStore()
-    const [currentPage, setCurrentPage] = useState<number>(0)
-    const [boardList, setBoardList] = useState<BoardListIds[]>([])
+    const [boardList, setBoardList] = useState<BoardListIds[]>(data)
     const [isFetching, setIsFetching] = useState<boolean>(false)
     const [isLast, setIsLast] = useState<boolean>(false)
+    const [scrollPosition, setScrollPosition] = useState<number>(0) // 스크롤 위치 저장
+    const getPageNumber = useSearchParams().get('page') || '0'
+    const router = useRouter()
 
     const loader = useRef<HTMLDivElement | null>(null)
 
-    useEffect(() => {
-        const GetBoardList = async () => {
-            setIsFetching(true)
-            try {
-                const data = await fetch(
-                    `${process.env.BASE_URL}/board-service/v1/users/crew/board/${selectedCrewId}/board-list?page=${currentPage}&size=3`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Uuid: `${auth.token}`,
-                        },
-                        // cache: 'reload',
+    // 현재 스크롤 위치를 저장하는 함수
+    const saveScrollPosition = () => {
+        setScrollPosition(window.scrollY)
+    }
+
+    // 스크롤 위치를 복원하는 함수
+    const restoreScrollPosition = () => {
+        window.scrollTo(0, scrollPosition)
+    }
+
+    const GetBoardList = async (page: string) => {
+        setIsFetching(true)
+        try {
+            const response = await fetch(
+                `${process.env.BASE_URL}/board-service/v1/users/crew/board/${crewId}/board-list?page=${page}&size=3`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Uuid: `${auth.token}`,
                     },
-                )
-
-                const response = await data.json()
-
-                if (response.isSuccess) {
-                    if (currentPage === 0) {
-                        setBoardList(response.data.boardList)
-                    } else {
-                        setBoardList((prev) => [...prev, ...response.data.boardList])
-                    }
-                    setIsLast(response.data.isLast)
-                } else {
-                    console.error('게시글 목록을 불러오는데 실패했습니다.')
+                },
+            )
+            const data = await response.json()
+            if (data.isSuccess) {
+                // console.log(data.data.isLast)
+                setBoardList((prev) => [...prev, ...data.data.boardList])
+                if (data.data.isLast === true) {
+                    setIsLast(true)
                 }
-            } catch (error) {
-                console.error('게시글 목록을 불러오는데 실패했습니다.', error)
+            } else {
+                console.error('게시글 목록을 불러오는데 실패했습니다.')
             }
-            setIsFetching(false)
+        } catch (error) {
+            console.error('게시글 목록을 불러오는데 실패했습니다.', error)
         }
-        GetBoardList()
-    }, [currentPage, selectedCrewId])
+        setIsFetching(false)
+        restoreScrollPosition() // 데이터를 불러온 후 스크롤 위치 복원
+    }
+
+    useEffect(() => {
+        saveScrollPosition()
+        GetBoardList(getPageNumber)
+    }, [getPageNumber, crewId])
 
     useEffect(() => {
         if (!loader.current || isLast) return
@@ -60,7 +71,9 @@ export default function BoardList() {
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting && !isFetching) {
-                    setCurrentPage((prevPage) => prevPage + 1)
+                    const nextPage = parseInt(getPageNumber) + 1
+                    saveScrollPosition()
+                    router.push(`/${crewId}?page=${nextPage}`)
                 }
             },
             {
@@ -74,18 +87,20 @@ export default function BoardList() {
         return () => {
             if (loader.current) observer.unobserve(loader.current)
         }
-    }, [isFetching, isLast])
+    }, [isFetching, isLast, getPageNumber, crewId, router])
 
     return (
-        <div>
+        <section>
             {boardList.map((item: BoardListIds, index) => (
-                <div key={index}>
+                <div className="p-5 space-y-2 border-[1px] border-hobbing-gray" key={index}>
                     <Board boardId={item.boardId} />
                 </div>
             ))}
-            <div ref={loader} style={{ height: '100px', margin: '30px', textAlign: 'center' }}>
-                {!isLast ? <span>로딩 중...</span> : ''}
-            </div>
-        </div>
+            {boardList.length !== 0 && (
+                <div ref={loader} style={{ height: '50px', margin: '30px', textAlign: 'center' }}>
+                    {!isLast && <span>로딩 중...</span>}
+                </div>
+            )}
+        </section>
     )
 }

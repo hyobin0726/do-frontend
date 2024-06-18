@@ -1,47 +1,18 @@
-// import { useGetServerToken } from '@/actions/useGetServerToken'
-import BoardList from '@/components/pages/board/BoardList'
-import BoardNav from '@/components/pages/board/BoardNav'
-const crew = [
-    {
-        crewId: '1',
-        name: '해운대 크루',
-        profileUrl: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/image_1718327243910_crew.png',
-    },
-    {
-        crewId: '2',
-        name: '광안리 크루',
-        profileUrl: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/image_1718327243910_crew.png',
-    },
-    {
-        crewId: '3',
-        name: '괴정 크루',
-        profileUrl: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/image_1718327243910_crew.png',
-    },
-]
+import { redirect } from 'next/navigation'
+import { CrewType } from '@/type/CrewType'
+import { getCrewList } from '@/api/crew/CrewList'
 
-// async function getCrewt() {
-//     const auth = await useGetServerToken()
-//     console.log('auth', auth)
-//     const response = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/crew/list/profile`, {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             Authorization: `${auth.token}`,
-//         },
-//     })
-//     const data = await response.json()
-//     if (data.isSuccess === true) {
-//         console.log('소모임 목록을 불러왔습니다.', data.data)
-//     }
-//     return data.data
-// }
+const RedirectToCrewBoard = async () => {
+    const crew: CrewType[] = await getCrewList()
 
-export default async function BoardPage() {
-    // await getCrewt()
-    return (
-        <div>
-            <BoardNav crew={crew} />
-            <BoardList />
-        </div>
-    )
+    if (!crew) {
+        return <div className=" text-gray-500  text-center mt-5">소모임이 없습니다.</div>
+    }
+
+    const defaultCrewId = crew[0]?.crewId
+    redirect(`/boardlist/${defaultCrewId}?page=0`)
+
+    return null // 리다이렉트 중이므로 이 컴포넌트는 실제로 렌더링되지 않음
 }
+
+export default RedirectToCrewBoard

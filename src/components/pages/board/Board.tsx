@@ -35,13 +35,13 @@ export default function Board({ boardId }: { boardId: string }) {
     }, [boardId])
 
     return (
-        <div className="p-5 space-y-2 border-[1px] border-hobbing-gray ">
+        <>
             <Link href={`/board/${board.boardId}`} className=" space-y-2 ">
                 <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
                 <p>{board.content}</p>
                 <BoardImage imageUrls={board.imageUrls} />
             </Link>
             <BoardLikeAndComment />
-        </div>
+        </>
     )
 }

@@ -43,10 +43,10 @@ function BoardComment() {
                     }
                     setIsLast(response.data.isLast)
                 } else {
-                    console.error('게시글 목록을 불러오는데 실패했습니다.')
+                    console.error('댓글을 불러오는데 실패했습니다.')
                 }
             } catch (error) {
-                console.error('게시글 목록을 불러오는데 실패했습니다.', error)
+                console.error('댓글을 불러오는데 실패했습니다.', error)
             }
             setIsLoading(false)
         }
@@ -58,7 +58,7 @@ function BoardComment() {
     }
 
     return (
-        <div className="space-y-3 ">
+        <section className="space-y-3 ">
             {isLoading && (
                 <div className="flex justify-center my-4">
                     <svg
@@ -106,7 +106,7 @@ function BoardComment() {
                     <p className="text-sm">{comment.createdAt}</p>
                 </div>
             ))}
-        </div>
+        </section>
     )
 }
 

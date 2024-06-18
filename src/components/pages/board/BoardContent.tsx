@@ -17,7 +17,7 @@ export default function BoardContent({ contents }: { contents: (content: string)
     }
 
     return (
-        <div className="h-[calc(100vh-9rem)]">
+        <form className="h-[calc(100vh-9rem)]">
             <textarea
                 placeholder="멤버들과 공유하고 싶은 소식을 남겨보세요."
                 className="w-full h-full p-4"
@@ -39,6 +39,6 @@ export default function BoardContent({ contents }: { contents: (content: string)
                     </button>
                 </Alert>
             )}
-        </div>
+        </form>
     )
 }
