@@ -1,6 +1,6 @@
-// 'use client'
+'use client'
 
-// import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import RightArrow from '@/components/images/RightArrow'
 import RegionDelete from '../region/RegionDelete'
@@ -20,38 +20,42 @@ interface regionData {
     addressName: string
 }
 
-// interface positionType {
-//     latitude: number
-//     longitude: number
-// }
+interface positionType {
+    latitude: number
+    longitude: number
+}
 
 export default function RegionManagement({ data }: RegionManagementProps) {
-    // const [position, setPosition] = useState<positionType>({ latitude: 35.165876, longitude: 129.13239 })
+    const [position, setPosition] = useState<positionType>({ latitude: 35.165876, longitude: 129.13239 })
 
-    // useEffect(() => {
-    //     const getCurrentPos = () => {
-    //         if (navigator.geolocation) {
-    //             navigator.geolocation.getCurrentPosition(
-    //                 (pos) => {
-    //                     setPosition({
-    //                         latitude: pos.coords.latitude,
-    //                         longitude: pos.coords.longitude,
-    //                     })
-    //                 },
-    //                 () => alert('위치 정보를 가져오는데 실패했습니다.'),
-    //                 {
-    //                     enableHighAccuracy: true,
-    //                     maximumAge: 30000,
-    //                     timeout: 27000,
-    //                 },
-    //             )
-    //         } else {
-    //             alert('Geolocation is not supported by this browser.')
-    //         }
-    //     }
+    useEffect(() => {
+        const getCurrentPos = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        setPosition({
+                            latitude: pos.coords.latitude,
+                            longitude: pos.coords.longitude,
+                        })
+                    },
+                    () => alert('위치 정보를 가져오는데 실패했습니다.'),
+                    {
+                        enableHighAccuracy: true,
+                        maximumAge: 30000,
+                        timeout: 27000,
+                    },
+                )
+            } else {
+                alert('Geolocation is not supported by this browser.')
+            }
+        }
 
-    //     getCurrentPos()
-    // }, [])
+        getCurrentPos()
+    }, [])
+
+    useEffect(() => {
+        console.log(position)
+    }, [position])
 
     return (
         <main className="w-full" style={{ height: 'calc(100svh - 60px)' }}>
