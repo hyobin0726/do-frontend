@@ -9,11 +9,19 @@ interface BoardListIds {
     pinned: boolean
 }
 
-export default function BoardList({ data, crewId }: { data: BoardListIds[]; crewId: string }) {
+export default function BoardList({
+    data,
+    crewId,
+    lastPage,
+}: {
+    data: BoardListIds[]
+    crewId: string
+    lastPage: boolean
+}) {
     const [boardList, setBoardList] = useState<BoardListIds[]>(data)
     const [isFetching, setIsFetching] = useState<boolean>(false)
-    const [isLast, setIsLast] = useState<boolean>(false)
-
+    const [isLast, setIsLast] = useState<boolean>(lastPage)
+    console.log('boardList', lastPage)
     const [currentPage, setCurrentPage] = useState<number>(0)
     const router = useRouter()
 
