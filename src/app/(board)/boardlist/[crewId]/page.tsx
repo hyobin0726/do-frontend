@@ -1,4 +1,4 @@
-import { getCrewBoardList } from '@/api/board/BoardList'
+import { getCrewBoardList } from '@/api/board/boardlist'
 import { getCrewList } from '@/api/crew/CrewList'
 import BoardList from '@/components/pages/board/BoardList'
 import BoardNav from '@/components/pages/board/BoardNav'

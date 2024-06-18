@@ -87,7 +87,7 @@ function BoardWriting({ params }: { params: { crewId: string } }) {
     }
 
     return (
-        <>
+        <main>
             <BoardWritingNav handleUpload={handleUpload} />
             <BoardContent contents={handleContent} />
             <BoardWritingBottom images={handleImages} />
@@ -106,7 +106,7 @@ function BoardWriting({ params }: { params: { crewId: string } }) {
                     </button>
                 </Alert>
             )}
-        </>
+        </main>
     )
 }
 export default BoardWriting

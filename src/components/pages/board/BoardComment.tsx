@@ -1,7 +1,6 @@
 'use client'
-import { useGetClientToken } from '@/actions/useGetClientToken'
-import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { GetBoardComment } from '@/api/board/boardcomment'
+import { useState, useTransition } from 'react'
 
 interface CommentListType {
     commentId: string
@@ -11,55 +10,30 @@ interface CommentListType {
     createdAt: string
 }
 
-function BoardComment() {
-    const auth = useGetClientToken()
-    const params = useParams<{ boardId: string }>()
+function BoardComment({ boardId, data, lastPage }: { boardId: string; data: CommentListType[]; lastPage: boolean }) {
     const [currentPage, setCurrentPage] = useState<number>(0)
-    const [CommentList, setCommentList] = useState<CommentListType[]>([])
-    const [isLast, setIsLast] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-
-    useEffect(() => {
-        const GetBoardList = async () => {
-            setIsLoading(true)
-            try {
-                const data = await fetch(
-                    `${process.env.BASE_URL}/board-service/v1/users/crew/board-interaction/${params.boardId}/comment-list?page=${currentPage}&size=2`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Uuid: `${auth.token}`,
-                        },
-                    },
-                )
-                const response = await data.json()
-                if (response.isSuccess) {
-                    if (currentPage === 0) {
-                        setCommentList(response.data.commentList)
-                        console.log('response.data.commentList', response.data.commentList)
-                    } else {
-                        setCommentList((prev) => [...response.data.commentList, ...prev])
-                    }
-                    setIsLast(response.data.isLast)
-                } else {
-                    console.error('댓글을 불러오는데 실패했습니다.')
-                }
-            } catch (error) {
-                console.error('댓글을 불러오는데 실패했습니다.', error)
-            }
-            setIsLoading(false)
-        }
-        GetBoardList()
-    }, [currentPage])
+    const [CommentList, setCommentList] = useState<CommentListType[]>(data)
+    const [isLast, setIsLast] = useState<boolean>(lastPage)
+    const [isPending, startTransition] = useTransition()
 
     const handleLoadMore = () => {
-        setCurrentPage((prev) => prev + 1)
+        startTransition(async () => {
+            try {
+                const newComments = await GetBoardComment(boardId, currentPage + 1)
+                {
+                    console.log('newComments', newComments)
+                    setCommentList((prev) => [...newComments.commentList, ...prev])
+                    setCurrentPage((prev) => prev + 1)
+                    setIsLast(newComments.isLast)
+                }
+            } catch (error) {
+                console.error('댓글을 불러오는데 실패했습니다:', error)
+            }
+        })
     }
-
     return (
         <section className="space-y-3 ">
-            {isLoading && (
+            {isPending && (
                 <div className="flex justify-center my-4">
                     <svg
                         className="animate-spin h-5 w-5 text-gray-600"
@@ -85,7 +59,7 @@ function BoardComment() {
             )}
             {!isLast ? (
                 <div className=" my-4 text-gray-500">
-                    <button type="button" onClick={handleLoadMore} disabled={isLoading}>
+                    <button type="button" onClick={handleLoadMore} disabled={isPending}>
                         댓글 더보기
                     </button>
                 </div>

@@ -2,7 +2,7 @@
 import Board from './Board'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { getCrewBoardList } from '@/api/board/BoardList'
+import { getCrewBoardList } from '@/api/board/boardlist'
 
 interface BoardListIds {
     boardId: string
@@ -21,7 +21,6 @@ export default function BoardList({
     const [boardList, setBoardList] = useState<BoardListIds[]>(data)
     const [isFetching, setIsFetching] = useState<boolean>(false)
     const [isLast, setIsLast] = useState<boolean>(lastPage)
-    console.log('boardList', lastPage)
     const [currentPage, setCurrentPage] = useState<number>(0)
     const router = useRouter()
 
