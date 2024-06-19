@@ -1,58 +1,55 @@
 'use client'
+
+import { useEffect, useRef, useState, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
+import { getCrewBoardList } from '@/api/board/boardlist'
 import Board from './Board'
-import { useGetClientToken } from '@/actions/useGetClientToken'
-import { useEffect, useRef, useState } from 'react'
-import { useBoardStore } from '@/hooks/useBoardStore'
 
 interface BoardListIds {
     boardId: string
     pinned: boolean
 }
-export default function BoardList() {
-    const auth = useGetClientToken()
-    const { selectedCrewId } = useBoardStore()
-    const [currentPage, setCurrentPage] = useState<number>(0)
-    const [boardList, setBoardList] = useState<BoardListIds[]>([])
+
+export default function BoardList({
+    data,
+    crewId,
+    lastPage,
+}: {
+    data: BoardListIds[]
+    crewId: string
+    lastPage: boolean
+}) {
+    const [boardList, setBoardList] = useState<BoardListIds[]>(data)
     const [isFetching, setIsFetching] = useState<boolean>(false)
-    const [isLast, setIsLast] = useState<boolean>(false)
+    const [isLast, setIsLast] = useState<boolean>(lastPage)
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const router = useRouter()
 
     const loader = useRef<HTMLDivElement | null>(null)
 
-    useEffect(() => {
-        const GetBoardList = async () => {
-            setIsFetching(true)
-            try {
-                const data = await fetch(
-                    `${process.env.BASE_URL}/board-service/v1/users/crew/board/${selectedCrewId}/board-list?page=${currentPage}&size=3`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Uuid: `${auth.token}`,
-                        },
-                        // cache: 'reload',
-                    },
-                )
+    const loadMoreItems = useCallback(async () => {
+        if (isFetching || isLast) return
 
-                const response = await data.json()
-
-                if (response.isSuccess) {
-                    if (currentPage === 0) {
-                        setBoardList(response.data.boardList)
-                    } else {
-                        setBoardList((prev) => [...prev, ...response.data.boardList])
-                    }
-                    setIsLast(response.data.isLast)
+        setIsFetching(true)
+        try {
+            const data = await getCrewBoardList(crewId, currentPage)
+            if (data) {
+                setBoardList((prevList) => [...prevList, ...data.boardList])
+                if (data.isLast) {
+                    setIsLast(true)
                 } else {
-                    console.error('게시글 목록을 불러오는데 실패했습니다.')
+                    setCurrentPage((prevPage) => prevPage + 1)
+                    router.push(`/boardlist/${crewId}?page=${currentPage + 1}`, { scroll: false }) // URL 업데이트
                 }
-            } catch (error) {
-                console.error('게시글 목록을 불러오는데 실패했습니다.', error)
+            } else {
+                console.error('게시글 목록을 불러오는데 실패했습니다.')
             }
+        } catch (error) {
+            console.error('데이터를 불러오는 중 오류가 발생했습니다:', error)
+        } finally {
             setIsFetching(false)
         }
-        GetBoardList()
-    }, [currentPage, selectedCrewId])
+    }, [crewId, currentPage, isFetching, isLast])
 
     useEffect(() => {
         if (!loader.current || isLast) return
@@ -60,7 +57,7 @@ export default function BoardList() {
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting && !isFetching) {
-                    setCurrentPage((prevPage) => prevPage + 1)
+                    loadMoreItems()
                 }
             },
             {
@@ -72,20 +69,22 @@ export default function BoardList() {
         observer.observe(loader.current)
 
         return () => {
-            if (loader.current) observer.unobserve(loader.current)
+            if (loader.current) observer.disconnect()
         }
-    }, [isFetching, isLast])
+    }, [isFetching, isLast, loadMoreItems])
 
     return (
-        <div>
+        <section>
             {boardList.map((item: BoardListIds, index) => (
-                <div key={index}>
+                <div className="p-5 space-y-2 border-[1px] border-hobbing-gray" key={index}>
                     <Board boardId={item.boardId} />
                 </div>
             ))}
-            <div ref={loader} style={{ height: '100px', margin: '30px', textAlign: 'center' }}>
-                {!isLast ? <span>로딩 중...</span> : ''}
-            </div>
-        </div>
+            {boardList.length !== 0 && (
+                <div ref={loader} style={{ height: '10px', textAlign: 'center' }}>
+                    {!isLast && <span>로딩 중...</span>}
+                </div>
+            )}
+        </section>
     )
 }

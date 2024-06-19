@@ -6,6 +6,7 @@ import BoardWritingNav from '@/components/pages/board/BoardWritingNav'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Alert from '@/components/common/Alert'
+import BoardwritingSelect from '@/components/pages/board/BoardwritingSelect'
 function BoardWriting({ params }: { params: { crewId: string } }) {
     const crewId: string = params.crewId
     const auth = useGetClientToken()
@@ -89,6 +90,7 @@ function BoardWriting({ params }: { params: { crewId: string } }) {
     return (
         <>
             <BoardWritingNav handleUpload={handleUpload} />
+            <BoardwritingSelect />
             <BoardContent contents={handleContent} />
             <BoardWritingBottom images={handleImages} />
             {isAlertOpen && (
