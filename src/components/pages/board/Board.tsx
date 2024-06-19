@@ -1,25 +1,3 @@
-// import BoardProfile from './BoardProfile'
-// import BoardLikeAndComment from './BoardLikeAndComment'
-// import BoardImage from './BoardImage'
-// import Link from 'next/link'
-// import { BoardType } from '@/type/BoardType'
-// import { GetBoard } from '@/api/board/board'
-
-// export async function Board({ boardId }: { boardId: string }) {
-//     const board: BoardType = await GetBoard(boardId)
-
-//     return (
-//         <div className="p-5 space-y-2 border-[1px] border-hobbing-gray">
-//             <Link href={`/board/${board.boardId}`} className="space-y-2">
-//                 <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
-//                 <p>{board.content}</p>
-//                 <BoardImage imageUrls={board.imageUrls} />
-//             </Link>
-//             <BoardLikeAndComment boardId={boardId} />
-//         </div>
-//     )
-// }
-
 'use client'
 import { useEffect, useState } from 'react'
 import BoardProfile from './BoardProfile'
