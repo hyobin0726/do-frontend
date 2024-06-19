@@ -8,9 +8,13 @@ import Close from '@/components/images/Close'
 import KakaoMap from './KakaoMap'
 
 export default function RegionAddModal({
+    currentLatitude,
+    currentLongitude,
     handleLocationModalOpen,
     handleAlertOpen,
 }: {
+    currentLatitude: number
+    currentLongitude: number
     handleLocationModalOpen: () => void
     handleAlertOpen: (message: string, status: string) => void
 }) {
@@ -76,7 +80,12 @@ export default function RegionAddModal({
                 </div>
                 <div className="relative w-full h-[calc(100%-60px)]">
                     <div className="absolute top-0 w-full h-[80%]">
-                        <KakaoMap selectedRange={regionCircleRange} onRegionChange={onRegionChange} />
+                        <KakaoMap
+                            currentLatitude={currentLatitude}
+                            currentLongitude={currentLongitude}
+                            selectedRange={regionCircleRange}
+                            onRegionChange={onRegionChange}
+                        />
                     </div>
                     <div className="absolute bottom-0 w-full h-[25%] z-[550] bg-white rounded-t-2xl flex flex-col justify-end items-center  drop-shadow-[0_-10px_20px_rgba(0,0,0,0.2)]">
                         <div className="w-full h-1/2 flex space-y-5 flex-col justify-center    items-center">

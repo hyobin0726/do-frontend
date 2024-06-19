@@ -8,30 +8,29 @@ import Close from '@/components/images/Close'
 import putRegion from '@/api/crew/putRegion'
 import KakaoMap from './KakaoMap'
 
-interface regionType {
-    addressName: string
-    latitude: number
-    longitude: number
-    currentSelectedRange: number
-}
-
 export default function RegionModifyModal({
+    currentLatitude,
+    currentLongitude,
     handleLocationModalOpen,
     handleAlertOpen,
     prevRegionId,
-    prevRegionData,
+    prevRegionDataRange,
+    prevRegionName,
 }: {
+    currentLatitude: number
+    currentLongitude: number
     handleLocationModalOpen: () => void
     handleAlertOpen: (message: string, status: string) => void
     prevRegionId: number
-    prevRegionData: regionType
+    prevRegionDataRange: number
+    prevRegionName: string
 }) {
     const [regionName, setRegionName] = useState<string>('')
     const [regionCode, setRegionCode] = useState<number>(0)
     const [regionLongitude, setRegionLongitude] = useState<number>(0)
     const [regionLatitude, setRegionLatitude] = useState<number>(0)
-    const [regionRange, setRegionRange] = useState<number>(KakaoMapRange[0].selectRange)
-    const [regionCircleRange, setRegionCircleRange] = useState<number>(3000)
+    const [regionRange, setRegionRange] = useState<number>(prevRegionDataRange)
+    const [regionCircleRange, setRegionCircleRange] = useState<number>(prevRegionDataRange * 1000)
 
     const router = useRouter()
 
@@ -46,13 +45,6 @@ export default function RegionModifyModal({
         setRegionLatitude(regionLatitude)
         setRegionLongitude(regionLongitude)
     }
-
-    useEffect(() => {
-        if (prevRegionData.addressName === regionName) {
-            setRegionRange(prevRegionData.currentSelectedRange)
-            setRegionCircleRange(prevRegionData.currentSelectedRange * 1000)
-        }
-    }, [])
 
     const onRegionModify = async () => {
         const res = await putRegion(prevRegionId, regionName, regionCode, regionLatitude, regionLongitude, regionRange)
@@ -77,7 +69,12 @@ export default function RegionModifyModal({
                 </div>
                 <div className="relative w-full h-[calc(100%-60px)]">
                     <div className="absolute top-0 w-full h-[80%]">
-                        <KakaoMap selectedRange={regionCircleRange} onRegionChange={onRegionChange} />
+                        <KakaoMap
+                            currentLatitude={currentLatitude}
+                            currentLongitude={currentLongitude}
+                            selectedRange={regionCircleRange}
+                            onRegionChange={onRegionChange}
+                        />
                     </div>
                     <div className="absolute bottom-0 w-full h-[25%] z-[550] bg-white rounded-t-2xl flex flex-col justify-end items-center  drop-shadow-[0_-10px_20px_rgba(0,0,0,0.2)]">
                         <div className="w-full h-1/2 flex space-y-5 flex-col justify-center    items-center">
@@ -113,7 +110,7 @@ export default function RegionModifyModal({
                             className="w-full h-1/3 bg-hobbing-red flex flex-col justify-center items-center space-y-1"
                         >
                             <p className="text-[15px] font-bold underline text-white">
-                                {prevRegionData.addressName} ⇢ {regionName}
+                                {prevRegionName} ⇢ {regionName}
                             </p>
                             <p className="text-[15px]  text-white">활동지역 수정하기</p>
                         </button>
