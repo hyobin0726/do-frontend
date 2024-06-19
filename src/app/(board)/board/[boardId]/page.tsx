@@ -20,7 +20,7 @@ export default async function Board({ params }: { params: { boardId: string } })
                 <p>{board.content}</p>
             </div>
             <BoardImage imageUrls={board.imageUrls} />
-            <BoardLikeAndComment />
+            {/* <BoardLikeAndComment /> */}
             <BoardComment boardId={boardId} data={comment.commentList} lastPage={comment.isLast} />
         </main>
     )
