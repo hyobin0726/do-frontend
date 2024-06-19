@@ -11,6 +11,7 @@ export default function Logout() {
         if (data) {
             signOut()
         }
+        // signOut()
     }
 
     return (

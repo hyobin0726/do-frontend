@@ -7,16 +7,18 @@ declare global {
 }
 
 interface KakaoMapProps {
-    currentLatitude: number
-    currentLongitude: number
+    // currentLatitude: number
+    // currentLongitude: number
     selectedRange: number
     onRegionChange: (regionName: string, regionCode: number, regionLatitude: number, regionLongitude: number) => void
 }
 
-export default function KakaoMap({ currentLatitude, currentLongitude, selectedRange, onRegionChange }: KakaoMapProps) {
+export default function KakaoMap({ selectedRange, onRegionChange }: KakaoMapProps) {
     const [map, setMap] = useState<any>(null)
     const [marker, setMarker] = useState<any>(null)
     const [circle, setCircle] = useState<any>(null)
+
+    // currentLatitude, currentLongitude,
 
     useEffect(() => {
         // 카카오 지도 API 로드 후 초기화

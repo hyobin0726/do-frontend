@@ -25,7 +25,7 @@ export default function BoardLikeAndComment({ boardId }: { boardId: string }) {
         }
         return response.data
     }
-    console.log(board)
+    // console.log(board)
     return (
         <section className="border-t-[1px]">
             <div className="flex space-x-4 mt-2">
@@ -33,13 +33,13 @@ export default function BoardLikeAndComment({ boardId }: { boardId: string }) {
                     <div className=" w-7 h-7 mr-1">
                         <BoardLike />
                     </div>
-                    <p className="flex ">{board.likeCount} </p>
+                    {/* <p className="flex ">{board.likeCount} </p> */}
                 </button>
                 <button className="flex justify-center items-center">
                     <div className=" w-7 h-7 mr-1">
                         <BoardComment />
                     </div>
-                    <p>{board.commentCount}</p>
+                    {/* <p>{board.commentCount}</p> */}
                 </button>
             </div>
         </section>
