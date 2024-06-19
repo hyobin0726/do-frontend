@@ -17,7 +17,7 @@ export default function BoardContent({ contents }: { contents: (content: string)
     }
 
     return (
-        <form className="h-[calc(100vh-9rem)]">
+        <form className="h-[calc(100vh-13rem)]">
             <textarea
                 placeholder="멤버들과 공유하고 싶은 소식을 남겨보세요."
                 className="w-full h-full p-4"

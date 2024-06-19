@@ -1,7 +1,7 @@
 'use server'
 import { useGetServerToken } from '@/actions/useGetServerToken'
 
-export const getCrewBoardList = async (crewId: string, page: number) => {
+export async function getCrewBoardList(crewId: string, page: number) {
     const auth = await useGetServerToken()
     // console.log(crewId, auth, page)
     const res = await fetch(
