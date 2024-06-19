@@ -7,12 +7,12 @@ export default function BoardCrew({
 }: {
     profile: CrewType
     isClicked: boolean
-    onClick: () => void
+    onClick?: () => void
 }) {
-    // console.log(profile)
+    // console.log(isClicked, 'isClicked')
     return (
         <>
-            <div className="flex flex-col items-center " onClick={onClick}>
+            <li className="flex flex-col items-center " onClick={onClick}>
                 <div
                     className={`w-16 h-16 rounded-full border-[2.5px] p-[2.5px] bg-hobbing-light-pink ${isClicked ? 'border-hobbing-red' : ' '}`}
                 >
@@ -23,7 +23,7 @@ export default function BoardCrew({
                     />
                 </div>
                 <span className="text-xs mt-2 text-gray-800">{profile.name}</span>
-            </div>
+            </li>
         </>
     )
 }
