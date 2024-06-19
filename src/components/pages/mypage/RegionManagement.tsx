@@ -26,7 +26,7 @@ interface positionType {
 }
 
 export default function RegionManagement({ data }: RegionManagementProps) {
-    const [position, setPosition] = useState<positionType>({ latitude: 35.165876, longitude: 129.13239 })
+    const [position, setPosition] = useState<positionType>({ latitude: 0, longitude: 0 })
 
     useEffect(() => {
         const getCurrentPos = () => {
@@ -49,13 +49,8 @@ export default function RegionManagement({ data }: RegionManagementProps) {
                 alert('Geolocation is not supported by this browser.')
             }
         }
-
         getCurrentPos()
     }, [])
-
-    useEffect(() => {
-        console.log(position)
-    }, [position])
 
     return (
         <main className="w-full" style={{ height: 'calc(100svh - 60px)' }}>
@@ -80,11 +75,17 @@ export default function RegionManagement({ data }: RegionManagementProps) {
                             </div>
                             {region.addressName}
                         </div>
-                        <RegionModify regionId={region.regionId} />
+                        <RegionModify
+                            currentLatitude={position.latitude}
+                            currentLongitude={position.longitude}
+                            regionId={region.regionId}
+                        />
                         <RegionDelete regionId={region.regionId} />
                     </div>
                 ))}
-                {data.length < 3 && <RegionAdd />}
+                {data.length < 3 && (
+                    <RegionAdd currentLatitude={position.latitude} currentLongitude={position.longitude} />
+                )}
             </section>
             <section className="w-full h-[25%] px-10 flex flex-col justify-center items-center">
                 <Link
