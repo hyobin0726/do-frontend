@@ -1,17 +1,10 @@
+import getMyProfile from '@/api/auth/getMyProfile'
 import Edit from '@/components/images/Edit'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function Profile() {
-    const profileData = {
-        profileImage:
-            'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/image_1718266148717_Frame%201000004039.png',
-        name: '김하빙',
-        // message: '',
-        // message: '여기상메와야함',
-        message: '안녕하세요 반가워요 잘있어요 다시만나요 아침해가 뜨면 아침해가 뜨면 - 아따맘마OST',
-        // message = 공백포함 50자임
-    }
+export default async function Profile() {
+    const profileData = await getMyProfile()
 
     return (
         <>
@@ -26,7 +19,7 @@ export default function Profile() {
                 <div className="w-full h-full flex flex-col items-center space-y-2">
                     <div className="w-[100px] h-[100px]">
                         <Image
-                            src={profileData.profileImage}
+                            src={profileData.profileImageUrl}
                             alt="profile image"
                             width={100}
                             height={100}
@@ -40,9 +33,11 @@ export default function Profile() {
                     <div className="w-full h-full">
                         <p className="font-bold text-[20px] text-center">{profileData.name}</p>
                     </div>
-                    {profileData.message && (
+                    {profileData.profileMessage && (
                         <div className="w-[80%] h-full">
-                            <p className="font-medium text-[13px] text-center text-text-gray">{profileData.message}</p>
+                            <p className="font-medium text-[13px] text-center text-text-gray">
+                                {profileData.profileMessage}
+                            </p>
                         </div>
                     )}
                 </div>
