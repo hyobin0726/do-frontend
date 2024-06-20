@@ -3,7 +3,10 @@ name: Next JS CI with Docker
 on:
     pull_request:
         types: [closed]
-        branches: [dev]
+        branches: [develop]
+
+permissions:
+    contents: read
 
 jobs:
     build:
@@ -14,6 +17,17 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
+
+            - name: Set env
+              run: echo "TAG=$VERSION" >> $GITHUB_ENV
+
+            - name: Confirm env
+              run: echo "RELEASE_VERSION=${{ env.TAG }}"
+
+            - name: Make .env file
+              run: |
+                  touch .env
+                  echo '${{ secrets.NEXT_ENV }}' > .env
 
             # Docker build & push to production
             - name: Docker build & push to prod
@@ -35,5 +49,5 @@ jobs:
                       sudo docker stop hobbiedo-front-container || true
                       sudo docker rm hobbiedo-front-container || true
                       sudo docker pull ${{ secrets.DOCKER_USERNAME }}/hobbiedo-front
-                      sudo docker run -d --name hobbiedo-front-container --network hobbie-network -p 80:3000 ${{ secrets.DOCKER_USERNAME }}/hobbiedo-front
+                      sudo docker run -d --name hobbiedo-front-container --network hobbie-network -p 80:3000 --env-file .env ${{ secrets.DOCKER_USERNAME }}/hobbiedo-front
                       sudo docker image prune -f
