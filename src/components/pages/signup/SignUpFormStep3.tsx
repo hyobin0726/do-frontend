@@ -1,20 +1,17 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 import z from 'zod'
-
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import Input from '@/components/common/Input'
-import RightArrow from '@/components/images/RightArrow'
 import { useSignUpStore } from '@/hooks/useSignUpStore'
-import ProgressBar from '@/components/common/ProgressBar'
 import { signUpStep3Schema } from '@/schemas/signUpSchema'
 import SignUpGenderSelecter from './SignUpGenderSelecter'
 import EmailAuth from './EmailAuth'
+import SignupButton from './SignupButton'
 
 type SignUpType = z.infer<typeof signUpStep3Schema>
 
@@ -22,14 +19,23 @@ export default function SignUpFormStep3() {
     const [focusedIndex, setFocusedIndex] = useState<number>(0)
     const [emailAvailable, setEmailAvailable] = useState<boolean>(false)
 
-    const { phoneNumber, setPhoneNumber, email, setEmail, gender, setGender, birthDate, setBirthDate } =
-        useSignUpStore()
-
-    const router = useRouter()
+    const {
+        name,
+        id,
+        password,
+        phoneNumber,
+        email,
+        gender,
+        birthDate,
+        externalId,
+        setPhoneNumber,
+        setEmail,
+        setGender,
+        setBirthDate,
+    } = useSignUpStore()
 
     const {
         register,
-        handleSubmit,
         setValue,
         trigger,
         formState: { errors },
@@ -65,10 +71,6 @@ export default function SignUpFormStep3() {
         trigger(name)
     }
 
-    const onSubmit = () => {
-        router.push('/signup?step=4')
-    }
-
     const handleGenderChange = (gender: string) => {
         setGender(gender)
         setValue('gender', gender, { shouldValidate: true })
@@ -84,7 +86,7 @@ export default function SignUpFormStep3() {
 
     return (
         <>
-            <div className="w-full h-[60%] px-10">
+            <section className="w-full h-[60%] px-10">
                 <div className="space-y-1 mb-3">
                     <Input
                         title="전화번호"
@@ -171,22 +173,18 @@ export default function SignUpFormStep3() {
                         </p>
                     )}
                 </div>
-            </div>
-            <div className="w-full h-[25%] px-10 flex flex-col justify-around items-center">
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 w-full h-auto">
-                    <button
-                        disabled={!isFormValid}
-                        type="submit"
-                        className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
-                    >
-                        <p className="font-Pretendard text-white text-[15px] font-bold">NEXT</p>
-                        <RightArrow width={15} height={15} />
-                    </button>
-                </form>
-                <div className="w-5/6 h-auto">
-                    <ProgressBar step={2} total={5} />
-                </div>
-            </div>
+            </section>
+            <SignupButton
+                isFormValid={isFormValid}
+                name={name}
+                id={id}
+                password={password}
+                phoneNumber={phoneNumber}
+                email={email}
+                gender={gender}
+                birthDate={birthDate}
+                externalId={externalId}
+            />
         </>
     )
 }

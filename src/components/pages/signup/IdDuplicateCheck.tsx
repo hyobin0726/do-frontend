@@ -14,7 +14,7 @@ export default function IdDuplicateCheck({
     onAlertChange,
     onIdAvailableCheck,
 }: IdDuplicateCheckProps) {
-    const [idUseable, setIdUseable] = useState<boolean>(false)
+    const [idUseable, setIdUseable] = useState<boolean | undefined>(undefined)
     const [idDuplicationCheckMessage, setIdDuplicationCheckMessage] = useState<string>('')
 
     useEffect(() => {
@@ -44,25 +44,31 @@ export default function IdDuplicateCheck({
         return data.isSuccess
     }
     return (
-        <Alert type={idUseable ? 'success' : 'warning'} isAlertOpen={isIdDuplicateCheckOpen}>
-            <p className="font-Pretendard text-balance text-center text-[15px]">
-                <span className="font-Pretendard text-hobbing-red font-bold">{id}</span>
-                은(는)
-                <br />
-                {idDuplicationCheckMessage}
-                {!idUseable && (
-                    <>
+        <>
+            {idUseable === undefined ? (
+                <Alert type="loading" isAlertOpen={isIdDuplicateCheckOpen} />
+            ) : (
+                <Alert type={idUseable ? 'success' : 'warning'} isAlertOpen={isIdDuplicateCheckOpen}>
+                    <p className="font-Pretendard text-balance text-center text-[15px]">
+                        <span className="font-Pretendard text-hobbing-red font-bold">{id}</span>
+                        은(는)
                         <br />
-                        다시 입력해주세요.
-                    </>
-                )}
-            </p>
-            <button
-                onClick={onAlertChange}
-                className="bg-hobbing-red rounded-xl w-[40%] h-[40px] flex justify-center items-center"
-            >
-                <p className="font-Pretendard text-white font-bold text-[15px]">확인</p>
-            </button>
-        </Alert>
+                        {idDuplicationCheckMessage}
+                        {!idUseable && (
+                            <>
+                                <br />
+                                다시 입력해주세요.
+                            </>
+                        )}
+                    </p>
+                    <button
+                        onClick={onAlertChange}
+                        className="bg-hobbing-red rounded-xl w-[40%] h-[40px] flex justify-center items-center"
+                    >
+                        <p className="font-Pretendard text-white font-bold text-[15px]">확인</p>
+                    </button>
+                </Alert>
+            )}
+        </>
     )
 }

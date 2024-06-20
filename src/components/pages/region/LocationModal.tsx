@@ -7,19 +7,17 @@ import Close from '@/components/images/Close'
 import KakaoMap from './KakaoMap'
 
 interface LocationModalProps {
+    currentLatitude: number
+    currentLongitude: number
     handleLocationModalOpen: () => void
     regionRange: number
     onRegionRangeChange: (range: number) => void
-    onRegionChange: (
-        regionName: string,
-        regionCode: number,
-        regionLatitude: number,
-        regionLongitude: number,
-        regionRange: number,
-    ) => void
+    onRegionChange: (regionName: string, regionCode: number, regionLatitude: number, regionLongitude: number) => void
 }
 
 export default function LocationModal({
+    currentLatitude,
+    currentLongitude,
     handleLocationModalOpen,
     regionRange,
     onRegionRangeChange,
@@ -41,7 +39,12 @@ export default function LocationModal({
                 </div>
                 <div className="relative w-full h-[calc(100%-60px)]">
                     <div className="absolute top-0 w-full h-[80%]">
-                        <KakaoMap selectedRange={regionCircleRange} onRegionChange={onRegionChange} />
+                        <KakaoMap
+                            currentLatitude={currentLatitude}
+                            currentLongitude={currentLongitude}
+                            selectedRange={regionCircleRange}
+                            onRegionChange={onRegionChange}
+                        />
                     </div>
                     <div className="absolute bottom-0 w-full h-[25%] z-[550] bg-white rounded-t-2xl flex flex-col justify-end items-center  drop-shadow-[0_-10px_20px_rgba(0,0,0,0.2)]">
                         <div className="w-full h-1/2 flex space-y-5 flex-col justify-center    items-center">
@@ -50,11 +53,11 @@ export default function LocationModal({
                                     <div
                                         key={range.id}
                                         onClick={() => {
-                                            onRegionRangeChange(range.id)
+                                            onRegionRangeChange(range.selectRange)
                                             setRegionCircleRange(range.range)
                                         }}
                                         className={`rounded-full flex justify-center items-center ${
-                                            regionRange === range.id
+                                            regionRange === range.selectRange
                                                 ? 'w-[15px] h-[15px] bg-hobbing-red drop-shadow-md'
                                                 : 'w-[13px] h-[13px] bg-hobbing-bg-pink'
                                         }`}
@@ -72,12 +75,14 @@ export default function LocationModal({
                                 ))}
                             </div>
                         </div>
-
-                        <div className="w-full h-1/3 bg-hobbing-red flex justify-center items-center">
+                        <button
+                            onClick={handleLocationModalOpen}
+                            className="w-full h-1/3 bg-hobbing-red flex justify-center items-center"
+                        >
                             <p className="text-[13px] text-white">
                                 활동지역을 등록해 내 주변 추천 취미 소모임을 확인해보세요!
                             </p>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>

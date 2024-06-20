@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { FindPasswordSchema } from '@/schemas/FindAccountSchema'
 
 import Input from '@/components/common/Input'
-import EmailAuth from '@/components/pages/signup/EmailAuth'
 import Alert from '@/components/common/Alert'
 
 type FindPasswordType = z.infer<typeof FindPasswordSchema>
@@ -18,7 +17,6 @@ export default function FindPassword() {
     const [id, setId] = useState<string>('')
     const [name, setName] = useState<string>('')
     const [email, setEmail] = useState<string>('')
-    const [emailAvailable, setEmailAvailable] = useState<boolean>(false)
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [focusedIndex, setFocusedIndex] = useState<number>(0)
     const [getIdIsSuccess, setGetIdIsSuccess] = useState<boolean>(false)
@@ -61,11 +59,8 @@ export default function FindPassword() {
         trigger(name)
     }
 
-    const emailAvailableHandler = (emailAvailable: boolean) => {
-        setEmailAvailable(emailAvailable)
-    }
-
-    const GetPasswordOnEmail = async () => {
+    const GetPasswordOnEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
         const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/user-password`, {
             method: 'POST',
             headers: {
@@ -83,11 +78,15 @@ export default function FindPassword() {
         setIsAlertOpen(true)
     }
 
-    const isFormValid = !Object.values(errors).some(Boolean) && name && email && emailAvailable && id
+    const isFormValid = !Object.values(errors).some(Boolean) && name && email && id
 
     return (
         <>
-            <div className="px-10 w-full bg-white" style={{ height: 'calc(100svh - 60px)' }}>
+            <form
+                className="px-10 w-full bg-white"
+                style={{ height: 'calc(100dvh - 60px)' }}
+                onSubmit={GetPasswordOnEmail}
+            >
                 <div className="w-full h-[20%] flex flex-col justify-end pb-10">
                     <p className="text-[15px] sm:text-[13px] md:text-[17px] text-black font-medium">
                         본인인증 후 이메일로
@@ -121,31 +120,36 @@ export default function FindPassword() {
                             </p>
                         )}
                     </div>
-                    <EmailAuth
-                        focusedIndex={focusedIndex}
-                        value={email}
-                        onChange={(e) => onChange(e, 'email')}
-                        onfocus={() => {
-                            onfocus(2, 'email')
-                        }}
-                        inputRef={register('email').ref}
-                        onfocusIndex={() => {
-                            setFocusedIndex(3)
-                        }}
-                        emailAuthButtonActive={errors.email?.message || !email ? true : false}
-                        emailAvailableHandler={emailAvailableHandler}
-                    >
-                        {errors.email?.message && (
+                    <div className="space-y-1">
+                        <Input
+                            title="이메일"
+                            required={true}
+                            index={2}
+                            focusedIndex={focusedIndex}
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="이메일을 입력해주세요"
+                            value={email}
+                            onChange={(e) => {
+                                onChange(e, 'email')
+                            }}
+                            onFocus={() => {
+                                onfocus(2, 'email')
+                            }}
+                            ref={register('email').ref}
+                        />
+                        {errors.email && (
                             <p className="text-hobbing-red text-[11px] font-medium font-Pretendard">
-                                *{errors.email?.message}
+                                *{errors.email.message}
                             </p>
                         )}
-                    </EmailAuth>
+                    </div>
                     <div className="space-y-1">
                         <Input
                             title="아이디"
                             required={true}
-                            index={4}
+                            index={3}
                             focusedIndex={focusedIndex}
                             id="id"
                             name="id"
@@ -156,7 +160,7 @@ export default function FindPassword() {
                                 onChange(e, 'id')
                             }}
                             onFocus={() => {
-                                onfocus(4, 'id')
+                                onfocus(3, 'id')
                             }}
                             ref={register('id').ref}
                         />
@@ -170,37 +174,52 @@ export default function FindPassword() {
                 <button
                     disabled={!isFormValid}
                     type="submit"
-                    onClick={GetPasswordOnEmail}
                     className={`${!isFormValid ? 'bg-hobbing-bg-pink' : 'bg-hobbing-red'} h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8`}
                 >
                     <p className="font-Pretendard text-white text-[15px] font-bold">임시 비밀번호 발급받기</p>
                 </button>
-            </div>
+            </form>
             {isAlertOpen && (
                 <Alert type={getIdIsSuccess == true ? 'success' : 'error'} isAlertOpen={isAlertOpen}>
-                    <p className="font-Pretendard text-balance text-center text-[15px] leading-loose">{getIdMessage}</p>
-                    <div className="bg-white flex flex-row justify-center items-center space-x-3 w-full">
-                        {getIdIsSuccess == true ? (
-                            <button
-                                onClick={() => {
-                                    setIsAlertOpen(false)
-                                    router.push('/login')
-                                }}
-                                className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
-                            >
-                                로그인
-                            </button>
-                        ) : (
-                            <button
-                                onClick={() => {
-                                    window.location.reload() // 화면 새로고침
-                                }}
-                                className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
-                            >
-                                닫기
-                            </button>
-                        )}
-                    </div>
+                    {getIdIsSuccess == true ? (
+                        <>
+                            <p className="font-Pretendard text-balance text-center text-[15px] leading-loose">
+                                {getIdMessage}
+                            </p>
+                            <div className="bg-white flex flex-row justify-center items-center space-x-3 w-full">
+                                <button
+                                    onClick={() => {
+                                        setIsAlertOpen(false)
+                                        router.push('/login')
+                                    }}
+                                    className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
+                                >
+                                    로그인
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <p className="font-Pretendard text-balance text-center text-[15px] leading-loose">
+                                {getIdMessage}
+                                <br />
+                                다시 시도해주세요.
+                            </p>
+                            <div className="bg-white flex flex-row justify-center items-center space-x-3 w-full">
+                                <button
+                                    onClick={() => {
+                                        setName('')
+                                        setEmail('')
+                                        setId('')
+                                        setIsAlertOpen(false)
+                                    }}
+                                    className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
+                                >
+                                    닫기
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </Alert>
             )}
         </>

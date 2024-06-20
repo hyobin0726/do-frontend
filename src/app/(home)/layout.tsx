@@ -1,14 +1,20 @@
-'use client'
-
+import RegionSelector from '@/components/common/RegionSelector'
 import MainHeader from '@/components/layouts/MainHeader'
 import MainNavigation from '@/components/layouts/MainNavigation'
-import { signOut } from 'next-auth/react'
+import getBaseRegion from '@/api/crew/getBaseRegion'
+import getRegionList from '@/api/crew/getRegionList'
 
-export default function HomeLayout({ children }: { children: React.ReactNode }) {
+export default async function HomeLayout({ children }: { children: React.ReactNode }) {
+    const baseRegionData = await getBaseRegion()
+    const regionList = await getRegionList()
+
     return (
         <>
-            <MainHeader title="홈" />
-            <div onClick={() => signOut()}>test</div>
+            <MainHeader title="홈">
+                {regionList && baseRegionData && (
+                    <RegionSelector baseRegionData={baseRegionData} regionList={regionList} />
+                )}
+            </MainHeader>
             {children}
             <MainNavigation />
         </>

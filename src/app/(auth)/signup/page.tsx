@@ -1,16 +1,9 @@
-import RouterBackArrowButton from '@/components/common/RouterBackArrowButton'
-import SignUp from '@/components/pages/signup/SignUp'
+import SignUpStep1 from '@/components/pages/signup/SignUpStep1'
+import SignUpStep2 from '@/components/pages/signup/SignUpStep2'
+import SignUpStep3 from '@/components/pages/signup/SignUpStep3'
 
 export default function SignupPage({ searchParams }: { searchParams: { [key: string]: number } }) {
     const signupStep = Number(searchParams.step)
-    return (
-        <>
-            <div className="w-[100%] h-dvh">
-                <div className="w-full h-[60px] flex items-center px-5">
-                    <RouterBackArrowButton />
-                </div>
-                <SignUp signupStep={signupStep} />
-            </div>
-        </>
-    )
+
+    return signupStep === 2 ? <SignUpStep2 /> : signupStep === 3 ? <SignUpStep3 /> : <SignUpStep1 />
 }
