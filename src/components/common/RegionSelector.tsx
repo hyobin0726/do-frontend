@@ -19,21 +19,24 @@ interface RegionType {
 }
 
 export default function RegionSelector({
-    baseRegionData,
-    regionList,
+    baseRegionData, //현재 기본활동지역 data
+    regionList, //등록된 활동지역 리스트 data
 }: {
     baseRegionData: RegionType
     regionList: RegionType[]
 }) {
-    const [position, setPosition] = useState<RegionType>(baseRegionData)
+    const [position, setPosition] = useState<string>(baseRegionData.addressName)
     const router = useRouter()
 
-    useEffect(() => {
-        if (position.regionId !== baseRegionData.regionId) {
-            postBaseRegion(position.regionId)
-            router.refresh()
+    const changeBaseRegion = async (regionId: number) => {
+        if (regionId === baseRegionData.regionId) {
+            //선택한지역이 이미 기본활동지역인 경우
+            return
         }
-    }, [position])
+        const data = await postBaseRegion(regionId)
+        console.log('Region changed:', data)
+        router.refresh()
+    }
 
     return (
         <DropdownMenu>
@@ -48,25 +51,26 @@ export default function RegionSelector({
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-[150px] bg-hobbing-light-pink z-[1000]">
-                <DropdownMenuRadioGroup
-                    value={position}
-                    onValueChange={(value) => {
-                        setPosition(value as RegionType)
-                    }}
-                    className="m-1"
-                >
+                <DropdownMenuRadioGroup value={position} onValueChange={setPosition} className="m-1">
                     {regionList.map((region) => (
                         <DropdownMenuRadioItem
                             key={region.regionId}
-                            value={region}
-                            className={`${position.addressName == region.addressName ? 'bg-hobbing-bg-pink rounded-md' : ''}`}
+                            value={region.addressName}
+                            className={`${position == region.addressName ? 'bg-hobbing-bg-pink rounded-md' : ''}`}
                         >
                             <div
-                                className={`flex flex-row items-center pr-2 ${position.addressName != region.addressName ? 'opacity-0 ' : ''}`}
+                                className="w-full h-full flex flex-row"
+                                onClick={() => {
+                                    changeBaseRegion(region.regionId)
+                                }}
                             >
-                                <Location />
+                                <div
+                                    className={`flex flex-row items-center pr-2 ${position != region.addressName ? 'opacity-0 ' : ''}`}
+                                >
+                                    <Location />
+                                </div>
+                                {region.addressName}
                             </div>
-                            {region.addressName}
                         </DropdownMenuRadioItem>
                     ))}
                 </DropdownMenuRadioGroup>
