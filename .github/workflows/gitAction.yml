@@ -1,0 +1,39 @@
+name: Next JS CI with Docker
+
+on:
+    pull_request:
+        types: [closed]
+        branches: [dev]
+
+jobs:
+    build:
+        if: github.event.pull_request.merged == true
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+
+        steps:
+            - uses: actions/checkout@v4
+
+            # Docker build & push to production
+            - name: Docker build & push to prod
+              run: |
+                  docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+                  docker build -t ${{ secrets.DOCKER_USERNAME }}/hobbiedo-front .
+                  docker push ${{ secrets.DOCKER_USERNAME }}/hobbiedo-front
+
+            # Deploy to production
+            - name: Deploy to prod
+              uses: appleboy/ssh-action@master
+              id: deploy-prod
+              with:
+                  host: ${{ secrets.HOST_EC2 }}
+                  username: ubuntu
+                  key: ${{ secrets.PRIVATE_KEY }}
+                  script: |
+                      set -e
+                      sudo docker stop hobbiedo-front-container || true
+                      sudo docker rm hobbiedo-front-container || true
+                      sudo docker pull ${{ secrets.DOCKER_USERNAME }}/hobbiedo-front
+                      sudo docker run -d --name hobbiedo-front-container --network hobbie-network -p 80:3000 ${{ secrets.DOCKER_USERNAME }}/hobbiedo-front
+                      sudo docker image prune -f
