@@ -1,12 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Alert from '@/components/common/Alert'
 import RegionAddInput from './RegionAddInput'
 import { KakaoMapRange } from '@/lib/KakaoMapRange'
 import RightArrow from '@/components/images/RightArrow'
 import { useGetClientToken } from '@/actions/useGetClientToken'
+
+interface positionType {
+    latitude: number
+    longitude: number
+}
 
 export default function InitialRegionRegistration() {
     const [regionName, setRegionName] = useState<string>('')
@@ -17,6 +22,7 @@ export default function InitialRegionRegistration() {
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [alertType, setAlertType] = useState<'question' | 'info' | 'error' | 'success' | 'warning'>('question')
     const [alertMessage, setAlertMessage] = useState<string>('')
+    const [position, setPosition] = useState<positionType>({ latitude: 0, longitude: 0 })
 
     const auth = useGetClientToken()
     const router = useRouter()
@@ -40,6 +46,30 @@ export default function InitialRegionRegistration() {
     const handleAlert = () => {
         setIsAlertOpen(!isAlertOpen)
     }
+
+    useEffect(() => {
+        const getCurrentPos = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        setPosition({
+                            latitude: pos.coords.latitude,
+                            longitude: pos.coords.longitude,
+                        })
+                    },
+                    () => alert('위치 정보를 가져오는데 실패했습니다.'),
+                    {
+                        enableHighAccuracy: true,
+                        maximumAge: 30000,
+                        timeout: 27000,
+                    },
+                )
+            } else {
+                alert('Geolocation is not supported by this browser.')
+            }
+        }
+        getCurrentPos()
+    }, [])
 
     const handleInitialRegion = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -80,6 +110,8 @@ export default function InitialRegionRegistration() {
                 </section>
                 <section className="w-full h-[50%] flex flex-col pt-5 px-10">
                     <RegionAddInput
+                        currentLatitude={position.latitude}
+                        currentLongitude={position.longitude}
                         title="활동지역"
                         required={true}
                         id="region"

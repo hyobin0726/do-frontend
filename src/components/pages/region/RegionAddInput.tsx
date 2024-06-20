@@ -7,6 +7,8 @@ import Location from '@/components/images/Location'
 import LocationModal from './LocationModal'
 
 interface RegionAddInputProps {
+    currentLatitude: number
+    currentLongitude: number
     title: string
     required: boolean
     id: string
@@ -18,6 +20,8 @@ interface RegionAddInputProps {
 }
 
 export default function RegionAddInput({
+    currentLatitude,
+    currentLongitude,
     title,
     id,
     name,
@@ -53,6 +57,8 @@ export default function RegionAddInput({
             </div>
             {locationModalOpen && (
                 <LocationModal
+                    currentLatitude={currentLatitude}
+                    currentLongitude={currentLongitude}
                     handleLocationModalOpen={handleLocationModalOpen}
                     regionRange={regionRange}
                     onRegionRangeChange={onRegionRangeChange}
