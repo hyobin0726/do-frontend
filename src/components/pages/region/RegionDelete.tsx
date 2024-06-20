@@ -16,7 +16,7 @@ export default function RegionDelete({ regionId }: { regionId: number }) {
     const auth = useGetClientToken()
     const handleRegionDelete = async () => {
         const baseRegionData = await getBaseRegion()
-        if (baseRegionData === regionId) {
+        if (baseRegionData.regionId === regionId) {
             setIsAlertOpen(true)
             setAlertMessage('기본 주소지는 삭제할 수 없습니다.')
             return
