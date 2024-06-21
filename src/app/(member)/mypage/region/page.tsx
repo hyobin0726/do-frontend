@@ -8,6 +8,7 @@ const getUserRegions = async (token: string) => {
         headers: {
             Authorization: `${token}`,
         },
+        next: { tags: ['myRegion'] },
     })
     const data = await res.json()
     return data.data
