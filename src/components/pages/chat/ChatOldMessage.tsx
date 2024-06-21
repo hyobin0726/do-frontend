@@ -1,4 +1,6 @@
 'use client'
+import { useGetClientToken } from '@/actions/useGetClientToken'
+import { getChatOldMessage } from '@/api/chat/chatOldMessage'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -10,9 +12,9 @@ interface ChatListType {
     date: string
     chats: {
         uuid: string
-        text: string
-        imageUrl: string
-        entryExitNotice: string
+        text?: string
+        imageUrl?: string
+        entryExitNotice?: string
         createdAt: string
     }[]
 }
@@ -26,13 +28,13 @@ export default function ChatOldMessage({
     setIsFetching: React.Dispatch<React.SetStateAction<boolean>>
     chatContainerRef: React.RefObject<HTMLDivElement>
 }) {
-    console.log('currentPage:', currentPage)
     const params = useParams<{ crewId: string }>()
+    console.log('params:', params.crewId)
     const [oldMessages, setOldMessages] = useState<OldMessagesType['chatList']>([])
     const [lastPage, setLastPage] = useState<number>(Infinity)
     const [prevScrollHeight, setPrevScrollHeight] = useState<number | null>(null)
-    const uuid = 'uuid2'
-
+    const auth = useGetClientToken()
+    console.log(auth.token)
     //  이전내역 조회
     useEffect(() => {
         const fetchOldMessages = async () => {
@@ -46,10 +48,10 @@ export default function ChatOldMessage({
                     setPrevScrollHeight(chatContainerRef.current.scrollHeight)
                 }
                 const response = await fetch(
-                    `${process.env.BASE_URL}/crew-service/v1/users/chat/history/${params.crewId}?page=${currentPage}`,
+                    `${process.env.BASE_URL}/chat-service/v1/users/chat/history/${params.crewId}?page=${currentPage}`,
                     {
                         headers: {
-                            Uuid: uuid,
+                            Authorization: `${auth.token}`,
                         },
                     },
                 )
@@ -95,7 +97,9 @@ export default function ChatOldMessage({
             }
         }
         fetchOldMessages()
-    }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage, uuid])
+    }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage])
+
+    console.log('getOldMessages:', oldMessages)
 
     return (
         <div>
@@ -117,9 +121,9 @@ export default function ChatOldMessage({
                         {messageGroup.chats.map((chat, index) => (
                             <div key={index}>
                                 <div
-                                    className={`flex mb-4 mt-2 ${chat.uuid === uuid ? 'justify-end' : 'justify-start'}`}
+                                    className={`flex mb-4 mt-2 ${chat.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
                                 >
-                                    {chat.uuid === uuid ? (
+                                    {chat.uuid === auth.uuid ? (
                                         <>
                                             {chat.text && (
                                                 <>

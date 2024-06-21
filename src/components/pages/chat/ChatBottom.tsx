@@ -5,12 +5,13 @@ import Send from '@/components/images/Send'
 import Image from 'next/image'
 import { ChangeEvent, useState } from 'react'
 import { useParams } from 'next/navigation'
+import { useGetClientToken } from '@/actions/useGetClientToken'
 
 export default function ChatBottom() {
     const params = useParams<{ crewId: string }>()
     const [previewImg, setPreviewImg] = useState<FileList>()
     const [message, setMessage] = useState<string>('')
-    const uuid = 'uuid2'
+    const auth = useGetClientToken()
 
     const saveHandler = async () => {
         if (!previewImg) {
@@ -59,7 +60,7 @@ export default function ChatBottom() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Uuid: uuid,
+                    Authorization: `${auth.token}`,
                 },
                 body: JSON.stringify(bodyData),
             })

@@ -11,7 +11,7 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
     const chatContainerRef = useRef<HTMLDivElement>(null)
     const loaderRef = useRef<HTMLDivElement>(null)
 
-    console.log('crewId:', crewId)
+    // console.log('crewId:', crewId)
 
     useEffect(() => {
         const observer = new IntersectionObserver(

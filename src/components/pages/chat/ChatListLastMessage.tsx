@@ -13,7 +13,7 @@ function ChatListLastMessage({ crewId }: { crewId: string }) {
     // console.log('crewId:', crewId)
     const [chatList, setChatList] = useState<ChatListType>()
     const auth = useGetClientToken()
-    console.log('auth:', auth.token)
+    // console.log('auth:', auth.token)
 
     useEffect(() => {
         const connectToSSE = () => {
@@ -33,7 +33,6 @@ function ChatListLastMessage({ crewId }: { crewId: string }) {
                     setChatList(data.data)
                 }
                 // console.log('event:', event)
-
                 return data.data
             }
             eventSource.onerror = (error) => {
@@ -51,7 +50,7 @@ function ChatListLastMessage({ crewId }: { crewId: string }) {
             eventSource.close()
         }
     }, [])
-    console.log('data:', chatList)
+    // console.log('data:', chatList)
 
     const formatTimestamp = (timestamp: string) => {
         const date = new Date(timestamp)

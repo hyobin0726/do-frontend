@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { EventSourcePolyfill } from 'event-source-polyfill'
 import { useParams } from 'next/navigation'
+import { useGetClientToken } from '@/actions/useGetClientToken'
 
 interface ChatMessageType {
     uuid: string
@@ -14,15 +15,13 @@ interface ChatMessageType {
 export default function ChatStreamMessage() {
     const params = useParams<{ crewId: string }>()
     const [messages, setMessages] = useState<ChatMessageType[]>([] as ChatMessageType[])
-    const uuid = 'uuid2'
-    const event = new Date()
+    const auth = useGetClientToken()
 
     useEffect(() => {
         const ConnectionChat = async () => {
             const BodyData = {
                 crewId: params.crewId,
                 connectionStatus: true,
-                lastReadAt: event.toISOString(),
             }
 
             try {
@@ -30,7 +29,7 @@ export default function ChatStreamMessage() {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        Uuid: uuid,
+                        Authorization: `${auth.token}`,
                     },
                     body: JSON.stringify(BodyData),
                     cache: 'no-cache',
@@ -47,7 +46,7 @@ export default function ChatStreamMessage() {
             }
         }
         ConnectionChat()
-    }, [params.crewId, uuid])
+    }, [params.crewId])
 
     // 실시간 조회
     useEffect(() => {
@@ -55,7 +54,7 @@ export default function ChatStreamMessage() {
             const EventSource = EventSourcePolyfill
             const eventSource = new EventSource(`${process.env.BASE_URL}/chat-service/v1/users/chat/${params.crewId}`, {
                 headers: {
-                    Uuid: uuid,
+                    Authorization: `${auth.token}`,
                 },
             })
 
@@ -98,7 +97,7 @@ export default function ChatStreamMessage() {
         return () => {
             eventSource.close()
         }
-    }, [uuid, params.crewId])
+    }, [params.crewId])
 
     return (
         <section>
@@ -119,9 +118,9 @@ export default function ChatStreamMessage() {
                     {messages.map((message, index) => (
                         <div key={index}>
                             <div
-                                className={`flex mb-4 mt-2 ${message.uuid === uuid ? 'justify-end' : 'justify-start'}`}
+                                className={`flex mb-4 mt-2 ${message.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
                             >
-                                {message.uuid === uuid ? (
+                                {message.uuid === auth.uuid ? (
                                     <>
                                         {message.text && (
                                             <>

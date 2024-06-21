@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react'
 import ChatMenuModal from './ChatMenuModal'
 import ShareKakao from '@/components/common/ShareKakao'
 import { useParams } from 'next/navigation'
+import { useGetClientToken } from '@/actions/useGetClientToken'
 
 export default function ChatRoomNav() {
-    const uuid = 'uuid2'
+    const auth = useGetClientToken()
     const params = useParams<{ crewId: string }>()
     const [chatMenu, setChatMenu] = useState<boolean>(false)
 
@@ -31,7 +32,7 @@ export default function ChatRoomNav() {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Uuid: uuid,
+                    Authorization: `${auth.token}`,
                 },
                 body: JSON.stringify(BodyData),
                 cache: 'force-cache',
@@ -45,6 +46,7 @@ export default function ChatRoomNav() {
             console.error('Error sending last message info:', error)
         }
     }
+    console.log('퇴장', event.toISOString())
     useEffect(() => {
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
             event.preventDefault()
