@@ -3,10 +3,7 @@ name: Next JS CI with Docker
 on:
     pull_request:
         types: [closed]
-        branches: [develop]
-
-permissions:
-    contents: read
+        branches: [dev]
 
 jobs:
     build:
