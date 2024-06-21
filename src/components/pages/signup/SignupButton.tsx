@@ -116,7 +116,7 @@ export default function SignupButton({
 
     return (
         <>
-            <section className="w-full h-[25%] px-10 flex flex-col justify-center items-center bg-green-100">
+            <section className="w-full h-[25%] px-10 flex flex-col justify-center items-center">
                 <form onSubmit={handleSignUp} className="w-full">
                     <button
                         disabled={!isFormValid}
