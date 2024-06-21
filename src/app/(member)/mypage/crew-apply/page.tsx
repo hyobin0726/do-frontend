@@ -1,10 +1,13 @@
 import PageHeader from '@/components/common/PageHeader'
+import getMyJoinForms from '@/api/crew/getMyJoinForms'
+import MyJoinForm from '@/components/pages/mypage/MyJoinForm'
 
-export default function CrewApplyPage() {
+export default async function CrewApplyPage() {
+    const myJoinForms = await getMyJoinForms()
     return (
         <>
             <PageHeader />
-            <div>소모임 가입신청 확인하기 페이지</div>
+            <MyJoinForm myJoinForms={myJoinForms} />
         </>
     )
 }
