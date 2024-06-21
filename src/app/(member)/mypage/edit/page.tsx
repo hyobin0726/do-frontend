@@ -1,10 +1,11 @@
 import PageHeader from '@/components/common/PageHeader'
+import EditProfile from '@/components/pages/mypage/EditProfile'
 
 export default function EditProfilePage() {
     return (
         <>
             <PageHeader />
-            <div>프로필 수정 페이지</div>
+            <EditProfile />
         </>
     )
 }
