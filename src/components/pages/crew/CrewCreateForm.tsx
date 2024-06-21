@@ -1,16 +1,6 @@
 'use client'
 import { useState } from 'react'
-export default function CrewCreateForm({
-    onCrewName,
-    onIntroduction,
-    onHashTagList,
-    onJoinType,
-}: {
-    onCrewName: (crewName: string) => void
-    onIntroduction: (crewDescription: string) => void
-    onHashTagList: (hashTags: string[]) => void
-    onJoinType: (joinType: number) => void
-}) {
+export default function CrewCreateForm() {
     const [crewName, setCrewName] = useState('')
     const [crewNameValue, setCrewNameValue] = useState('')
     const [crewDescription, setCrewDescription] = useState('')
@@ -22,7 +12,7 @@ export default function CrewCreateForm({
     const handleCrewName = (event: React.ChangeEvent<HTMLInputElement>) => {
         const crewName = event.target.value
         setCrewName(crewName)
-        onCrewName(crewName)
+        // onCrewName(crewName)
         if (crewName.trim().length < 1) {
             setCrewNameValue('1자 이상 입력해주세요')
         } else {
@@ -36,7 +26,7 @@ export default function CrewCreateForm({
             crewDescription = crewDescription.substring(0, 200)
         }
         setCrewDescription(crewDescription)
-        onIntroduction(crewDescription)
+        // onIntroduction(crewDescription)
         if (crewDescription.trim().length < 1) {
             setCrewDescriptionValue('1자 이상 입력해주세요')
         } else setCrewDescriptionValue('')
@@ -62,7 +52,6 @@ export default function CrewCreateForm({
             }
             return [...prevHashTags, newHashTag]
         })
-        onHashTagList([...hashTags, newHashTag])
         setInputHashTag('')
     }
 
@@ -86,18 +75,23 @@ export default function CrewCreateForm({
     }
     const handleJoinTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedJoinType(Number(e.target.value))
-        onJoinType(Number(e.target.value))
+        // onJoinType(Number(e.target.value))
     }
 
+    const handleHashTagDelete = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault()
+        setHashTags((prevTags) => prevTags.filter((_, idx) => idx !== index))
+    }
     return (
         <>
-            <div className="w-full h-auto space-y-2">
-                <div className="space-y-1">
+            <section className="w-full h-auto space-y-5">
+                <div className="space-y-3">
                     <div className="flex justify-between mb-2">
                         <p className="text-gray-600 text-sm ml-1 font-semibold">소모임 이름</p>
                     </div>
                     <input
                         type="text"
+                        name="crewName"
                         placeholder="소모임 이름을 입력해주세요. (최대 20자)"
                         className={`w-full h-[50px] px-3 rounded-xl border-[1px] flex flex-row justify-center outline-none
                     ${crewNameValue ? 'border-hobbing-pink bg-hobbing-light-pink' : 'bg-white border-hobbing-gray'}`}
@@ -107,7 +101,7 @@ export default function CrewCreateForm({
                     />
                     {crewNameValue && <p className="text-hobbing-red text-[11px] font-medium ">* {crewNameValue}</p>}
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-3">
                     <div className="flex justify-between mb-2">
                         <p className="text-gray-600 text-sm ml-1 font-semibold">소모임 소개글</p>
                         <p className="text-gray-600 text-sm">{crewDescription.length}자 / 200자</p>
@@ -119,25 +113,34 @@ export default function CrewCreateForm({
                         maxLength={200}
                         value={crewDescription}
                         onChange={handleCrewDescription}
+                        name="introduction"
                     />
                     {crewDescriptionValue && (
                         <p className="text-hobbing-red text-[11px] font-medium ">* {crewDescriptionValue}</p>
                     )}
                 </div>
-                <div className="space-y-1">
-                    <div className=" space-x-1 mb-2">
+
+                <div className="space-y-3 w-full mt-4">
+                    <div className="space-x-1 mb-2">
                         {hashTags.length > 0 &&
                             hashTags.map((hashTag, idx) => {
                                 return (
                                     <div
                                         key={idx}
-                                        className="inline-block bg-hobbing-red text-white  px-3 py-1 rounded-full"
+                                        className="inline-block bg-hobbing-red text-white px-4 py-2 rounded-md relative"
                                     >
                                         # {hashTag}
+                                        <button
+                                            className="absolute top-0  right-1 text-white rounded-full"
+                                            onClick={(e) => handleHashTagDelete(e, idx)}
+                                        >
+                                            <p className="text-xs">X</p>
+                                        </button>
                                     </div>
                                 )
                             })}
                     </div>
+
                     <input
                         value={inputHashTag}
                         onChange={changeHashTagInput}
@@ -152,16 +155,17 @@ export default function CrewCreateForm({
                             * 해시태그는 최대 5개까지 등록 가능합니다.
                         </p>
                     )}
+                    <input type="hidden" name="hashTagList" value={hashTags} />
                 </div>
-                <div>
-                    <div className="text-gray-600 text-sm ml-1 font-semibold mb-2">소모임 가입 형식</div>
-                    <div className="flex flex-col gap-4 w-full p-4 border rounded-lg bg-white ">
+                <div className="space-y-3">
+                    <p className="text-gray-600 text-sm ml-1 font-semibold mb-2">소모임 가입 형식</p>
+                    <div className="flex flex-col gap-5 w-full p-5 border rounded-lg bg-white ">
                         <div className="flex items-center gap-x-5">
                             <input
                                 type="radio"
                                 id="public"
                                 name="joinType"
-                                value="public"
+                                value={0}
                                 checked={selectedJoinType === 0}
                                 onChange={handleJoinTypeChange}
                             />
@@ -174,7 +178,7 @@ export default function CrewCreateForm({
                                 type="radio"
                                 id="private"
                                 name="joinType"
-                                value="private"
+                                value={1}
                                 checked={selectedJoinType === 1}
                                 onChange={handleJoinTypeChange}
                             />
@@ -184,7 +188,7 @@ export default function CrewCreateForm({
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </>
     )
 }
