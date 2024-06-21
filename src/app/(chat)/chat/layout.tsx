@@ -6,7 +6,7 @@ import Search from '@/components/images/Search'
 export default function ChatLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            <MainHeader title="채팅">
+            <MainHeader title="채팅방">
                 <div className="w-5 h-full">
                     <Search />
                 </div>

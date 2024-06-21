@@ -1,82 +1,36 @@
 'use client'
+import { CrewType } from '@/type/CrewType'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-interface ChatListType {
-    crewId: string
-    lastChatContent: string
-    unreadCount: number
-    createdAt: string
-}
-function ChatList() {
-    const [chatList, setChatList] = useState<ChatListType[]>([])
+import ChatListLastMessage from './ChatListLastMessage'
 
-    useEffect(() => {
-        const GetChatList = async () => {
-            try {
-                const response = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/chat/latest/list`, {
-                    headers: {
-                        Uuid: 'uuid2',
-                    },
-                    cache: 'no-cache',
-                })
-                if (response.ok) {
-                    const data = (await response.json()) as { data: ChatListType[] }
-                    console.log('data:', data)
-                    setChatList(data.data)
-                } else {
-                    throw new Error(`Error: ${response.status}`)
-                }
-            } catch (error) {
-                console.error('Failed to get chat list:', error)
-                throw error
-            }
-        }
-        GetChatList()
-    }, [])
-
-    const formatTimestamp = (timestamp: string) => {
-        const date = new Date(timestamp)
-        const today = new Date()
-        const isToday = today.toDateString() === date.toDateString()
-        const isThisYear = today.getFullYear() === date.getFullYear()
-        if (isToday) {
-            return date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
-        } else if (isThisYear) {
-            return date.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' })
-        } else {
-            return date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'numeric', day: 'numeric' })
-        }
-    }
+function ChatList({ crewList }: { crewList: CrewType[] }) {
+    // console.log('crewList:', crewList)
     return (
-        <main className="mx-auto ">
+        <main className="p-4">
             <ul>
-                {chatList?.map((room) => (
-                    <Link href={`/chatroom/${room.crewId}`} key={room.crewId}>
-                        <div className="flex justify-between items-center mb-2 p-4">
-                            <div className="flex items-center space-x-4">
-                                <div className="bg-[#D9D9D9] rounded-full w-14 h-14 flex items-center justify-center text-sm">
-                                    프로필
-                                </div>
-                                <div className="flex flex-col">
-                                    <div className="flex items-center">
-                                        <h2 className="text-lg font-bold">해운대</h2>
-                                        <p className="text-gray-500 ml-2">5</p>
-                                        <span className="text-gray-500 text-sm absolute right-4 ">
-                                            {formatTimestamp(room.createdAt)}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <p className="text-gray-700">{room.lastChatContent}</p>
-                                        {room.unreadCount > 0 && (
-                                            <span className="bg-[#F15C45] rounded-lg px-2 py-1 text-white text-sm absolute right-4 ">
-                                                {room.unreadCount}
-                                            </span>
-                                        )}
+                {crewList?.map((crew, idx) => (
+                    <section key={idx}>
+                        <li key={crew.crewId} className="mb-4">
+                            <Link href={`/chatroom/${crew.crewId}`}>
+                                <div className="flex justify-between items-center p-4 bg-hobbing-light-pink rounded-lg shadow  transition">
+                                    <div className="flex items-center space-x-4">
+                                        <img
+                                            src={crew.profileUrl}
+                                            alt="채팅방 프로필"
+                                            className="w-14 h-14 rounded-full"
+                                        />
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center">
+                                                <h2 className="text-lg font-bold">{crew.name}</h2>
+                                                <p className="text-gray-500 ml-2">{crew.currentParticipant}명</p>
+                                            </div>
+                                            <ChatListLastMessage crewId={crew.crewId} />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </Link>
+                            </Link>
+                        </li>
+                    </section>
                 ))}
             </ul>
         </main>
