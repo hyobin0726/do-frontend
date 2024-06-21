@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 import RightArrow from '@/components/images/RightArrow'
 import DeleteCircle from '@/components/images/DeleteCircle'
@@ -9,6 +10,8 @@ import { signIn } from 'next-auth/react'
 export default function LoginForm() {
     const [inputId, setInputId] = useState<string>('')
     const [inputPassword, setInputPassword] = useState<string>('')
+    const searchParams = useSearchParams()
+    const callbackUrl = searchParams.get('callbackUrl')
 
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -21,8 +24,8 @@ export default function LoginForm() {
 
     return (
         <>
-            <form className="w-full space-y-4" onSubmit={handleLogin}>
-                <div className="h-[120px] divide-y divide-inherit">
+            <form className={`w-full h-auto ${callbackUrl ? 'space-y-3' : 'space-y-4'}`} onSubmit={handleLogin}>
+                <div className="h-auto divide-y divide-inherit">
                     <div className="relative">
                         <input
                             type="text"
@@ -54,6 +57,11 @@ export default function LoginForm() {
                         </div>
                     </div>
                 </div>
+                {callbackUrl && (
+                    <p className="text-[15px] text-hobbing-red font-bold text-center">
+                        ** 아이디/비밀번호를 다시 입력해주세요 **
+                    </p>
+                )}
                 <button
                     type="submit"
                     className="bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8 text-[15px] font-bold text-white"
