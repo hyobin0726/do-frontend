@@ -28,6 +28,7 @@ export default async function Profile() {
                                 width: '100px',
                                 height: '100px',
                             }}
+                            priority={true}
                         />
                     </div>
                     <div className="w-full h-full">
