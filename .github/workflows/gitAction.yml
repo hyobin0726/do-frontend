@@ -5,9 +5,6 @@ on:
         types: [closed]
         branches: [dev]
 
-permissions:
-    contents: read
-
 jobs:
     build:
         if: github.event.pull_request.merged == true
@@ -24,8 +21,10 @@ jobs:
             - name: Confirm env
               run: echo "RELEASE_VERSION=${{ env.TAG }}"
 
-            - name: Make .env file
+            - name: make env file
               run: |
+                  # mkdir -p ./usr/src/app
+                  # cd ./usr/src/app
                   touch .env
                   echo '${{ secrets.NEXT_ENV }}' > .env
 
@@ -46,6 +45,7 @@ jobs:
                   key: ${{ secrets.PRIVATE_KEY }}
                   script: |
                       set -e
+                      echo '${{ secrets.NEXT_ENV }}' > .env
                       sudo docker stop hobbiedo-front-container || true
                       sudo docker rm hobbiedo-front-container || true
                       sudo docker pull ${{ secrets.DOCKER_USERNAME }}/hobbiedo-front
