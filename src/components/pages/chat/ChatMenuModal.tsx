@@ -1,15 +1,20 @@
+import { crewWithdrawal } from '@/api/crew/crewWithdrawal'
 import Album from '@/components/images/Album'
+import ChatLeave from '@/components/images/ChatLeave'
 import Crew from '@/components/images/Crew'
+
 import Link from 'next/link'
 
 export default function ChatMenuModal({
     chatMenuModal,
     setChatMenuModal,
     crewId,
+    setIsAlertOpen,
 }: {
     chatMenuModal: boolean
     setChatMenuModal: React.Dispatch<React.SetStateAction<boolean>>
     crewId: string
+    setIsAlertOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
     console.log('crewId:', crewId)
     const crew = [
@@ -39,19 +44,21 @@ export default function ChatMenuModal({
             role: 0,
         },
     ]
+    const handleDeleteButton = () => {
+        setChatMenuModal(false)
+        setIsAlertOpen(true)
+    }
 
     return (
         <>
             {chatMenuModal && (
                 <div className="fixed top-0 z-[2]  w-screen h-screen  bg-black bg-opacity-30 ">
                     <div className="bg-white w-2/3  fixed right-0 h-screen p-4">
-                        <button className="absolute top-2 right-2" onClick={() => setChatMenuModal(false)}>
-                            <img
-                                width="25"
-                                height="25"
-                                src="https://img.icons8.com/fluent-systems-regular/48/000000/close-window.png"
-                                alt="모달 닫기"
-                            />
+                        <button
+                            className="absolute top-2 right-3 text-[#FD7A23] text-lg font-bold"
+                            onClick={() => setChatMenuModal(false)}
+                        >
+                            X
                         </button>
                         <div className="flex">
                             <div className="font-bold text-lg">해운대 크루 서랍</div>
@@ -87,6 +94,12 @@ export default function ChatMenuModal({
                                 ))}
                             </div>
                         </ul>
+                        <button className="flex absolute bottom-3 space-x-2 " onClick={handleDeleteButton}>
+                            <div className=" w-5 h-5 mt-0.5">
+                                <ChatLeave />
+                            </div>
+                            <p className="text-[#F76D67]">채팅방 나가기</p>
+                        </button>
                     </div>
                 </div>
             )}

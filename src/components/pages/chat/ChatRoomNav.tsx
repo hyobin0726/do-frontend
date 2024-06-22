@@ -3,13 +3,19 @@ import RouterBackArrowButton from '@/components/common/RouterBackArrowButton'
 import { useEffect, useState } from 'react'
 import ChatMenuModal from './ChatMenuModal'
 import ShareKakao from '@/components/common/ShareKakao'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useGetClientToken } from '@/actions/useGetClientToken'
+import Alert from '@/components/common/Alert'
+import { crewWithdrawal } from '@/api/crew/crewWithdrawal'
+import { set } from 'zod'
 
 export default function ChatRoomNav() {
     const auth = useGetClientToken()
+    const router = useRouter()
     const params = useParams<{ crewId: string }>()
     const [chatMenu, setChatMenu] = useState<boolean>(false)
+    const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
+    const [isManager, setIsManager] = useState<boolean>(false)
 
     const crew = {
         id: 1,
@@ -44,6 +50,16 @@ export default function ChatRoomNav() {
             }
         } catch (error) {
             console.error('Error sending last message info:', error)
+        }
+    }
+    const handleDeleteCrew = async () => {
+        const withdrawal = await crewWithdrawal(params.crewId)
+        if (withdrawal.isSuccess) {
+            console.log('크루 탈퇴 완료 응답 데이터:', withdrawal)
+            router.push('/chat')
+        } else {
+            console.error('크루 탈퇴 실패:', withdrawal.message)
+            setIsManager(true)
         }
     }
     console.log('퇴장', event.toISOString())
@@ -86,7 +102,53 @@ export default function ChatRoomNav() {
                     />
                 </div>
             </div>
-            <ChatMenuModal chatMenuModal={chatMenu} setChatMenuModal={setChatMenu} crewId={params.crewId} />
+            <ChatMenuModal
+                chatMenuModal={chatMenu}
+                setChatMenuModal={setChatMenu}
+                crewId={params.crewId}
+                setIsAlertOpen={setIsAlertOpen}
+            />
+            {isAlertOpen && (
+                <Alert type="info" isAlertOpen={isAlertOpen}>
+                    <div>
+                        <p className="text-balance text-center text-[15px] leading-loose">채팅방을 나가시겠어요?</p>
+                        <p className=" text-center text-[13px]">대화내용이 모두 삭제되고 복원이 불가능합니다.</p>
+                    </div>
+                    <div className=" space-x-5">
+                        <button
+                            onClick={() => {
+                                setIsAlertOpen(false)
+                            }}
+                            className="w-[100px] h-[50px] bg-white rounded-xl text-[13px] text-hobbing-red border border-hobbing-red font-medium px-3"
+                        >
+                            취소하기
+                        </button>
+                        <button
+                            onClick={() => {
+                                handleDeleteCrew()
+                            }}
+                            className="w-[100px] h-[50px] bg-hobbing-red rounded-xl  text-[13px] text-white font-medium px-3"
+                        >
+                            나가기
+                        </button>
+                    </div>
+                </Alert>
+            )}
+            {isManager && (
+                <Alert type="info" isAlertOpen={isAlertOpen}>
+                    <p className="text-balance text-center text-[15px] leading-loose">
+                        방장은 소모임을 탈퇴할 수 없습니다.
+                    </p>
+                    <button
+                        onClick={() => {
+                            setIsAlertOpen(false)
+                        }}
+                        className="w-[100px] h-[50px] bg-hobbing-red rounded-xl  text-[13px] text-white font-medium px-3"
+                    >
+                        닫기
+                    </button>
+                </Alert>
+            )}
         </>
     )
 }

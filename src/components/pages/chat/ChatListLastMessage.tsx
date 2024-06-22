@@ -10,7 +10,6 @@ interface ChatListType {
     createdAt: string
 }
 function ChatListLastMessage({ crewId }: { crewId: string }) {
-    // console.log('crewId:', crewId)
     const [chatList, setChatList] = useState<ChatListType>()
     const auth = useGetClientToken()
     // console.log('auth:', auth.token)
@@ -36,7 +35,13 @@ function ChatListLastMessage({ crewId }: { crewId: string }) {
                 return data.data
             }
             eventSource.onerror = (error) => {
-                console.error('Failed to get chat list:', error)
+                // console.error('Failed to get chat list:', error)
+                setChatList({
+                    crewId: crewId,
+                    lastChatContent: '새로운 소모임이 생성되었습니다.',
+                    unreadCount: 0,
+                    createdAt: '',
+                })
                 eventSource.close()
                 setTimeout(() => {
                     connectToSSE()
@@ -53,6 +58,7 @@ function ChatListLastMessage({ crewId }: { crewId: string }) {
     // console.log('data:', chatList)
 
     const formatTimestamp = (timestamp: string) => {
+        if (!timestamp) return ''
         const date = new Date(timestamp)
         const today = new Date()
         const isToday = today.toDateString() === date.toDateString()
@@ -69,15 +75,17 @@ function ChatListLastMessage({ crewId }: { crewId: string }) {
         <main>
             <ul>
                 {chatList && (
-                    <section className="bg-red-500">
-                        {formatTimestamp(chatList.createdAt)}
-                        <p className="text-gray-700">{chatList.lastChatContent}</p>
-                        {chatList.unreadCount > 0 && (
-                            <span className="bg-[#F15C45] rounded-lg px-2 py-1 text-white text-sm ">
-                                {chatList.unreadCount}
-                            </span>
-                        )}
-                    </section>
+                    <div className=" flex justify-between  w-full">
+                        <p className="text-gray-700 truncate flex-1 ">{chatList.lastChatContent}</p>
+                        <div className="flex flex-col items-end ml-4">
+                            <span className="text-gray-500 text-xs">{formatTimestamp(chatList.createdAt)}</span>
+                            {chatList.unreadCount > 0 && (
+                                <span className="bg-red-500 rounded-full px-2 py-1 text-white text-xs mt-1">
+                                    {chatList.unreadCount}
+                                </span>
+                            )}
+                        </div>
+                    </div>
                 )}
             </ul>
         </main>

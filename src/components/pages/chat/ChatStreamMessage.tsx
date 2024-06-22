@@ -88,7 +88,7 @@ export default function ChatStreamMessage() {
                 eventSource.close()
                 setTimeout(() => {
                     connectToSSE()
-                }, 5000)
+                }, 35000)
             }
             return eventSource
         }
@@ -101,8 +101,8 @@ export default function ChatStreamMessage() {
 
     return (
         <section>
-            <div className="">
-                {messages.length > 0 && (
+            <div >
+                {/* {messages.length > 0 && (
                     <div className="flex justify-center">
                         <div className=" bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
                             {new Date().toLocaleDateString('ko-KR', {
@@ -113,7 +113,7 @@ export default function ChatStreamMessage() {
                             })}
                         </div>
                     </div>
-                )}
+                )} */}
                 <div>
                     {messages.map((message, index) => (
                         <div key={index}>
