@@ -15,6 +15,8 @@ const MainNavigation = () => {
                         isActive = true
                     } else if (item.url === '/boardlist' && pathname.startsWith('/boardlist')) {
                         isActive = true
+                    } else if (item.url === '/crew?hobbyId=' && pathname.startsWith('/crew')) {
+                        isActive = true
                     }
                     const activeColor = isActive ? 'text-[#F76D67]' : 'text-[#7A849C]'
 
