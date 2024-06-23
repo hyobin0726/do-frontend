@@ -1,17 +1,14 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 
 import RightArrow from '@/components/images/RightArrow'
 import DeleteCircle from '@/components/images/DeleteCircle'
 import { signIn } from 'next-auth/react'
 
-export default function LoginForm() {
+export default function LoginForm({ loginError }: { loginError: boolean }) {
     const [inputId, setInputId] = useState<string>('')
     const [inputPassword, setInputPassword] = useState<string>('')
-    const searchParams = useSearchParams()
-    const callbackUrl = searchParams.get('callbackUrl')
 
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -24,7 +21,7 @@ export default function LoginForm() {
 
     return (
         <>
-            <form className={`w-full h-auto ${callbackUrl ? 'space-y-3' : 'space-y-4'}`} onSubmit={handleLogin}>
+            <form className={`w-full h-auto ${loginError == true ? 'space-y-3' : 'space-y-4'}`} onSubmit={handleLogin}>
                 <div className="h-auto divide-y divide-inherit">
                     <div className="relative">
                         <input
@@ -57,7 +54,7 @@ export default function LoginForm() {
                         </div>
                     </div>
                 </div>
-                {callbackUrl && (
+                {loginError == true && (
                     <p className="text-[15px] text-hobbing-red font-bold text-center">
                         ** 아이디/비밀번호를 다시 입력해주세요 **
                     </p>
