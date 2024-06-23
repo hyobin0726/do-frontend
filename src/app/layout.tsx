@@ -9,11 +9,6 @@ declare global {
     }
 }
 
-export const metadata: Metadata = {
-    title: '취미하다',
-    description: '취미하다 HOBBING',
-}
-
 //모바일 input 확대 방지
 export const viewport: Viewport = {
     width: 'device-width',
@@ -22,6 +17,15 @@ export const viewport: Viewport = {
     userScalable: false,
 }
 
+export const metadata: Metadata = {
+    title: '취미하다',
+    description: '취미하다 HOBBING',
+    icons: {
+        icon: '/icons/icon-192x192.png',
+        apple: '/icons/icon-192x192.png',
+    },
+    manifest: '/manifest.json',
+}
 export default function RootLayout({
     children,
 }: Readonly<{
