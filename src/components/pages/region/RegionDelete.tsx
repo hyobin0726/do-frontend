@@ -1,19 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
-import { useGetClientToken } from '@/actions/useGetClientToken'
 import getBaseRegion from '@/api/crew/getBaseRegion'
 import Alert from '@/components/common/Alert'
+import deleteRegion from '@/api/crew/deleteRegion'
 
 export default function RegionDelete({ regionId }: { regionId: number }) {
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [alertMessage, setAlertMessage] = useState<string>('')
 
-    const router = useRouter()
-
-    const auth = useGetClientToken()
     const handleRegionDelete = async () => {
         const baseRegionData = await getBaseRegion()
         if (baseRegionData.regionId === regionId) {
@@ -21,17 +17,7 @@ export default function RegionDelete({ regionId }: { regionId: number }) {
             setAlertMessage('기본 주소지는 삭제할 수 없습니다.')
             return
         }
-        const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/region/${regionId}`, {
-            method: 'DELETE',
-            headers: {
-                Authorization: `${auth.token}`,
-                'Content-Type': 'application/json',
-            },
-        })
-        const data = await res.json()
-        if (data.isSuccess) {
-            router.refresh()
-        }
+        await deleteRegion({ regionId })
     }
 
     return (
