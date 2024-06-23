@@ -20,9 +20,6 @@ export default async function CrewNotFount({ hobbyId }: { hobbyId: number }) {
                 className="w-full h-full bg-center bg-cover bg-no-repeat"
                 style={{
                     backgroundImage: `url(${hobbyImage})`,
-                    backgroundPosition: 'center', // 이미지 위치
-                    backgroundSize: 'cover', // 이미지 꽉차게
-                    backgroundRepeat: 'no-repeat', // 이미지 반복 지정
                 }}
             >
                 <div className="w-full h-full backdrop-blur bg-black/50 flex flex-col justify-center items-center">

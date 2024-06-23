@@ -2,10 +2,10 @@
 
 import { useGetServerToken } from '@/actions/useGetServerToken'
 
-export default async function getSuggestionCrew(hobbiyId: number, regionId: number) {
+export default async function getSuggestionCrewList(hobbiyId: number, regionId: number) {
     const auth = await useGetServerToken()
 
-    const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/crew/id/${hobbiyId}/${regionId}`, {
+    const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/crew/info/${hobbiyId}/${regionId}`, {
         method: 'GET',
         headers: {
             Authorization: `${auth.token}`,
