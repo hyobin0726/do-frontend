@@ -135,7 +135,7 @@ export default function CrewUpdateForm({ data }: { data: CrewInfoType }) {
 
             <div className="space-y-3">
                 <p className="text-gray-600 text-sm ml-1 font-semibold mb-2">소모임 가입 형식</p>
-                <div className="flex flex-col gap-5 w-full p-5 border rounded-lg bg-white ">
+                <div className="flex  gap-5 w-full p-4 border rounded-lg bg-white ">
                     <div className="flex items-center gap-x-5">
                         <input
                             type="radio"

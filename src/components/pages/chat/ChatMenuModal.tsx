@@ -1,8 +1,12 @@
+'use client'
+import { GetCrewMember } from '@/api/crew/getCrewMember'
 import Album from '@/components/images/Album'
 import ChatLeave from '@/components/images/ChatLeave'
 import Crew from '@/components/images/Crew'
 import Setting from '@/components/images/Setting'
+import { CrewMemberType } from '@/type/CrewType'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export default function ChatMenuModal({
     chatMenuModal,
@@ -16,33 +20,45 @@ export default function ChatMenuModal({
     setIsAlertOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
     console.log('crewId:', crewId)
-    const crew = [
-        {
-            id: 1,
-            name: '박효빈',
-            role: 1,
-        },
-        {
-            id: 2,
-            name: '김예진',
-            role: 0,
-        },
-        {
-            id: 3,
-            name: '김선욱',
-            role: 0,
-        },
-        {
-            id: 4,
-            name: '홍준표',
-            role: 0,
-        },
-        {
-            id: 5,
-            name: '이선주',
-            role: 0,
-        },
-    ]
+    // const crew = [
+    //     {
+    //         id: 1,
+    //         name: '박효빈',
+    //         role: 1,
+    //     },
+    //     {
+    //         id: 2,
+    //         name: '김예진',
+    //         role: 0,
+    //     },
+    //     {
+    //         id: 3,
+    //         name: '김선욱',
+    //         role: 0,
+    //     },
+    //     {
+    //         id: 4,
+    //         name: '홍준표',
+    //         role: 0,
+    //     },
+    //     {
+    //         id: 5,
+    //         name: '이선주',
+    //         role: 0,
+    //     },
+    // ]
+    const [members, setMembers] = useState<CrewMemberType[]>([])
+    useEffect(() => {
+        const fetchMembers = async () => {
+            try {
+                const membersData: CrewMemberType[] = await GetCrewMember({ crewId })
+                setMembers(membersData)
+            } catch (error) {
+                console.error('Error fetching members:', error)
+            }
+        }
+        fetchMembers()
+    }, [crewId])
     const handleDeleteButton = () => {
         setChatMenuModal(false)
         setIsAlertOpen(true)
@@ -78,11 +94,13 @@ export default function ChatMenuModal({
                                     <div className="text-[#869AA9]">참여자</div>
                                 </div>
                                 <div>
-                                    {crew.map((member) => (
-                                        <div key={member.id} className="flex items-center p-1">
-                                            <div className="bg-[#D9D9D9] rounded-full w-14 h-14 flex items-center justify-center text-sm">
-                                                프로필
-                                            </div>
+                                    {members.map((member, idx) => (
+                                        <div key={idx} className="flex items-center p-1">
+                                            <img
+                                                src={member.profileUrl}
+                                                alt="profile"
+                                                className="w-10 h-10 rounded-full"
+                                            />
                                             <div className="ml-4 flex">
                                                 <div className="font-bold text-lg">{member.name}</div>
                                                 {member.role === 1 && (

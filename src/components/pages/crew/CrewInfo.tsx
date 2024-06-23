@@ -18,7 +18,7 @@ export default function CrewUpdatePage({ data, crewId }: { data: CrewInfoType; c
     }
 
     return (
-        <form action={handleCrewSubmit} className="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6 space-y-6">
+        <form action={handleCrewSubmit} className="max-w-lg mx-auto bg-white p-5 space-y-5">
             <div className="text-center">
                 <h1 className="text-xl font-medium  border-b-[1px] border-hobbing-pink pb-2">{data.name}</h1>
             </div>

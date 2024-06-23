@@ -12,3 +12,10 @@ export interface CrewInfoType {
     hashTagList: string[]
     joinType: number
 }
+
+export interface CrewMemberType {
+    uuid: string
+    name: string
+    profileUrl: string
+    role: number
+}
