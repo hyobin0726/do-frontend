@@ -1,4 +1,5 @@
 import getHobbyCards from '@/api/survey/getHobbyCards'
+import { redirect } from 'next/navigation'
 
 interface HobbyCardType {
     hobbyId: number
@@ -10,6 +11,11 @@ interface HobbyCardType {
 
 export default async function SurveyResultPage() {
     const hobbyCardsData = await getHobbyCards()
+
+    if (!hobbyCardsData) {
+        redirect('/survey')
+    }
+
     return (
         <>
             <div>설문조사 결과페이지</div>
