@@ -1,4 +1,3 @@
-import getCrewInfo from '@/api/crew/getCrewInfo'
 import RightArrow from '@/components/images/RightArrow'
 import Link from 'next/link'
 

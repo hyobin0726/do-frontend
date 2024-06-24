@@ -7,7 +7,8 @@ import { useParams, useRouter } from 'next/navigation'
 import { useGetClientToken } from '@/actions/useGetClientToken'
 import Alert from '@/components/common/Alert'
 import { crewWithdrawal } from '@/api/crew/crewWithdrawal'
-import { set } from 'zod'
+import getCrewInfo from '@/api/crew/getCrewInfo'
+import { CrewInfoType } from '@/type/CrewType'
 
 export default function ChatRoomNav() {
     const auth = useGetClientToken()
@@ -16,13 +17,22 @@ export default function ChatRoomNav() {
     const [chatMenu, setChatMenu] = useState<boolean>(false)
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [isManager, setIsManager] = useState<boolean>(false)
-
-    const crew = {
-        id: 1,
-        name: '해운대 크루',
-        Introduction: '#해운대 #러닝 #취미',
-        profile_url: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/1716864446634Group+1000001922.png',
-    }
+    const [crew, setCrew] = useState<CrewInfoType>()
+    useEffect(() => {
+        const fetchCrew = async () => {
+            const getCrew: CrewInfoType = await getCrewInfo({ crewId: params.crewId })
+            setCrew(getCrew)
+        }
+        fetchCrew()
+    }, [params.crewId])
+    console.log('crew:', crew)
+    // console.log('params:', params.crewId)
+    // const crew = {
+    //     id: params.crewId,
+    //     name: '해운대 크루',
+    //     Introduction: '#해운대 #러닝 #취미',
+    //     profile_url: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/1716864446634Group+1000001922.png',
+    // }
     // 날짜형식고민
     const event = new Date()
 
@@ -62,35 +72,37 @@ export default function ChatRoomNav() {
             setIsManager(true)
         }
     }
-    console.log('퇴장', event.toISOString())
+    // console.log('퇴장', event.toISOString())
     useEffect(() => {
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
             event.preventDefault()
             disconnectChat()
         }
-
         window.addEventListener('beforeunload', handleBeforeUnload)
-
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload)
         }
     }, [])
 
     return (
-        <>
+        <nav>
             <div className="bg-white drop-shadow-sm bg-opacity-50 py-4 px-2 h-[70px]">
                 <div className="relative  mx-auto px-2 flex items-center">
                     <div onClick={() => disconnectChat()}>
                         <RouterBackArrowButton />
                     </div>
-                    <div className="flex-1 text-center ">
-                        <p className="font-semibold">{crew.name}</p>
-                        <ShareKakao
-                            thumbnail={crew.profile_url}
-                            crewName={crew.name}
-                            crewIntroduction={crew.Introduction}
-                            path={`chatroom/${crew.id}`}
-                        />
+                    <div className="flex items-center flex-col flex-1 ">
+                        <p className="font-semibold">{crew?.name}</p>
+                        <div className=" w-1/2 flex justify-center">
+                            {crew && (
+                                <ShareKakao
+                                    thumbnail={crew.profileUrl}
+                                    crewName={crew.name}
+                                    crewIntroduction={crew.introduction}
+                                    path={`boardlist/${params.crewId}`}
+                                />
+                            )}
+                        </div>
                     </div>
                     <img
                         width="25"
@@ -149,6 +161,6 @@ export default function ChatRoomNav() {
                     </button>
                 </Alert>
             )}
-        </>
+        </nav>
     )
 }
