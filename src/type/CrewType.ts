@@ -19,3 +19,10 @@ export interface CrewMemberType {
     profileUrl: string
     role: number
 }
+
+export interface CrewJoinFormType {
+    joinFormId: string
+    name: string
+    profileUrl: string
+    joinMessage: string
+}

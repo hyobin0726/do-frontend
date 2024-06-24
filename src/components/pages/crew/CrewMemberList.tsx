@@ -1,7 +1,6 @@
 'use client'
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 import { CrewMemberType } from '@/type/CrewType'
-import { GetCrewMember } from '@/api/crew/getCrewMember'
 import { postMemberExit } from '@/api/crew/postMemberExit'
 import CrewRole from '@/components/images/CrewRole'
 import Alert from '@/components/common/Alert'

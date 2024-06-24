@@ -35,17 +35,21 @@ function ChatListLastMessage({ crewId }: { crewId: string }) {
                 return data.data
             }
             eventSource.onerror = (error) => {
-                // console.error('Failed to get chat list:', error)
-                setChatList({
-                    crewId: crewId,
-                    lastChatContent: '새로운 소모임이 생성되었습니다.',
-                    unreadCount: 0,
-                    createdAt: '',
-                })
+                console.error('Failed to get chat list:', error)
                 eventSource.close()
-                setTimeout(() => {
-                    connectToSSE()
-                }, 5000)
+                // if (error) {
+                //     setChatList({
+                //         crewId: crewId,
+                //         lastChatContent: '새로운 소모임이 생성되었습니다.',
+                //         unreadCount: 0,
+                //         createdAt: '',
+                //     })
+                // } else {
+                //     eventSource.close()
+                //     setTimeout(() => {
+                //         // connectToSSE()
+                //     }, 5000)
+                // }
             }
             return eventSource
         }

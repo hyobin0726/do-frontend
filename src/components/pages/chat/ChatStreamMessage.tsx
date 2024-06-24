@@ -86,9 +86,9 @@ export default function ChatStreamMessage() {
                 console.error('EventSource failed:', error)
 
                 eventSource.close()
-                setTimeout(() => {
-                    connectToSSE()
-                }, 35000)
+                // setTimeout(() => {
+                //     connectToSSE()
+                // }, 35000)
             }
             return eventSource
         }
@@ -101,7 +101,7 @@ export default function ChatStreamMessage() {
 
     return (
         <section>
-            <div >
+            <div>
                 {/* {messages.length > 0 && (
                     <div className="flex justify-center">
                         <div className=" bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
