@@ -1,6 +1,8 @@
 'use client'
+import { useGetClientToken } from '@/actions/useGetClientToken'
+import { getChatOldMessage } from '@/api/chat/chatOldMessage'
 import { useParams } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface OldMessagesType {
     lastPage: number
@@ -8,27 +10,31 @@ interface OldMessagesType {
 }
 interface ChatListType {
     date: string
-    chats: [
-        {
-            uuid: string
-            text: string
-            imageUrl: string
-            entryExitNotice: string
-            createdAt: string
-        },
-    ]
+    chats: {
+        uuid: string
+        text?: string
+        imageUrl?: string
+        entryExitNotice?: string
+        createdAt: string
+    }[]
 }
 
-export default function ChatOldMessage() {
+export default function ChatOldMessage({
+    currentPage,
+    setIsFetching,
+    chatContainerRef,
+}: {
+    currentPage: number
+    setIsFetching: React.Dispatch<React.SetStateAction<boolean>>
+    chatContainerRef: React.RefObject<HTMLDivElement>
+}) {
     const params = useParams<{ crewId: string }>()
-    const [oldMessages, setOldMessages] = useState<OldMessagesType['chatList'] | []>([])
-    const [currentPage, setCurrentPage] = useState<number>(0)
-    const [isFetching, setIsFetching] = useState<boolean>(false)
+    console.log('params:', params.crewId)
+    const [oldMessages, setOldMessages] = useState<OldMessagesType['chatList']>([])
     const [lastPage, setLastPage] = useState<number>(Infinity)
     const [prevScrollHeight, setPrevScrollHeight] = useState<number | null>(null)
-    const chatContainerRef = useRef<HTMLDivElement>(null)
-    const loaderRef = useRef<HTMLDivElement>(null)
-    const uuid = 'uuid1'
+    const auth = useGetClientToken()
+    console.log(auth.token)
     //  이전내역 조회
     useEffect(() => {
         const fetchOldMessages = async () => {
@@ -42,10 +48,10 @@ export default function ChatOldMessage() {
                     setPrevScrollHeight(chatContainerRef.current.scrollHeight)
                 }
                 const response = await fetch(
-                    `${process.env.BASE_URL}/crew-service/v1/users/chat/history/${params.crewId}?page=${currentPage}`,
+                    `${process.env.BASE_URL}/chat-service/v1/users/chat/history/${params.crewId}?page=${currentPage}`,
                     {
                         headers: {
-                            uuid: uuid,
+                            Authorization: `${auth.token}`,
                         },
                     },
                 )
@@ -56,12 +62,24 @@ export default function ChatOldMessage() {
                         console.log('data:', data.data)
                         if (currentPage === 0) {
                             setOldMessages(data.data.chatList)
+                            if (chatContainerRef.current) {
+                                setTimeout(() => {
+                                    if (chatContainerRef.current) {
+                                        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+                                    }
+                                }, 0)
+                            }
                         } else {
+                            const lastMessageDate = oldMessages[oldMessages.length - 1].date
+                            const currentMessageDate = data.data.chatList[0].date
                             setOldMessages((prev) => [...data.data.chatList, ...prev])
 
                             if (prevScrollHeight !== null && chatContainerRef.current) {
                                 const newScrollTop = chatContainerRef.current.scrollHeight - prevScrollHeight
                                 chatContainerRef.current.scrollTop = newScrollTop
+                            }
+                            if (lastMessageDate !== currentMessageDate) {
+                                setOldMessages((prev) => [...prev, { date: currentMessageDate, chats: [] }])
                             }
                         }
                         setLastPage(data.data.lastPage)
@@ -73,71 +91,39 @@ export default function ChatOldMessage() {
                     console.error('Failed to fetch old messages')
                 }
             } catch (error) {
-                console.error('Error fetching old messages:', error)
+                console.error('이전내역 패치 실패', error)
             } finally {
                 setIsFetching(false)
             }
         }
         fetchOldMessages()
-    }, [currentPage, params.crewId, prevScrollHeight])
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                const first = entries[0]
-                if (first.isIntersecting && !isFetching) {
-                    setCurrentPage((prev) => prev + 1)
-                }
-            },
-            {
-                root: chatContainerRef.current,
-                threshold: 1.0,
-            },
-        )
+    }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage])
 
-        if (loaderRef.current) {
-            observer.observe(loaderRef.current)
-        }
+    console.log('getOldMessages:', oldMessages)
 
-        return () => {
-            if (loaderRef.current) {
-                observer.unobserve(loaderRef.current)
-            }
-        }
-    }, [isFetching])
-
-    const scrollToBottom = () => {
-        if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
-        }
-    }
-    useEffect(() => {
-        if (currentPage === 0 && chatContainerRef.current) {
-            scrollToBottom()
-        }
-    }, [oldMessages])
     return (
-        <div ref={chatContainerRef} style={{ height: '630px', overflow: 'scroll' }}>
-            <div ref={loaderRef} style={{ height: '1px' }}></div>
+        <div>
             {oldMessages &&
                 oldMessages.map((messageGroup, idx) => (
                     <div key={idx}>
-                        <div className="flex justify-center">
-                            <div className="relative bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
-                                {new Date(messageGroup.date).toLocaleDateString('ko-KR', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                    weekday: 'long',
-                                })}
+                        {idx === 0 || messageGroup.date !== oldMessages[idx - 1]?.date ? (
+                            <div className="flex justify-center">
+                                <div className="bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
+                                    {new Date(messageGroup.date).toLocaleDateString('ko-KR', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        weekday: 'long',
+                                    })}
+                                </div>
                             </div>
-                        </div>
-
+                        ) : null}
                         {messageGroup.chats.map((chat, index) => (
                             <div key={index}>
                                 <div
-                                    className={`flex mb-4 mt-2 ${chat.uuid === uuid ? 'justify-end' : 'justify-start'}`}
+                                    className={`flex mb-4 mt-2 ${chat.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
                                 >
-                                    {chat.uuid === uuid ? (
+                                    {chat.uuid === auth.uuid ? (
                                         <>
                                             {chat.text && (
                                                 <>

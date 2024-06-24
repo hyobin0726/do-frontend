@@ -45,6 +45,10 @@ export default function PageHeader() {
         else if (pathname === '/crewcreate') {
             setMyTitle('소모임 만들기')
         }
+        //chat
+        else if (/^\/crewsetting\/\d+/.test(pathname)) {
+            setMyTitle('소모임 설정')
+        }
         //default
         else {
             setMyTitle('')

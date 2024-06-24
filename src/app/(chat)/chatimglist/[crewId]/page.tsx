@@ -1,3 +1,5 @@
+import { useGetClientToken } from '@/actions/useGetClientToken'
+import { useGetServerToken } from '@/actions/useGetServerToken'
 import PageHeader from '@/components/common/PageHeader'
 import Image from 'next/image'
 interface Chat {
@@ -12,9 +14,13 @@ interface CrewImgList {
 }
 
 async function getCrewImgList(crewId: string) {
+    const auth = await useGetServerToken()
     try {
-        const response = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/chat/image/${crewId}`, {
-            cache: 'no-cache',
+        const response = await fetch(`${process.env.BASE_URL}/chat-service/v1/users/chat/image/${crewId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${auth.token}`,
+            },
         })
         const data = await response.json()
         return data.data
