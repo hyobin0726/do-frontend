@@ -12,6 +12,7 @@ const nextConfig = {
         ],
     },
     env: {
+        NEXT_PUBLIC_KAKAO_API_KEY: process.env.NEXT_PUBLIC_KAKAO_API_KEY,
         BASE_URL: process.env.BASE_URL,
         NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
         GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
@@ -27,11 +28,11 @@ const nextConfig = {
 
 const withPWA = withPWAInit({
     dest: 'public',
-    disable: false, 
+    disable: false,
     reloadOnOnline: true,
     swcMinify: true,
     workboxOptions: {
         disableDevLogs: true,
-    }, 
+    },
 })
 export default withPWA(nextConfig)
