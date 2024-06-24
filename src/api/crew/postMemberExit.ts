@@ -1,4 +1,6 @@
 'use server'
+
+import { revalidateTag } from 'next/cache'
 import { useGetServerToken } from '@/actions/useGetServerToken'
 export async function postMemberExit({ crewId, outUuid }: { crewId: string; outUuid: string }) {
     const auth = await useGetServerToken()
@@ -14,5 +16,10 @@ export async function postMemberExit({ crewId, outUuid }: { crewId: string; outU
         body: JSON.stringify(bodyData),
     })
     const data = await res.json()
+    if (data.isSuccess) {
+        console.log('Member exit response:', data)
+        revalidateTag('memberRefresh')
+    }
+    console.log('data:', data)
     return data
 }

@@ -3,6 +3,7 @@ import CrewUpdateForm from './CrewUpdateForm'
 import CrewImageUpdateForm from './CrewImage'
 import CrewCreateButton from './CrewCreateButton'
 import { PutCrew } from '@/api/crew/putCrew'
+import { redirect } from 'next/navigation'
 
 export default function CrewUpdatePage({ data, crewId }: { data: CrewInfoType; crewId: string }) {
     async function handleCrewSubmit(formData: FormData) {
@@ -15,6 +16,7 @@ export default function CrewUpdatePage({ data, crewId }: { data: CrewInfoType; c
             joinType: parseInt(formData.get('joinType') as string),
         }
         await PutCrew(rowFormData, crewId)
+        redirect(`/crewsetting/${crewId}`)
     }
 
     return (

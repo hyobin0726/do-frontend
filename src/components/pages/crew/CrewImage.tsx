@@ -4,10 +4,14 @@ import Album from '@/components/images/Album'
 import Alert from '@/components/common/Alert'
 import CrewImage from '@/components/images/crewImage'
 import Image from 'next/image'
+import ErrorMark from '@/components/images/ErrorMark'
 
 export default function CrewImageUpdateForm({ initialImageUrl }: { initialImageUrl: string }) {
+    const deFaultProfileImageUrl =
+        'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/image_1718327243910_crew.png'
+
     const [crewImage, setCrewImage] = useState<File | null>(null)
-    const [imageUrl, setImageUrl] = useState<string | null>(initialImageUrl)
+    const [imageUrl, setImageUrl] = useState<string>(initialImageUrl)
     const [isOpened, setIsOpened] = useState<boolean>(false)
 
     const imageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,31 +32,56 @@ export default function CrewImageUpdateForm({ initialImageUrl }: { initialImageU
             }
         }
     }
+    const handleProfileImageDelete = () => {
+        setCrewImage(null)
+        setImageUrl(deFaultProfileImageUrl)
+    }
 
     return (
         <section className="flex justify-center">
-            <div className="relative w-40 h-50">
-                {imageUrl ? (
+            <div className="relative w-40 h-50  object-cover rounded-lg">
+                {crewImage ? (
+                    <Image
+                        src={URL.createObjectURL(crewImage)}
+                        alt="이미지 미리보기"
+                        width={200}
+                        height={200}
+                        priority={true}
+                        style={{
+                            width: '200px',
+                            height: '200px',
+                        }}
+                    />
+                ) : (
                     <Image
                         src={imageUrl}
                         alt="이미지 미리보기"
-                        className="w-full h-full object-cover rounded-lg"
                         width={200}
                         height={200}
+                        priority={true}
+                        style={{
+                            width: '200px',
+                            height: '200px',
+                        }}
                     />
+                )}
+                {deFaultProfileImageUrl !== imageUrl ? (
+                    //이미지 삭제 == 기존 url을 default로 변경
+                    <div
+                        onClick={handleProfileImageDelete}
+                        className="absolute top-[5px] right-[5px]  bg-hobbing-red w-[30px] h-[30px] flex justify-center items-center rounded-full p-1"
+                    >
+                        <ErrorMark color="#ffffff" />
+                    </div>
                 ) : (
-                    <div className="w-full h-full bg-gray-200 flex items-center justify-center rounded-lg">
-                        <CrewImage />
+                    //이미지 추가 == s3에 업로드
+                    <div className="absolute top-[5px] right-[5px]  bg-hobbing-red w-[30px] h-[30px] flex justify-center items-center rounded-full p-1">
+                        <label htmlFor="inputFile" className="cursor-pointer">
+                            <ErrorMark rotate={45} color="#ffffff" />
+                        </label>
+                        <input type="file" id="inputFile" className="hidden" onChange={imageHandler} />
                     </div>
                 )}
-                <div className="absolute bottom-2 right-2 w-7 h-7 bg-white rounded-full flex items-center justify-center">
-                    <label htmlFor="inputFile" className="cursor-pointer">
-                        <div className="w-5">
-                            <Album />
-                        </div>
-                    </label>
-                    <input type="file" id="inputFile" className="hidden" onChange={imageHandler} />
-                </div>
             </div>
             {imageUrl && <input type="hidden" name="profileUrl" value={imageUrl} />}
             {isOpened && (

@@ -8,6 +8,7 @@ export async function GetCrewMember({ crewId }: { crewId: string }) {
             Uuid: `${auth.token}`,
             'Content-Type': 'application/json',
         },
+        next: { tags: ['memberRefresh'] },
     })
     const data = await res.json()
     return data.data

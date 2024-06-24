@@ -7,7 +7,7 @@ export default async function ChatPage() {
     // console.log('crewList:', crewList)
 
     return (
-        <div className=" bg-[#FBFBFD] h-[calc(100dvh-120px)] overflow-y-scroll">
+        <div className=" bg-[#FBFBFD] h-[calc(100dvh-140px)] overflow-y-scroll scrollbar-hide">
             <ChatList crewList={crewList} />
         </div>
     )

@@ -20,33 +20,6 @@ export default function ChatMenuModal({
     setIsAlertOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
     console.log('crewId:', crewId)
-    // const crew = [
-    //     {
-    //         id: 1,
-    //         name: '박효빈',
-    //         role: 1,
-    //     },
-    //     {
-    //         id: 2,
-    //         name: '김예진',
-    //         role: 0,
-    //     },
-    //     {
-    //         id: 3,
-    //         name: '김선욱',
-    //         role: 0,
-    //     },
-    //     {
-    //         id: 4,
-    //         name: '홍준표',
-    //         role: 0,
-    //     },
-    //     {
-    //         id: 5,
-    //         name: '이선주',
-    //         role: 0,
-    //     },
-    // ]
     const [members, setMembers] = useState<CrewMemberType[]>([])
     useEffect(() => {
         const fetchMembers = async () => {
