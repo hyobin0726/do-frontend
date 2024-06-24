@@ -25,7 +25,7 @@ interface suggestionCrewId {
 export default function CrewInfoSlider({ suggestionCrewIdList }: { suggestionCrewIdList: suggestionCrewId[] }) {
     return (
         <>
-            <section className="w-full h-[50px]">
+            <section className="w-full h-[55px]">
                 <Link
                     href={'/crewcreate'}
                     className="w-full h-full bg-hobbing-red flex justify-between items-center px-5"
@@ -37,7 +37,7 @@ export default function CrewInfoSlider({ suggestionCrewIdList }: { suggestionCre
                     <RightArrow />
                 </Link>
             </section>
-            <section className="w-full h-[calc(100%-100px)] bg-hobbing-bg-pink bg-gradient-to-t from-black/50 to-40%">
+            <section className="w-full h-[calc(100%-110px)] bg-hobbing-bg-pink bg-gradient-to-t from-black/50 to-40%">
                 <Swiper
                     loop={suggestionCrewIdList.length > 1 ? true : false}
                     grabCursor={true}

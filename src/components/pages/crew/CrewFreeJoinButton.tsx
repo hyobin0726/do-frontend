@@ -33,9 +33,9 @@ export default function CrewFreeJoinButton({ crewId }: { crewId: number }) {
             <form onSubmit={handleFreeJoin}>
                 <button
                     type="submit"
-                    className="h-[40px] w-full rounded-xl flex flex-row justify-between items-center px-5 my-4 bg-hobbing-red"
+                    className="h-[50px] w-full rounded-xl flex flex-row justify-between items-center px-5 mb-4 mt-2 bg-hobbing-red"
                 >
-                    <p className="text-white text-[13px]">가입하기</p>
+                    <p className="text-white text-[13px]">바로 가입하기</p>
                     <RightArrow />
                 </button>
             </form>

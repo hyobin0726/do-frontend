@@ -1,4 +1,5 @@
 import CrewFreeJoinButton from './CrewFreeJoinButton'
+import CrewFormJoinButton from './CrewFormJoinButton'
 
 interface crewInfo {
     crewId: number
@@ -19,8 +20,8 @@ export default function CrewInfo({ crewInfo }: { crewInfo: crewInfo }) {
                 backgroundImage: `url(${crewInfo.profileUrl})`,
             }}
         >
-            <div className="w-full h-2/3 bg-gradient-to-t from-black/50 flex flex-col justify-end p-5">
-                <div className="space-y-1">
+            <div className="w-full h-2/3 bg-gradient-to-t from-black/50 flex flex-col justify-end px-5 pb-5">
+                <div className="space-y-1 px-1">
                     <p className="text-white text-[18px] font-bold">{crewInfo.crewName}</p>
                     <div className="flex flex-row space-x-3">
                         <svg width="13" height="16" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +56,11 @@ export default function CrewInfo({ crewInfo }: { crewInfo: crewInfo }) {
                         </div>
                     )}
                 </div>
-                {crewInfo.joinType === 1 ? <></> : <CrewFreeJoinButton crewId={crewInfo.crewId} />}
+                {crewInfo.joinType === 1 ? (
+                    <CrewFormJoinButton crewId={crewInfo.crewId} />
+                ) : (
+                    <CrewFreeJoinButton crewId={crewInfo.crewId} />
+                )}
             </div>
         </div>
     )
