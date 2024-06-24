@@ -1,5 +1,5 @@
 import getCrewInfo from '@/api/crew/getCrewInfo'
-import CrewInfo from '@/components/pages/crew/CrewInfo'
+import CrewUpdate from '@/components/pages/crew/CrewUpdate'
 import { CrewInfoType } from '@/type/CrewType'
 
 export default async function Info({ params }: { params: { crewId: string } }) {
@@ -7,7 +7,7 @@ export default async function Info({ params }: { params: { crewId: string } }) {
     const crew: CrewInfoType = await getCrewInfo({ crewId })
     return (
         <div>
-            <CrewInfo data={crew} crewId={crewId} />
+            <CrewUpdate data={crew} crewId={crewId} />
         </div>
     )
 }
