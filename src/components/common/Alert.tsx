@@ -13,9 +13,10 @@ interface AlertProps {
     type: 'question' | 'info' | 'error' | 'success' | 'warning' | 'loading'
     isAlertOpen: boolean
     children?: React.ReactNode
+    background?: boolean
 }
 
-export default function Alert({ type, isAlertOpen, children }: AlertProps) {
+export default function Alert({ type, isAlertOpen, children, background }: AlertProps) {
     const [visible, setVisible] = useState(isAlertOpen)
     const [isFading, setIsFading] = useState(false)
 
@@ -45,7 +46,7 @@ export default function Alert({ type, isAlertOpen, children }: AlertProps) {
                         className={`
                             fixed top-0 left-0 z-[3000]
                             w-dvw h-svh 
-                            bg-[#000000] bg-opacity-30 
+                            ${background ? 'bg-[#000000] bg-opacity-30 ' : ''}
                             transition-all
                             ${isAlertOpen ? '' : 'fade-out-background'}`}
                     ></div>

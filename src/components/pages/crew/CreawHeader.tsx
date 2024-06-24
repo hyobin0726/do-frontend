@@ -15,16 +15,16 @@ export default async function CrewHeader({
 }) {
     return (
         <>
-            <section className="w-full h-[50px] bg-white px-3 flex items-center overflow-x-scroll scroll-smooth scrollbar-hide drop-shadow">
-                <div className="flex flex-row h-[30px] w-auto space-x-3">
+            <section className="w-auto h-[55px] bg-white px-3 drop-shadow flex items-center overflow-x-scroll scroll-smooth scrollbar-hide">
+                <div className="w-full h-[35px] space-x-3 flex flex-row ">
                     {hobbies.map((hobby: HobbyType) => (
                         <Link
                             href={`/crew?hobbyId=${hobby.hobbyId}`}
                             key={hobby.hobbyId}
-                            className={`w-fit flex justify-center items-center rounded-lg ${focusedHobbyId == hobby.hobbyId ? 'bg-hobbing-red' : 'bg-hobbing-light-pink    border-[1px] border-hobbing-red'} `}
+                            className={`flex-none w-auto px-5 flex justify-center items-center rounded-xl ${focusedHobbyId == hobby.hobbyId ? 'bg-hobbing-red' : 'bg-white border-[1px] border-hobbing-red'} `}
                         >
                             <p
-                                className={`${focusedHobbyId == hobby.hobbyId ? 'text-white' : 'text-hobbing-red '} text-[13px] mx-2`}
+                                className={`${focusedHobbyId == hobby.hobbyId ? 'text-white' : 'text-hobbing-red '} text-[13px]`}
                             >
                                 {hobby.hobbyName}
                             </p>

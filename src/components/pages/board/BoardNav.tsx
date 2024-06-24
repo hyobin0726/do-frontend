@@ -12,7 +12,7 @@ export default function BoardNav({ crew, selectedCrewId }: { crew: CrewType[]; s
 
     return (
         <>
-            <nav className="w-full bg-yellow-200 shadow-md py-4">
+            <nav className="w-full shadow-md py-4">
                 <ul className="flex overflow-x-scroll space-x-4 px-4 scrollbar-hide">
                     {crew?.map((profile, index) => (
                         <BoardCrew

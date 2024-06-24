@@ -27,8 +27,7 @@ export default function SliderModal({ children, isModalOpen, onChangeModal, back
                 onClick={backgroundClose ? onChangeModal : () => {}}
                 className={`
                     fixed top-0 left-0  z-[200]
-                    w-screen h-svh 
-                    bg-[#000000] bg-opacity-30 
+                    w-screen h-svh
                     transition-all
                     ${isModalOpen ? '' : 'hidden'}`}
             ></div>
@@ -40,9 +39,10 @@ export default function SliderModal({ children, isModalOpen, onChangeModal, back
                 className={`
                     fixed bottom-0 right-0 left-0 z-[300]
                     rounded-t-2xl w-screen 
-                    bg-white
+                    bg-hobbing-light-pink 
                     pb-10
                     flex flex-col justify-center items-center
+                    drop-shadow-[0_-10px_20px_rgba(0,0,0,0.2)]
                 `}
             >
                 <div className="w-full py-3 flex justify-center">
