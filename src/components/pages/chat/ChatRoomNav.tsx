@@ -17,7 +17,7 @@ export default function ChatRoomNav() {
     const [chatMenu, setChatMenu] = useState<boolean>(false)
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [isManager, setIsManager] = useState<boolean>(false)
-    const [crew, setCrew] = useState<CrewInfoType>()
+    const [crew, setCrew] = useState<CrewInfoType>({} as CrewInfoType)
     useEffect(() => {
         const fetchCrew = async () => {
             const getCrew: CrewInfoType = await getCrewInfo({ crewId: params.crewId })
@@ -26,13 +26,7 @@ export default function ChatRoomNav() {
         fetchCrew()
     }, [params.crewId])
     console.log('crew:', crew)
-    // console.log('params:', params.crewId)
-    // const crew = {
-    //     id: params.crewId,
-    //     name: '해운대 크루',
-    //     Introduction: '#해운대 #러닝 #취미',
-    //     profile_url: 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/1716864446634Group+1000001922.png',
-    // }
+
     // 날짜형식고민
     const event = new Date()
 
@@ -115,6 +109,7 @@ export default function ChatRoomNav() {
                 </div>
             </div>
             <ChatMenuModal
+                crewName={crew?.name}
                 chatMenuModal={chatMenu}
                 setChatMenuModal={setChatMenu}
                 crewId={params.crewId}
