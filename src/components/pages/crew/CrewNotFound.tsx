@@ -15,7 +15,7 @@ export default async function CrewNotFound({ hobbyId }: { hobbyId: number }) {
     const hobbyImage = 'https://despbukkit.s3.ap-northeast-2.amazonaws.com/RPGCLASS_BELPHEGOR.png'
 
     return (
-        <section className="w-full h-[calc(100%-50px)] bg-yellow-100">
+        <section className="w-full h-[calc(100%-50px)]">
             <div
                 className="w-full h-full bg-center bg-cover bg-no-repeat"
                 style={{

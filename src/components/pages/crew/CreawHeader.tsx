@@ -21,7 +21,7 @@ export default async function CrewHeader({
                         <Link
                             href={`/crew?hobbyId=${hobby.hobbyId}`}
                             key={hobby.hobbyId}
-                            className={`w-fit flex justify-center items-center rounded-lg ${focusedHobbyId == hobby.hobbyId ? 'bg-hobbing-red' : 'bg-hobbing-light-pink    border-[1px] border-hobbing-red'} `}
+                            className={`w-fit flex justify-center items-center rounded-lg ${focusedHobbyId == hobby.hobbyId ? 'bg-hobbing-red' : 'bg-white border-[1px] border-hobbing-red'} `}
                         >
                             <p
                                 className={`${focusedHobbyId == hobby.hobbyId ? 'text-white' : 'text-hobbing-red '} text-[13px] mx-2`}

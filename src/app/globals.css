@@ -154,3 +154,8 @@ body {
 .fade-out-background {
     animation: fadeOutBackGround 0.2s linear forwards;
 }
+
+/* swiper pagination 색상 변경 */
+.swiper .swiper-pagination-bullet {
+    background-color: #ffffff;
+}
