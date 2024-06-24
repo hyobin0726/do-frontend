@@ -22,9 +22,9 @@ export default function CrewInfo({ crewInfo }: { crewInfo: crewInfo }) {
         >
             <div className="w-full h-2/3 bg-gradient-to-t from-black/50 flex flex-col justify-end px-5 pb-5">
                 <div className="space-y-1 px-1">
-                    <p className="text-white text-[18px] font-bold">{crewInfo.crewName}</p>
-                    <div className="flex flex-row space-x-3">
-                        <svg width="13" height="16" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <p className="text-white text-[25px] font-bold">{crewInfo.crewName}</p>
+                    <div className="flex flex-row space-x-3 items-center">
+                        <svg width="17" height="20" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
@@ -32,10 +32,10 @@ export default function CrewInfo({ crewInfo }: { crewInfo: crewInfo }) {
                                 fill="white"
                             />
                         </svg>
-                        <p className="text-white text-[13px]">{crewInfo.addressName}</p>
+                        <p className="text-white text-[18px]">{crewInfo.addressName}</p>
                     </div>
-                    <div className="flex flex-row space-x-3">
-                        <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <div className="flex flex-row space-x-3 items-center">
+                        <svg width="24" height="20" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
@@ -43,13 +43,13 @@ export default function CrewInfo({ crewInfo }: { crewInfo: crewInfo }) {
                                 fill="white"
                             />
                         </svg>
-                        <p className="text-white text-[12px]">{crewInfo.currentParticipant}/100</p>
+                        <p className="text-white text-[18px]">{crewInfo.currentParticipant}/100</p>
                     </div>
-                    <p className="text-white text-[12px] text-ellipsis overflow-hidden">{crewInfo.introduction}</p>
+                    <p className="text-white text-[15px] text-ellipsis overflow-hidden">{crewInfo.introduction}</p>
                     {crewInfo.hashTagList?.length > 0 && (
                         <div className="flex flex-row space-x-3">
                             {crewInfo.hashTagList.map((hashTag: string, index: number) => (
-                                <span key={index} className="text-white text-[12px] italic font-medium">
+                                <span key={index} className="text-white text-[15px] italic font-medium">
                                     #{hashTag}
                                 </span>
                             ))}
@@ -57,9 +57,9 @@ export default function CrewInfo({ crewInfo }: { crewInfo: crewInfo }) {
                     )}
                 </div>
                 {crewInfo.joinType === 1 ? (
-                    <CrewFormJoinButton crewId={crewInfo.crewId} />
+                    <CrewFormJoinButton crewId={crewInfo.crewId} crewName={crewInfo.crewName} />
                 ) : (
-                    <CrewFreeJoinButton crewId={crewInfo.crewId} />
+                    <CrewFreeJoinButton crewId={crewInfo.crewId} crewName={crewInfo.crewName} />
                 )}
             </div>
         </div>
