@@ -23,11 +23,11 @@ export default function MemberInfomation({ signupinfo }: MemberInfomationProps) 
     }
 
     const signupInfoArray = [
-        { label: '이름', infotype: 'name', value: signupinfo.name },
-        { label: '전화번호', infotype: 'phoneNumber', value: formatPhoneNumber(signupinfo.phoneNumber) },
-        { label: '이메일', infotype: 'email', value: signupinfo.email },
-        { label: '성별', infotype: 'gender', value: signupinfo.gender },
-        { label: '생년월일', infotype: 'birth', value: signupinfo.birth },
+        { infotype: 'name', value: signupinfo.name },
+        { infotype: 'phoneNumber', value: formatPhoneNumber(signupinfo.phoneNumber) },
+        { infotype: 'email', value: signupinfo.email },
+        { infotype: 'gender', value: signupinfo.gender },
+        { infotype: 'birth', value: signupinfo.birth },
     ]
     return (
         <main className="w-full h-[calc(100dvh-60px)] px-10 flex flex-col items-center">
@@ -44,7 +44,7 @@ export default function MemberInfomation({ signupinfo }: MemberInfomationProps) 
             <section className="w-full h-[55%] space-y-4 flex flex-col justify-center items-center">
                 {signupInfoArray.map((info) => (
                     <div
-                        key={info.label}
+                        key={info.infotype}
                         className="w-[95%] h-[55px] border-b-[1px] border-hobbing-red flex items-center px-4 space-x-4"
                     >
                         <div className="w-auto h-1/3">

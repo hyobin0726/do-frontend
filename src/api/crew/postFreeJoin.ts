@@ -1,6 +1,7 @@
 'use server'
 
 import { useGetServerToken } from '@/actions/useGetServerToken'
+import { revalidateTag } from 'next/cache'
 
 export default async function postFreeJoin(crewId: number) {
     const auth = await useGetServerToken()
@@ -13,5 +14,8 @@ export default async function postFreeJoin(crewId: number) {
         },
     })
     const data = await res.json()
+    if (data.isSuccess) {
+        revalidateTag('suggestionCrewList')
+    }
     return data
 }
