@@ -1,4 +1,5 @@
 import process from 'process'
+import withPWAInit from '@ducanh2912/next-pwa'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,4 +21,13 @@ const nextConfig = {
     },
 }
 
-export default nextConfig
+const withPWA = withPWAInit({
+    dest: 'public',
+    disable: false, 
+    reloadOnOnline: true,
+    swcMinify: true,
+    workboxOptions: {
+        disableDevLogs: true,
+    }, 
+})
+export default withPWA(nextConfig)
