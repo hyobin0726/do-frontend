@@ -6,7 +6,7 @@ const MainNavigation = () => {
     const pathname = usePathname()
 
     return (
-        <nav className="bg-white z-[1000] fixed bottom-0 w-full h-[60px]">
+        <nav className="bg-white z-[1000] fixed bottom-0 w-full h-[80px]">
             <div className="flex flex-2  justify-around items-center p-2">
                 {MainNavigationData.map((item) => {
                     let isActive = false

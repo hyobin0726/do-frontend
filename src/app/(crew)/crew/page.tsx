@@ -5,7 +5,7 @@ import getBaseRegion from '@/api/crew/getBaseRegion'
 import getHobbies from '@/api/survey/getHobbies'
 
 import CrewInfoSlider from '@/components/pages/crew/CrewInfoSlider'
-import CrewNotFount from '@/components/pages/crew/CrewNotFount'
+import CrewNotFound from '@/components/pages/crew/CrewNotFound'
 import CrewHeader from '@/components/pages/crew/CreawHeader'
 
 export default async function CrewPage({ searchParams }: { searchParams: { [key: string]: string } }) {
@@ -19,10 +19,10 @@ export default async function CrewPage({ searchParams }: { searchParams: { [key:
     }
 
     return (
-        <main className="w-full h-[calc(100dvh-120px)]">
+        <main className="w-full h-[calc(100dvh-140px)]">
             <CrewHeader focusedHobbyId={parseInt(focusedHobbyId)} hobbies={hobbies} />
             {suggestionCrewIdList.length === 0 ? (
-                <CrewNotFount hobbyId={parseInt(searchParams.hobbyId)} />
+                <CrewNotFound hobbyId={parseInt(searchParams.hobbyId)} />
             ) : (
                 <CrewInfoSlider suggestionCrewIdList={suggestionCrewIdList} />
             )}

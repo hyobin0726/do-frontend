@@ -9,7 +9,7 @@ interface suggestionCrewId {
     currentParticipant: number
     joinType: number
     profileUrl: string
-    hashTagList: string[] | null
+    hashTagList: string[]
 }
 
 export default async function CrewInfoSlider({ suggestionCrewIdList }: { suggestionCrewIdList: suggestionCrewId[] }) {
@@ -76,7 +76,7 @@ export default async function CrewInfoSlider({ suggestionCrewIdList }: { suggest
                             <p className="text-white text-[12px] text-ellipsis overflow-hidden">
                                 {suggestionCrewIdList[0].introduction}
                             </p>
-                            {suggestionCrewIdList[0].hashTagList !== null && (
+                            {suggestionCrewIdList[0].hashTagList?.length > 0 && (
                                 <div className="flex flex-row space-x-3">
                                     {suggestionCrewIdList[0].hashTagList.map((hashTag, index) => (
                                         <span key={index} className="text-white text-[12px] italic font-medium">

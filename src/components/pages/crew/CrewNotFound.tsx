@@ -9,7 +9,7 @@ interface HobbyCard {
     fitRate: number
 }
 
-export default async function CrewNotFount({ hobbyId }: { hobbyId: number }) {
+export default async function CrewNotFound({ hobbyId }: { hobbyId: number }) {
     const hobbyCard = await getHobbyCards()
     // const hobbyImage = hobbyCard.find((card: HobbyCard) => card.hobbyId === hobbyId)?.imageUrl
     const hobbyImage = 'https://despbukkit.s3.ap-northeast-2.amazonaws.com/RPGCLASS_BELPHEGOR.png'
