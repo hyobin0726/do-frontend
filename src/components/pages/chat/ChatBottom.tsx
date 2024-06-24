@@ -78,18 +78,18 @@ export default function ChatBottom() {
 
     return (
         <div>
-            <form className=" bottom-0 z-[1] fixed  h-[125px]">
-                <div className=" w-screen ">
+            <form className="bottom-0 z-[1] fixed  h-[180px] bg-hobbing-light-pink">
+                <div className="w-screen">
                     <textarea
                         onChange={(e) => setMessage(e.target.value)}
                         value={message}
                         name="message"
-                        className="p-2 w-full h-20"
+                        className="p-2 w-full h-[100px] outline-none caret-hobbing-red scrollbar-hide"
                         autoFocus
                     />
                 </div>
-                <div className="flex justify-between items-center px-2 py-1">
-                    <div className="flex items-center space-x-1">
+                <div className="flex justify-between items-center px-2 py-1 h-[50px]">
+                    <div className="flex items-center space-x-2">
                         <div>
                             <label htmlFor="inputFile">
                                 <div className="w-5">
