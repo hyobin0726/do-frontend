@@ -1,5 +1,8 @@
+'use client'
 import { CrewMemberType } from '@/type/CrewType'
 import Image from 'next/image'
+import { useState } from 'react'
+import ChatProfile from './ChatProfile'
 
 interface chatsType {
     uuid: string
@@ -21,12 +24,19 @@ export default function ChatReceiver({
     const member = crewMembers.find((member) => member.uuid === memberUuid)
     const name = member ? member.name : '(알 수 없음)'
     const profile = member ? member.profileUrl : nonUser
+    const otherUuid = member ? member.uuid : ''
     // console.log('member:', member)
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const handleClicked = () => {
+        setIsModalOpen(!isModalOpen)
+    }
     return (
         <section>
             {chat.imageUrl && (
                 <div className="flex flex-col">
-                    <div className="flex items-center">
+                    <div className="flex items-center" onClick={handleClicked}>
                         <Image
                             src={profile}
                             alt="Profile"
@@ -51,7 +61,7 @@ export default function ChatReceiver({
             )}
             {chat.text && (
                 <div className="flex flex-col space-y-2">
-                    <div className="flex items-center">
+                    <div className="flex items-center" onClick={handleClicked}>
                         <Image
                             src={profile}
                             alt="Profile"
@@ -74,6 +84,7 @@ export default function ChatReceiver({
                     </div>
                 </div>
             )}
+            <ChatProfile isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} otherUuid={otherUuid} />
         </section>
     )
 }

@@ -107,7 +107,7 @@ export default function ChatOldMessage({
     }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage, auth.token])
 
     // console.log(lastPage, 'last')
-    console.log(currentPage, 'current')
+    // console.log(currentPage, 'current')
     // console.log('getOldMessages:', oldMessages)
     // console.log('crewMembers:', crewMembers)
     return (

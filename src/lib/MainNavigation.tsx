@@ -33,7 +33,7 @@ export const MainNavigationData: MainNavigationDataType[] = [
         id: 4,
         title: '채팅',
         icon: Chat,
-        url: '/chatroom/27',
+        url: '/chat',
     },
     {
         id: 5,
