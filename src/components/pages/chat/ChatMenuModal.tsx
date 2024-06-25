@@ -18,6 +18,7 @@ export default function ChatMenuModal({
     crewId: string
     setIsAlertOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
+
     const handleDeleteButton = () => {
         setChatMenuModal(false)
         setIsAlertOpen(true)
@@ -33,7 +34,6 @@ export default function ChatMenuModal({
                         <div className=" space-y-5">
                             <div className="flex justify-between ">
                                 <div className="font-bold text-lg">{crewName} 서랍</div>
-
                                 <button
                                     className="text-[#FD7A23] text-lg font-bold"
                                     onClick={() => setChatMenuModal(false)}

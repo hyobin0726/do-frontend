@@ -11,6 +11,7 @@ interface chatsType {
     entryExitNotice?: string
     createdAt: string
 }
+
 export default function ChatReceiver({
     chat,
     crewMembers,
@@ -49,6 +50,7 @@ export default function ChatReceiver({
                     <div className="flex flex-row m-5">
                         <div className="bg-white border border-[#E5EBEF] py-2 px-4 rounded-lg w-fit justify-start">
                             <img src={chat.imageUrl} alt="Image" className="w-[200px]" />
+
                         </div>
                         <div className="text-gray-500 text-sm ml-2 self-end">
                             {new Date(chat.createdAt).toLocaleTimeString('ko-KR', {
