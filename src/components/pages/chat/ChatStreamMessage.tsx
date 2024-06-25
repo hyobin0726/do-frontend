@@ -58,6 +58,7 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
         const connectToSSE = () => {
             const EventSource = EventSourcePolyfill
             const eventSource = new EventSource(`${process.env.BASE_URL}/chat-service/v1/users/chat/${params.crewId}`, {
+                withCredentials: true,
                 headers: {
                     Authorization: `${auth.token}`,
                 },

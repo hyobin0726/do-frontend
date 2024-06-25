@@ -9,7 +9,7 @@ interface chatsType {
 }
 export default function ChatReceiver({ chat, crewMembers }: { chat: chatsType; crewMembers: CrewMemberType[] }) {
     const member = crewMembers.find((member) => member.uuid === chat.uuid)
-    console.log('member:', member)
+    // console.log('member:', member)
     return (
         <section>
             {chat.imageUrl && (
