@@ -11,6 +11,5 @@ export default async function getHobbyCards() {
         },
     })
     const data = await response.json()
-    // console.log('getHobbyCards data :', data.data)
     return data.data
 }
