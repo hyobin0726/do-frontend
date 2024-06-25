@@ -80,7 +80,7 @@ export default function ChatRoomNav() {
 
     return (
         <nav>
-            <div className="bg-white drop-shadow-sm bg-opacity-50 py-4 px-2 h-[70px] sticky">
+            <div className="bg-white drop-shadow-sm bg-opacity-50 py-4 px-2 h-[70px] sticky top-0 z-[100]">
                 <div className="relative  mx-auto px-2 flex items-center">
                     <div onClick={() => disconnectChat()}>
                         <RouterBackArrowButton />

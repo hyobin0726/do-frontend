@@ -78,7 +78,7 @@ export default function ChatBottom() {
 
     return (
         <div>
-            <form className="bottom-0 z-[100] fixed h-[150px] bg-hobbing-light-pink ">
+            <form className="bg-white bottom-0 z-[100] fixed h-[170px] w-full">
                 <div className="w-screen">
                     <textarea
                         onChange={(e) => setMessage(e.target.value)}

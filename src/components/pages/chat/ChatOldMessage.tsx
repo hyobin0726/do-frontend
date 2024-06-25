@@ -107,7 +107,7 @@ export default function ChatOldMessage({
     }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage, auth.token])
 
     // console.log(lastPage, 'last')
-
+    console.log(currentPage, 'current')
     // console.log('getOldMessages:', oldMessages)
     // console.log('crewMembers:', crewMembers)
     return (
@@ -120,9 +120,7 @@ export default function ChatOldMessage({
                         ) : null}
                         {messageGroup.chats.map((chat, index) => (
                             <div key={index}>
-                                <div
-                                    className={`flex mb-4 mt-2 ${chat.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
-                                >
+                                <div className={`flex ${chat.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}>
                                     {chat.uuid === auth.uuid ? (
                                         <ChatSender key={index} chat={chat} />
                                     ) : (

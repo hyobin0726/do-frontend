@@ -126,12 +126,12 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
                     {messages.map((message, index) => (
                         <div key={index}>
                             <div
-                                className={`flex mb-4 mt-2 ${message.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
+                                className={`flex ${message.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
                             >
                                 {message.uuid === auth.uuid ? (
                                     <ChatSender chat={message} />
                                 ) : (
-                                    <ChatReceiver chat={message} crewMembers={crewMembers} />
+                                    <ChatReceiver chat={message} crewMembers={crewMembers} memberUuid={message.uuid} />
                                 )}
                             </div>
                             {message.entryExitNotice && (

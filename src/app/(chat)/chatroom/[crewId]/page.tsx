@@ -17,7 +17,7 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
         async function fetchCrewMembers() {
             try {
                 const members = await GetCrewMember({ crewId })
-                setCrewMembers(members) 
+                setCrewMembers(members)
             } catch (error) {
                 console.error('Error fetching crew members:', error)
             }
@@ -55,7 +55,7 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
             className="bg-[#F8F8F8] "
             ref={chatContainerRef}
             style={{
-                height: '600px',
+                height: 'calc(100dvh - 240px)',
                 overflow: 'scroll',
             }}
         >
