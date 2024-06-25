@@ -22,14 +22,14 @@ export default async function HomePage() {
             redirect('/mypage/region/initial')
         }
         return (
-            <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide">
+            <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide bg-hobbing-bg-gray">
                 <HomeSection1 />
-                <section className="absolute top-[55dvh] drop-shadow-[0_-10px_20px_rgba(0,0,0,0.2)] w-full h-[60dvh] bg-white rounded-t-3xl p-5">
+                {/* <section className="absolute top-[55dvh] drop-shadow-[0_-10px_20px_rgba(0,0,0,0.2)] w-full h-[60dvh] bg-white rounded-t-3xl p-5">
                     <h1>New 소모임💫</h1>
                 </section>
                 <section className="absolute top-[110dvh] drop-shadow-[0_-10px_20px_rgba(0,0,0,0.2)] w-full h-[60dvh] bg-white rounded-t-3xl p-5">
                     <h1>우리동네 Hot한 소모임🔥</h1>
-                </section>
+                </section> */}
             </main>
         )
     }
