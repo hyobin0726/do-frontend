@@ -1,8 +1,13 @@
 'use client'
 import { useGetClientToken } from '@/actions/useGetClientToken'
-import { getChatOldMessage } from '@/api/chat/chatOldMessage'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import ChatSender from './ChatSender'
+import ChatReceiver from './ChatReceiver'
+import ChatDate from './ChatDate'
+import Chat from '@/components/images/Chat'
+import ChatEntryNotice from './ChatEntryNotice'
+import { CrewMemberType } from '@/type/CrewType'
 
 interface OldMessagesType {
     lastPage: number
@@ -23,18 +28,19 @@ export default function ChatOldMessage({
     currentPage,
     setIsFetching,
     chatContainerRef,
+    crewMembers,
 }: {
     currentPage: number
     setIsFetching: React.Dispatch<React.SetStateAction<boolean>>
     chatContainerRef: React.RefObject<HTMLDivElement>
+    crewMembers: CrewMemberType[]
 }) {
     const params = useParams<{ crewId: string }>()
-    console.log('params:', params.crewId)
     const [oldMessages, setOldMessages] = useState<OldMessagesType['chatList']>([])
     const [lastPage, setLastPage] = useState<number>(Infinity)
     const [prevScrollHeight, setPrevScrollHeight] = useState<number | null>(null)
     const auth = useGetClientToken()
-    console.log(auth.token)
+    // console.log('auth:', auth.token)
     //  이전내역 조회
     useEffect(() => {
         const fetchOldMessages = async () => {
@@ -99,24 +105,15 @@ export default function ChatOldMessage({
         fetchOldMessages()
     }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage])
 
-    console.log('getOldMessages:', oldMessages)
-
+    // console.log('getOldMessages:', oldMessages)
+    // console.log('crewMembers:', crewMembers)
     return (
-        <div>
+        <section>
             {oldMessages &&
                 oldMessages.map((messageGroup, idx) => (
                     <div key={idx}>
                         {idx === 0 || messageGroup.date !== oldMessages[idx - 1]?.date ? (
-                            <div className="flex justify-center">
-                                <div className="bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
-                                    {new Date(messageGroup.date).toLocaleDateString('ko-KR', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric',
-                                        weekday: 'long',
-                                    })}
-                                </div>
-                            </div>
+                            <ChatDate date={messageGroup.date} />
                         ) : null}
                         {messageGroup.chats.map((chat, index) => (
                             <div key={index}>
@@ -124,93 +121,23 @@ export default function ChatOldMessage({
                                     className={`flex mb-4 mt-2 ${chat.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
                                 >
                                     {chat.uuid === auth.uuid ? (
-                                        <>
-                                            {chat.text && (
-                                                <>
-                                                    <div className="text-gray-500 text-sm mr-2 self-end">
-                                                        {new Date(chat.createdAt).toLocaleTimeString('ko-KR', {
-                                                            hour: '2-digit',
-                                                            minute: '2-digit',
-                                                        })}
-                                                    </div>
-                                                    <div className="bg-hobbing-red text-white py-2 px-4 rounded-lg">
-                                                        {chat.text}
-                                                    </div>
-                                                </>
-                                            )}
-                                            {chat.imageUrl && (
-                                                <>
-                                                    <div className="text-gray-500 text-sm mr-2 self-end">
-                                                        {new Date(chat.createdAt).toLocaleTimeString('ko-KR', {
-                                                            hour: '2-digit',
-                                                            minute: '2-digit',
-                                                        })}
-                                                    </div>
-                                                    <div className="bg-hobbing-red text-white py-2 px-4 rounded-lg w-36">
-                                                        <img src={chat.imageUrl} alt="Image" />
-                                                    </div>
-                                                </>
-                                            )}
-                                        </>
+                                        <ChatSender key={index} chat={chat} />
                                     ) : (
-                                        <>
-                                            {chat.imageUrl && (
-                                                <div>
-                                                    <div className="flex items-center">
-                                                        <div className="bg-[#D9D9D9] rounded-full w-10 h-10 flex items-center justify-center text-sm">
-                                                            프로필
-                                                        </div>
-                                                        <p className="text-xs text-gray-600 ml-1">사용자1</p>
-                                                    </div>
-                                                    <div className="flex mt-2 ml-2">
-                                                        <div className="bg-white border border-[#E5EBEF] text-gray-800 py-2 px-4 rounded-lg w-36">
-                                                            <img src={chat.imageUrl} alt="Image" />
-                                                        </div>
-                                                        <div className="text-gray-500 text-sm ml-2 self-end">
-                                                            {new Date(chat.createdAt).toLocaleTimeString('ko-KR', {
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                            })}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
-                                            {chat.text && (
-                                                <div>
-                                                    <div className="flex items-center">
-                                                        <div className="bg-[#D9D9D9] rounded-full w-10 h-10 flex items-center justify-center text-sm">
-                                                            프로필
-                                                        </div>
-                                                        <p className="text-xs text-gray-600 ml-1">사용자1</p>
-                                                    </div>
-                                                    <div className="flex mt-2 ml-2">
-                                                        <div className="bg-white border border-[#E5EBEF] text-gray-800 py-2 px-4 rounded-lg">
-                                                            {chat.text}
-                                                        </div>
-                                                        <div className="text-gray-500 text-sm ml-2 self-end">
-                                                            {new Date(chat.createdAt).toLocaleTimeString('ko-KR', {
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                            })}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </>
+                                        <ChatReceiver key={index} chat={chat} crewMembers={crewMembers} />
                                     )}
                                 </div>
 
                                 {chat.entryExitNotice && (
-                                    <div className="flex justify-center mb-4">
-                                        <div className="relative bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
-                                            {chat.entryExitNotice}
-                                        </div>
-                                    </div>
+                                    <ChatEntryNotice
+                                        entryExitNotice={chat.entryExitNotice}
+                                        entryUuid={chat.uuid}
+                                        crewMembers={crewMembers}
+                                    />
                                 )}
                             </div>
                         ))}
                     </div>
                 ))}
-        </div>
+        </section>
     )
 }

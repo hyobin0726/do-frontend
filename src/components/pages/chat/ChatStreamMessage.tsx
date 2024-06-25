@@ -3,6 +3,11 @@ import { useEffect, useState } from 'react'
 import { EventSourcePolyfill } from 'event-source-polyfill'
 import { useParams } from 'next/navigation'
 import { useGetClientToken } from '@/actions/useGetClientToken'
+import ChatSender from './ChatSender'
+import Chat from '@/components/images/Chat'
+import ChatReceiver from './ChatReceiver'
+import { CrewMemberType } from '@/type/CrewType'
+import ChatEntryNotice from './ChatEntryNotice'
 
 interface ChatMessageType {
     uuid: string
@@ -12,7 +17,7 @@ interface ChatMessageType {
     createdAt: string
 }
 
-export default function ChatStreamMessage() {
+export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMemberType[] }) {
     const params = useParams<{ crewId: string }>()
     const [messages, setMessages] = useState<ChatMessageType[]>([] as ChatMessageType[])
     const auth = useGetClientToken()
@@ -121,88 +126,17 @@ export default function ChatStreamMessage() {
                                 className={`flex mb-4 mt-2 ${message.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
                             >
                                 {message.uuid === auth.uuid ? (
-                                    <>
-                                        {message.text && (
-                                            <>
-                                                <div className="text-gray-500 text-sm mr-2 self-end">
-                                                    {new Date(message.createdAt).toLocaleTimeString('ko-KR', {
-                                                        hour: '2-digit',
-                                                        minute: '2-digit',
-                                                    })}
-                                                </div>
-                                                <div className="bg-hobbing-red text-white py-2 px-4 rounded-lg ">
-                                                    {message.text}
-                                                </div>
-                                            </>
-                                        )}
-                                        {message.imageUrl && (
-                                            <>
-                                                <div className="text-gray-500 text-sm mr-2 self-end">
-                                                    {new Date(message.createdAt).toLocaleTimeString('ko-KR', {
-                                                        hour: '2-digit',
-                                                        minute: '2-digit',
-                                                    })}
-                                                </div>
-                                                <div className="bg-hobbing-red text-white py-2 px-4 rounded-lg w-36">
-                                                    <img src={message.imageUrl} alt="Image" />
-                                                </div>
-                                            </>
-                                        )}
-                                    </>
+                                    <ChatSender chat={message} />
                                 ) : (
-                                    <>
-                                        {message.imageUrl && (
-                                            <div>
-                                                <div className="flex items-center">
-                                                    <div className="bg-[#D9D9D9]  rounded-full w-10 h-10 flex items-center justify-center text-sm">
-                                                        프로필
-                                                    </div>
-                                                    <p className="text-xs text-gray-600 ml-1">사용자1</p>
-                                                </div>
-                                                <div className="flex mt-2 ml-2">
-                                                    <div className="bg-white border border-[#E5EBEF] text-gray-800 py-2 px-4 rounded-lg w-36">
-                                                        <img src={message.imageUrl} alt="Image" />
-                                                    </div>
-                                                    <div className="text-gray-500 text-sm ml-2 self-end ">
-                                                        {new Date(message.createdAt).toLocaleTimeString('ko-KR', {
-                                                            hour: '2-digit',
-                                                            minute: '2-digit',
-                                                        })}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                        {message.text && (
-                                            <div>
-                                                <div className="flex items-center">
-                                                    <div className="bg-[#D9D9D9]  rounded-full w-10 h-10 flex items-center justify-center text-sm">
-                                                        프로필
-                                                    </div>
-                                                    <p className="text-xs text-gray-600 ml-1">사용자1</p>
-                                                </div>
-                                                <div className="flex mt-2 ml-2">
-                                                    <div className="bg-white border border-[#E5EBEF] text-gray-800 py-2 px-4 rounded-lg ">
-                                                        {message.text}
-                                                    </div>
-                                                    <div className="text-gray-500 text-sm ml-2 self-end ">
-                                                        {new Date(message.createdAt).toLocaleTimeString('ko-KR', {
-                                                            hour: '2-digit',
-                                                            minute: '2-digit',
-                                                        })}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </>
+                                    <ChatReceiver chat={message} crewMembers={crewMembers} />
                                 )}
                             </div>
-
                             {message.entryExitNotice && (
-                                <div className="flex justify-center">
-                                    <div className="relative bg-[#D8D8D8] rounded-3xl px-3 py-1 text-white text-sm">
-                                        {message.entryExitNotice}
-                                    </div>
-                                </div>
+                                <ChatEntryNotice
+                                    entryExitNotice={message.entryExitNotice}
+                                    entryUuid={message.uuid}
+                                    crewMembers={crewMembers}
+                                />
                             )}
                         </div>
                     ))}
