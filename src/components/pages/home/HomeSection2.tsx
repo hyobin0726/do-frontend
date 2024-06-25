@@ -1,17 +1,63 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
+import getNewCrew from '@/api/crew/getNewCrew'
 import SquidMonster from '@/components/images/monsters/SquidMonster '
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+// Import Swiper styles
+import 'swiper/css'
+import 'swiper/css/pagination'
+
+import { Pagination } from 'swiper/modules'
+import Location from '@/components/images/Location'
 
 interface HobbyType {
     hobbyId: number
     hobbyName: string
 }
 
-export default function HomeSection2({ hobbies }: { hobbies: HobbyType[] }) {
+interface baseRegion {
+    regionId: number
+    addressName: string
+}
+
+interface crewInfo {
+    crewId: number
+    crewName: string
+    addressName: string
+    currentParticipant: number
+    joinType: number
+    profileUrl: string
+    hashTagList: string[]
+}
+
+export default function HomeSection2({
+    hobbies,
+    baseRegion,
+    newCrew,
+}: {
+    hobbies: HobbyType[]
+    baseRegion: baseRegion
+    newCrew: crewInfo[]
+}) {
     const [focusedHobbyId, setFocusedHobbyId] = useState<number>(hobbies[0].hobbyId)
+    const [newCrewInfo, setNewCrewInfo] = useState<crewInfo[]>(newCrew)
+
+    const fetchData = async () => {
+        const res = await getNewCrew(focusedHobbyId, baseRegion.regionId)
+        if (res.isSuccess) {
+            setNewCrewInfo(res.data)
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [focusedHobbyId])
 
     return (
         <section className="w-full h-[60dvh]">
@@ -42,8 +88,81 @@ export default function HomeSection2({ hobbies }: { hobbies: HobbyType[] }) {
                     ))}
                 </div>
             </div>
-            <div className="w-full h-[calc(100%-180px)] flex items-center bg-green-200">test</div>
-            {/* <HomeUserHobbySwiper hobbyCardsData={hobbyCardsData} /> */}
+            <div className="w-full h-[calc(100%-180px)] flex items-center px-8 py-2">
+                {newCrewInfo.length == 0 ? (
+                    <div className="bg-white w-full h-full rounded-xl drop-shadow-lg">
+                        <p>엄서요</p>
+                    </div>
+                ) : (
+                    <Swiper
+                        spaceBetween={30}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        loop={newCrewInfo.length > 1 ? true : false}
+                        modules={[Pagination]}
+                        className="w-full h-full drop-shadow-lg"
+                    >
+                        {newCrewInfo.map((crewInfo: crewInfo, idx: number) => (
+                            <SwiperSlide
+                                key={idx}
+                                className="w-full h-[100%] flex-none rounded-xl overflow-hidden bg-white"
+                            >
+                                <div
+                                    className="w-full h-[55%] flex-none bg-center bg-cover bg-no-repeat relative overflow-hidden text-transparent"
+                                    style={{
+                                        backgroundImage: `url(${crewInfo.profileUrl})`,
+                                    }}
+                                >
+                                    crewImage
+                                </div>
+                                <div className="w-full h-[45%] px-4 pt-3 pb-5 flex flex-col">
+                                    <div className="w-full h-auto flex flex-row justify-between items-center">
+                                        <div className="w-fit flex flex-row space-x-3">
+                                            <div className="flex flex-row space-x-1">
+                                                <Location />
+                                                <p className="text-hobbing-red text-[14px] ">{crewInfo.addressName}</p>
+                                            </div>
+                                            <div className="flex flex-row space-x-1">
+                                                <svg
+                                                    width="20"
+                                                    height="16"
+                                                    viewBox="0 0 20 16"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
+                                                        d="M10.5072 6.55242C8.90992 5.31353 8.61939 3.01435 9.85828 1.41707C11.0972 -0.180208 13.3963 -0.470739 14.9936 0.768154C16.5909 2.00705 16.8814 4.30622 15.6425 5.9035C14.4037 7.50078 12.1045 7.79131 10.5072 6.55242ZM19.2597 14.8573C19.2597 15.1752 19.0125 15.4353 18.6999 15.456L18.6999 15.467H6.79991L6.79992 15.456C6.48712 15.4355 6.23975 15.1753 6.23975 14.8573C6.23975 14.2112 6.33422 13.5868 6.51008 12.9973H0.70996C0.674313 13.0039 0.63756 13.0074 0.6 13.0074C0.268629 13.0074 0 12.7387 0 12.4074C0 9.796 2.11863 7.67737 4.73 7.67737C6.37446 7.67737 7.82045 8.51295 8.66757 9.78853C9.78467 8.88728 11.205 8.34729 12.7497 8.34729C16.3411 8.34729 19.2597 11.2659 19.2597 14.8573ZM3.43322 7.00031C2.09944 6.28545 1.5977 4.62468 2.31256 3.2909C3.02743 1.95711 4.68819 1.45537 6.02198 2.17024C7.35576 2.8851 7.8575 4.54586 7.14264 5.87965C6.42777 7.21344 4.76701 7.71517 3.43322 7.00031Z"
+                                                        fill="#F76D67"
+                                                    />
+                                                </svg>
+                                                <span className="text-hobbing-red text-[14px] ">
+                                                    {crewInfo.currentParticipant} / 100
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="bg-hobbing-red w-fit h-fit px-4 py-2 rounded-lg text-white text-[13px]">
+                                            가입
+                                        </div>
+                                    </div>
+                                    <p className="text-[30px] font-bold">{crewInfo.crewName}</p>
+                                    {crewInfo.hashTagList.length > 0 && (
+                                        <div className="flex flex-row space-x-2 items-center text-ellipsis overflow-hidden">
+                                            {crewInfo.hashTagList.map((hashTag: string, index: number) => (
+                                                <span key={index} className="text-[13px] flex-none">
+                                                    #{hashTag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                )}
+            </div>
         </section>
     )
 }
