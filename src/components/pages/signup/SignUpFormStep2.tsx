@@ -109,7 +109,7 @@ export default function SignUpFormStep2() {
         <>
             <section className="w-full h-[60%] px-10 space-y-3">
                 <div className="space-y-1">
-                    {name ? (
+                    {searchParams.get('name') ? (
                         <Input
                             title="이름"
                             required={true}

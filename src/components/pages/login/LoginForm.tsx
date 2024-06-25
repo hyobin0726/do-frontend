@@ -30,6 +30,7 @@ export default function LoginForm({ loginError }: { loginError: boolean }) {
                             onChange={(e) => setInputId(e.target.value)}
                             value={inputId}
                             className="bg-white w-full h-[60px] rounded-t-xl pl-5 pr-[50px] font-Pretendard text-[15px] caret-hobbing-red focus:outline-none"
+                            maxLength={20}
                         />
                         <div
                             onClick={() => setInputId('')}
@@ -45,6 +46,7 @@ export default function LoginForm({ loginError }: { loginError: boolean }) {
                             onChange={(e) => setInputPassword(e.target.value)}
                             value={inputPassword}
                             className="bg-white w-full h-[60px] rounded-b-xl pl-5 pr-[50px] font-Pretendard text-[15px] caret-hobbing-red focus:outline-none"
+                            maxLength={20}
                         />
                         <div
                             onClick={() => setInputPassword('')}
