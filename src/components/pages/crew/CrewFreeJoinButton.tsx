@@ -5,58 +5,58 @@ import { useRouter } from 'next/navigation'
 
 import RightArrow from '@/components/images/RightArrow'
 import postFreeJoin from '@/api/crew/postFreeJoin'
-import Alert from '@/components/common/Alert'
+import SliderModal from '@/components/common/SliderModal'
 
-export default function CrewFreeJoinButton({ crewId }: { crewId: number }) {
-    const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
-    const [alertType, setAlertType] = useState<'loading' | 'success' | 'error'>('loading')
-    const [alertMessage, setAlertMessage] = useState<string>('')
+export default function CrewFreeJoinButton({ crewId, crewName }: { crewId: number; crewName: string }) {
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const router = useRouter()
 
-    const handleFreeJoin = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+    const modalController = () => {
+        setIsModalOpen(!isModalOpen)
+    }
 
-        setIsAlertOpen(true)
+    const handleFreeJoin = async () => {
         const res = await postFreeJoin(crewId)
 
         if (res.isSuccess) {
-            setAlertType('success')
-            setAlertMessage('가입이 완료되었습니다. 채팅방으로 이동합니다.')
+            modalController()
+            router.push(`/chat`)
         } else {
-            setAlertType('error')
-            setAlertMessage('가입에 실패했습니다. 다시 시도해주세요')
+            alert('가입에 실패했습니다. 다시 시도해주세요')
         }
     }
 
     return (
         <>
-            <form onSubmit={handleFreeJoin}>
-                <button
-                    type="submit"
-                    className="h-[50px] w-full rounded-xl flex flex-row justify-between items-center px-5 mb-4 mt-2 bg-hobbing-red"
-                >
-                    <p className="text-white text-[13px]">바로 가입하기</p>
-                    <RightArrow />
-                </button>
-            </form>
-            {isAlertOpen && (
-                <Alert type={alertType} isAlertOpen={isAlertOpen} background={true}>
-                    <span className="font-Pretendard text-balance text-center text-[15px] leading-loose">
-                        {alertMessage}
-                    </span>
+            <button
+                onClick={modalController}
+                className="h-[50px] w-full rounded-xl flex flex-row justify-between items-center px-5 mb-4 mt-2 bg-hobbing-red"
+            >
+                <p className="text-white text-[13px]">바로 가입하기</p>
+                <RightArrow />
+            </button>
+            <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true}>
+                <div className="w-full h-auto flex justify-center items-center pt-3">
+                    <p className=" text-[20px] text-center">
+                        <span className="font-bold ">{crewName}</span>에 <br />
+                        가입하시겠습니까?
+                    </p>
+                </div>
+                <div className="w-full h-auto flex flex-row justify-center space-x-4 pt-5">
                     <button
-                        onClick={() => {
-                            setIsAlertOpen(false)
-                            if (alertType === 'success') {
-                                router.push(`/chat`)
-                            }
-                        }}
-                        className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
+                        onClick={handleFreeJoin}
+                        className="w-[80px] h-[45px] bg-hobbing-red rounded-xl font-Pretendard text-[14px] text-white font-medium px-4"
                     >
                         확인
                     </button>
-                </Alert>
-            )}
+                    <button
+                        onClick={modalController}
+                        className="w-[80px] h-[45px] bg-white border-[1px] border-hobbing-red text-hobbing-red rounded-xl font-Pretendard text-[14px] font-medium px-3"
+                    >
+                        닫기
+                    </button>
+                </div>
+            </SliderModal>
         </>
     )
 }

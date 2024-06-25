@@ -11,6 +11,7 @@ export default async function getSuggestionCrewList(hobbiyId: number, regionId: 
             Authorization: `${auth.token}`,
             'Content-Type': 'application/json',
         },
+        next: { tags: ['suggestionCrewList'] },
     })
     const data = await res.json()
     return data.data
