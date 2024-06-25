@@ -1,18 +1,30 @@
 'use client'
+import { GetCrewMember } from '@/api/crew/getCrewMember'
 import ChatOldMessage from '@/components/pages/chat/ChatOldMessage'
 import ChatStreamMessage from '@/components/pages/chat/ChatStreamMessage'
+import { CrewMemberType } from '@/type/CrewType'
 import { useEffect, useRef, useState } from 'react'
 
 export default function ChatRoomPage({ params }: { params: { crewId: string } }) {
     const crewId: string = params.crewId
-
     const [currentPage, setCurrentPage] = useState(0)
     const [isFetching, setIsFetching] = useState(false)
     const chatContainerRef = useRef<HTMLDivElement>(null)
     const loaderRef = useRef<HTMLDivElement>(null)
+    const [crewMembers, setCrewMembers] = useState<CrewMemberType[]>([])
 
-    // console.log('crewId:', crewId)
-
+    useEffect(() => {
+        async function fetchCrewMembers() {
+            try {
+                const members = await GetCrewMember({ crewId })
+                setCrewMembers(members) // 가져온 데이터를 상태로 설정
+            } catch (error) {
+                console.error('Error fetching crew members:', error)
+            }
+        }
+        fetchCrewMembers()
+    }, [crewId])
+    // console.log('crewMembers:', crewMembers)
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -43,7 +55,7 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
             className="bg-[#F8F8F8] "
             ref={chatContainerRef}
             style={{
-                height: '650px',
+                height: '600px',
                 overflow: 'scroll',
             }}
         >
@@ -53,8 +65,9 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
                     currentPage={currentPage}
                     setIsFetching={setIsFetching}
                     chatContainerRef={chatContainerRef}
+                    crewMembers={crewMembers}
                 />
-                <ChatStreamMessage />
+                <ChatStreamMessage crewMembers={crewMembers} />
             </div>
         </section>
     )
