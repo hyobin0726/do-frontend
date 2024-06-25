@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import ChatSender from './ChatSender'
 import ChatReceiver from './ChatReceiver'
 import ChatDate from './ChatDate'
-import Chat from '@/components/images/Chat'
 import ChatEntryNotice from './ChatEntryNotice'
 import { CrewMemberType } from '@/type/CrewType'
 
@@ -42,9 +41,11 @@ export default function ChatOldMessage({
     const auth = useGetClientToken()
     // console.log('auth:', auth.token)
     //  이전내역 조회
+
     useEffect(() => {
+        if (!auth.token) return
         const fetchOldMessages = async () => {
-            if (currentPage > lastPage) {
+            if (currentPage >= lastPage) {
                 setIsFetching(false)
                 return
             }
@@ -63,7 +64,6 @@ export default function ChatOldMessage({
                 )
                 if (response.ok) {
                     const data: { data: OldMessagesType } = await response.json()
-
                     if (data.data.chatList.length > 0) {
                         console.log('data:', data.data)
                         if (currentPage === 0) {
@@ -103,7 +103,10 @@ export default function ChatOldMessage({
             }
         }
         fetchOldMessages()
-    }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage])
+        // }, [])
+    }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage, auth.token])
+
+    // console.log(lastPage, 'last')
 
     // console.log('getOldMessages:', oldMessages)
     // console.log('crewMembers:', crewMembers)
@@ -123,7 +126,12 @@ export default function ChatOldMessage({
                                     {chat.uuid === auth.uuid ? (
                                         <ChatSender key={index} chat={chat} />
                                     ) : (
-                                        <ChatReceiver key={index} chat={chat} crewMembers={crewMembers} />
+                                        <ChatReceiver
+                                            key={index}
+                                            chat={chat}
+                                            crewMembers={crewMembers}
+                                            memberUuid={chat.uuid}
+                                        />
                                     )}
                                 </div>
 

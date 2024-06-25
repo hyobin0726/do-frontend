@@ -17,7 +17,7 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
         async function fetchCrewMembers() {
             try {
                 const members = await GetCrewMember({ crewId })
-                setCrewMembers(members) // 가져온 데이터를 상태로 설정
+                setCrewMembers(members) 
             } catch (error) {
                 console.error('Error fetching crew members:', error)
             }

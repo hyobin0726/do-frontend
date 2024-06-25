@@ -25,7 +25,7 @@ export default function ChatRoomNav() {
         }
         fetchCrew()
     }, [params.crewId])
-    console.log('crew:', crew)
+    // console.log('crew:', crew)
 
     // 날짜형식고민
     const event = new Date()
@@ -73,9 +73,9 @@ export default function ChatRoomNav() {
             disconnectChat()
         }
         window.addEventListener('beforeunload', handleBeforeUnload)
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload)
-        }
+        // return () => {
+        //     window.removeEventListener('beforeunload', handleBeforeUnload)
+        // }
     }, [])
 
     return (

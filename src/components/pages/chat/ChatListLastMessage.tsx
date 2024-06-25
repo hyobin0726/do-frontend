@@ -22,10 +22,12 @@ function ChatListLastMessage({
     // console.log('auth:', auth.token)
 
     useEffect(() => {
+        if (!auth.token) return
         isMounted.current = true
 
         const connectToSSE = () => {
             const EventSource = EventSourcePolyfill
+
             const eventSource = new EventSource(
                 `${process.env.BASE_URL}/chat-service/v1/users/chat/latest/stream/${crewId}`,
                 {
@@ -38,21 +40,23 @@ function ChatListLastMessage({
             eventSource.onmessage = (event) => {
                 const data = JSON.parse(event.data)
                 if (data.isSuccess === true) {
-                    console.log('소모임 목록을 불러왔습니다.', data.data)
+                    console.log('lastchat', data.data)
                     setChatList(data.data)
                     onUpdateCreatedAt(crewId, data.data.createdAt)
+                } else {
+                    console.error('Failed', data.message)
                 }
-                // console.log('event:', event)
+
                 return data.data
             }
             eventSource.onerror = (error) => {
                 console.error('Failed to get chat list:', error)
                 eventSource.close()
-                // setTimeout(() => {
-                //     if (isMounted.current) {
-                //         connectToSSE()
-                //     }
-                // }, 50000)
+                setTimeout(() => {
+                    if (isMounted.current) {
+                        connectToSSE()
+                    }
+                }, 5000)
             }
             return eventSource
         }
@@ -62,7 +66,7 @@ function ChatListLastMessage({
             isMounted.current = false
             eventSource.close()
         }
-    }, [crewId])
+    }, [auth.token])
     // console.log('data:', chatList)
 
     const formatTimestamp = (timestamp: string) => {
