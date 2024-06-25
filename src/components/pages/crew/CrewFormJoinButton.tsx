@@ -114,7 +114,7 @@ export default function CrewFormJoinButton({ crewId, crewName }: { crewId: numbe
         <>
             <button
                 onClick={modalController}
-                className="h-[50px] w-full rounded-xl flex flex-row justify-between items-center px-5 mb-4 mt-2 bg-white border-[2px] border-hobbing-red"
+                className="h-[50px] w-full rounded-xl flex flex-row justify-between items-center px-5 bg-white border-[2px] border-hobbing-red"
             >
                 <p className="text-hobbing-red text-[13px] font-bold">가입 신청하기</p>
                 <RightArrow color="#F76D67" />

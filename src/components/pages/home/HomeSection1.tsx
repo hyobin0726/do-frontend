@@ -12,7 +12,7 @@ export default async function HomeSection1() {
                     </p>
                     <span className="text-white text-[15px]">
                         다시 취미를 찾고싶으시면
-                        <Link href="/mypage/edit" className="underline font-bold">
+                        <Link href="/survey" className="underline font-bold">
                             <span className="text-white text-[15px]"> 여기를 </span>
                         </Link>
                         눌러주세요!

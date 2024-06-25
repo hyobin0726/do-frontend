@@ -30,7 +30,7 @@ export default function CrewFreeJoinButton({ crewId, crewName }: { crewId: numbe
         <>
             <button
                 onClick={modalController}
-                className="h-[50px] w-full rounded-xl flex flex-row justify-between items-center px-5 mb-4 mt-2 bg-hobbing-red"
+                className="h-[50px] w-full rounded-xl flex flex-row justify-between items-center px-5 bg-hobbing-red"
             >
                 <p className="text-white text-[13px]">바로 가입하기</p>
                 <RightArrow />
