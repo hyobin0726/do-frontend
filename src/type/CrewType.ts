@@ -26,3 +26,4 @@ export interface CrewJoinFormType {
     profileUrl: string
     joinMessage: string
 }
+

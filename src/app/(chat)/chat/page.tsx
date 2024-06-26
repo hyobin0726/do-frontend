@@ -8,7 +8,11 @@ export default async function ChatPage() {
 
     return (
         <div className=" bg-[#FBFBFD] h-[calc(100dvh-140px)] overflow-y-scroll scrollbar-hide">
-            <ChatList crewList={crewList} />
+            {crewList ? (
+                <ChatList crewList={crewList} />
+            ) : (
+                <div className=" text-gray-500  text-center mt-5">소모임이 없습니다.</div>
+            )}
         </div>
     )
 }

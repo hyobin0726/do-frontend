@@ -18,7 +18,7 @@ export default function ChatMenuModal({
     crewId: string
     setIsAlertOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-    console.log('crewId:', crewId)
+
     const handleDeleteButton = () => {
         setChatMenuModal(false)
         setIsAlertOpen(true)
@@ -29,12 +29,11 @@ export default function ChatMenuModal({
     return (
         <section>
             {chatMenuModal && (
-                <div className="fixed top-0 z-[2] w-screen h-screen bg-black bg-opacity-30">
+                <div className="fixed top-0 z-[200] w-screen h-screen bg-black bg-opacity-30">
                     <div className="bg-white w-2/3 fixed right-0 h-screen p-4 flex flex-col justify-between">
                         <div className=" space-y-5">
                             <div className="flex justify-between ">
-                                <div className="font-bold text-lg">{crewName}서랍</div>
-
+                                <div className="font-bold text-lg">{crewName} 서랍</div>
                                 <button
                                     className="text-[#FD7A23] text-lg font-bold"
                                     onClick={() => setChatMenuModal(false)}
