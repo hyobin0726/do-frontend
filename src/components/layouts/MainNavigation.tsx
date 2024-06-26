@@ -22,7 +22,7 @@ const MainNavigation = () => {
 
                     return (
                         <div key={item.id}>
-                            <Link href={item.url} className="flex flex-col items-center ">
+                            <Link href={item.url} passHref scroll={false} className="flex flex-col items-center">
                                 <div className="w-6">
                                     <item.icon isActive={isActive} />
                                 </div>

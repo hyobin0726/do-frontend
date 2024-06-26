@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default function BoardWritingButton() {
     return (
         <div>
-            <Link href={`/boardwriting`}>
+            <Link href={`/boardwriting`} passHref scroll={false}>
                 <div className="bg-hobbing-bg-pink rounded-full h-14 w-14 flex items-center justify-center shadow-md text-gray-500">
                     <Pencil />
                 </div>

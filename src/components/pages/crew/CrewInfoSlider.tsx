@@ -5,7 +5,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination, EffectCreative } from 'swiper/modules'
+import { Pagination } from 'swiper/modules'
 
 import Link from 'next/link'
 import RightArrow from '@/components/images/RightArrow'
@@ -28,6 +28,8 @@ export default function CrewInfoSlider({ suggestionCrewIdList }: { suggestionCre
             <section className="w-full h-[55px]">
                 <Link
                     href={'/crewcreate'}
+                    passHref
+                    scroll={false}
                     className="w-full h-full bg-hobbing-red flex justify-between items-center px-5"
                 >
                     <p className="text-white text-[11px]">
@@ -39,16 +41,11 @@ export default function CrewInfoSlider({ suggestionCrewIdList }: { suggestionCre
             </section>
             <section className="w-full h-[calc(100%-110px)] bg-hobbing-bg-pink bg-gradient-to-t from-black/50 to-40%">
                 <Swiper
-                    loop={suggestionCrewIdList.length > 1 ? true : false}
-                    grabCursor={true}
+                    direction={'vertical'}
+                    slidesPerView={1}
+                    loop={suggestionCrewIdList?.length > 1 ? true : false}
                     pagination={true}
-                    effect={'creative'}
-                    creativeEffect={{
-                        next: {
-                            translate: ['100%', 0, 0],
-                        },
-                    }}
-                    modules={[EffectCreative, Pagination]}
+                    modules={[Pagination]}
                     className="w-full h-full "
                 >
                     {suggestionCrewIdList?.map((crew, index) => (

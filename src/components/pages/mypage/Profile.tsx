@@ -11,6 +11,7 @@ export default async function Profile() {
             <section className="relative w-full h-auto bg-white rounded-2xl drop-shadow py-5 flex items-center flex-col">
                 <Link
                     href={'/mypage/edit'}
+                    passHref
                     scroll={false}
                     className="absolute top-0 right-2 w-[50px] h-[50px] flex justify-center items-center"
                 >

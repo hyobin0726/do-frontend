@@ -90,6 +90,8 @@ export default function RegionManagement({ data }: RegionManagementProps) {
             <section className="w-full h-[25%] px-10 flex flex-col justify-center items-center">
                 <Link
                     href={'/mypage'}
+                    passHref
+                    scroll={false}
                     className="bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8"
                 >
                     <p className="font-Pretendard text-white text-[15px] font-bold">확인</p>

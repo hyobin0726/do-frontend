@@ -18,7 +18,6 @@ export default function ChatMenuModal({
     crewId: string
     setIsAlertOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-
     const handleDeleteButton = () => {
         setChatMenuModal(false)
         setIsAlertOpen(true)
@@ -52,7 +51,7 @@ export default function ChatMenuModal({
                                 <p className="text-[#F76D67]">채팅방 나가기</p>
                             </button>
                             {userRole === 1 && (
-                                <Link href={`/crewsetting/${crewId}`} className="w-5 h-5">
+                                <Link href={`/crewsetting/${crewId}`} passHref scroll={false} className="w-5 h-5">
                                     <Setting />
                                 </Link>
                             )}

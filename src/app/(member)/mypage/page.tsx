@@ -25,6 +25,7 @@ export default function MypagePage() {
                                     <Link
                                         key={index}
                                         href={data.path}
+                                        passHref
                                         scroll={false}
                                         className="w-full h-full flex flex-row justify-between items-center px-1 py-2"
                                     >

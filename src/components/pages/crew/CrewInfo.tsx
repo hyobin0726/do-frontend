@@ -15,12 +15,13 @@ interface crewInfo {
 export default function CrewInfo({ crewInfo }: { crewInfo: crewInfo }) {
     return (
         <div
-            className="w-full h-full bg-center bg-cover bg-no-repeat flex items-end"
+            className="w-full h-full bg-center bg-cover bg-no-repeat relative"
             style={{
                 backgroundImage: `url(${crewInfo.profileUrl})`,
             }}
         >
-            <div className="w-full h-2/3 bg-gradient-to-t from-black/50 flex flex-col justify-end px-5 pb-5">
+            <div className="absolute top-0 w-full h-full bg-black opacity-30"></div>
+            <div className="absolute top-0 w-full h-full flex flex-col justify-end px-5 pb-5 space-y-3">
                 <div className="space-y-1 px-1">
                     <p className="text-white text-[25px] font-bold">{crewInfo.crewName}</p>
                     <div className="flex flex-row space-x-3 items-center">
