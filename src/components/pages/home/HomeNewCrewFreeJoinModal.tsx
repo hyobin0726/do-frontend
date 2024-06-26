@@ -30,7 +30,7 @@ export default function HomeNewCrewFreeJoinModal({
 
     return (
         <>
-            <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true} bottom={80}>
+            <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true} bottom={true}>
                 <div className="w-full h-auto flex justify-center items-center pt-3">
                     <p className=" text-[20px] text-center">
                         <span className="font-bold ">{crewName}</span>에 <br />

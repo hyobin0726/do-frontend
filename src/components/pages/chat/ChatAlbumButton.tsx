@@ -6,7 +6,12 @@ import { useRouter } from 'next/navigation'
 export default function ChatAlbumButton({ crewId }: { crewId: string }) {
     const router = useRouter()
     return (
-        <Link href={`/chatimglist/${crewId}`} className="flex flex-row justify-between items-center space-x-2 w-full">
+        <Link
+            href={`/chatimglist/${crewId}`}
+            passHref
+            scroll={false}
+            className="flex flex-row justify-between items-center space-x-2 w-full"
+        >
             <div className="flex ">
                 <div className="w-5">
                     <Album />

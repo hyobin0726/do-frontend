@@ -28,6 +28,8 @@ export default function CrewInfoSlider({ suggestionCrewIdList }: { suggestionCre
             <section className="w-full h-[55px]">
                 <Link
                     href={'/crewcreate'}
+                    passHref
+                    scroll={false}
                     className="w-full h-full bg-hobbing-red flex justify-between items-center px-5"
                 >
                     <p className="text-white text-[11px]">

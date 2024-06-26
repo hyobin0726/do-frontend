@@ -27,7 +27,7 @@ function ChatList({ crewList }: { crewList: CrewType[] }) {
                 {sortedCrewList.map((crew, idx) => (
                     <section key={idx}>
                         <li key={crew.crewId} className="mb-3 ">
-                            <Link href={`/chatroom/${crew.crewId}`}>
+                            <Link href={`/chatroom/${crew.crewId}`} passHref scroll={false}>
                                 <div className="flex justify-between items-center p-4 bg-white  rounded-lg shadow  transition w-full">
                                     <div className="flex items-center space-x-4 w-full">
                                         <img

@@ -20,9 +20,9 @@ export default async function HomeSection1() {
                         <FuunnyMonster />
                     </div>
                 </div>
-                <span className="text-black text-[15px] z-[10]">
+                <span className="text-black text-[15px]">
                     다시 취미를 찾고싶으시려면
-                    <Link href="/survey" className="underline font-bold px-2">
+                    <Link href="/survey" passHref scroll={false} className="underline font-bold px-2">
                         <span className="text-black text-[15px]">여기를</span>
                     </Link>
                     눌러주세요!

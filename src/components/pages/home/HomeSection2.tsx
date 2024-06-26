@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import getNewCrew from '@/api/crew/getNewCrew'
@@ -62,7 +62,6 @@ export default function HomeSection2({
 
     const JoinModalController = (joinType?: 'free' | 'form', crewId?: number, crewName?: string) => {
         if (!joinType) {
-            console.log('다닫아')
             setIsFreeJoinModalOpen(false)
             setIsFormJoinModalOpen(false)
         } else if (joinType === 'free') {
@@ -72,8 +71,6 @@ export default function HomeSection2({
         }
 
         if (crewId && crewName) {
-            console.log('crewId', crewId)
-            console.log('crewName', crewName)
             setJoinModalCrewId(crewId)
             setJoinModalCrewName(crewName)
         } else {
@@ -105,18 +102,16 @@ export default function HomeSection2({
 
     return (
         <>
-            <section className="w-full h-[500px]">
-                <div className="w-full h-[120px] flex flex-col justify-end px-8">
-                    <div className="flex flex-row items-end">
-                        <p className="text-black font-extrabold text-[35px] z-[10]">
-                            우리동네 <br /> NEW 소모임
-                        </p>
-                        <div className="w-[50px] h-[50px]">
-                            <SquidMonster />
-                        </div>
+            <section className="w-full h-[550px]">
+                <div className=" w-full h-[120px] flex flex-row items-end px-8">
+                    <p className="text-black font-extrabold text-[35px] z-[10]">
+                        우리동네 <br /> NEW 소모임
+                    </p>
+                    <div className="w-[50px] h-[50px]">
+                        <SquidMonster />
                     </div>
                 </div>
-                <div className="w-full h-[55px] flex items-center">
+                <div className="w-full h-[60px] flex items-center">
                     <div className="w-full h-[35px] space-x-3 flex flex-row px-8 overflow-x-scroll scroll-smooth scrollbar-hide">
                         {hobbies.map((hobby: HobbyType, idx: number) => (
                             <div
@@ -136,7 +131,7 @@ export default function HomeSection2({
                         ))}
                     </div>
                 </div>
-                <div className="w-full h-[calc(100%-175px)] flex items-center px-8 py-3">
+                <div className="w-full h-[calc(100%-200px)] flex items-center px-8">
                     {newCrewInfo.length == 0 ? (
                         <div
                             className="w-full h-full flex-none bg-center bg-cover bg-no-repeat relative rounded-xl overflow-hidden drop-shadow-lg"
@@ -154,6 +149,8 @@ export default function HomeSection2({
                                     </p>
                                     <Link
                                         href={'/crewcreate'}
+                                        passHref
+                                        scroll={false}
                                         className="absolute bottom-10 w-1/2 h-[50px] bg-hobbing-red flex justify-center items-center px-5 rounded-full"
                                     >
                                         <p className="text-white text-[15px]">소모임 만들기</p>

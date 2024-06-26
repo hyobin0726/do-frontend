@@ -6,7 +6,7 @@ interface SliderModalProps {
     isModalOpen: boolean
     onChangeModal: () => void
     backgroundClose: boolean
-    bottom?: number
+    bottom?: boolean
 }
 
 export default function SliderModal({
@@ -44,7 +44,7 @@ export default function SliderModal({
                     transition: 'transform 0.3s ease-out',
                 }}
                 className={`
-                    ${bottom ? `bottom-[${bottom}px]` : 'bottom-0'}
+                    ${bottom ? `bottom-[80px]` : 'bottom-0'}
                     fixed right-0 left-0 z-[300]
                     rounded-t-2xl w-screen 
                     bg-white

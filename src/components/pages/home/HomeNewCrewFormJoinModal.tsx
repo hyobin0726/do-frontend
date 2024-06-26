@@ -121,7 +121,7 @@ export default function HomeNewCrewFormJoinModal({
 
     return (
         <>
-            <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true} bottom={80}>
+            <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true} bottom={true}>
                 <div className="w-full h-auto flex flex-col justify-center items-center py-4 space-y-2">
                     <p className=" text-[20px] text-center">
                         <span className="font-bold ">{crewName}</span>에 <br />

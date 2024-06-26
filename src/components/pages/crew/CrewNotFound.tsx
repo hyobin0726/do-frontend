@@ -30,6 +30,8 @@ export default async function CrewNotFound({ hobbies, hobbyId }: { hobbies: Hobb
                         </p>
                         <Link
                             href={'/crewcreate'}
+                            passHref
+                            scroll={false}
                             className="absolute bottom-16 w-1/2 h-[50px] bg-hobbing-red flex justify-center items-center px-5 rounded-full"
                         >
                             <p className="text-white text-[15px]">소모임 만들기</p>

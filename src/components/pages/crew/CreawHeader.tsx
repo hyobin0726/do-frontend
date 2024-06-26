@@ -18,8 +18,10 @@ export default async function CrewHeader({
                 <div className="w-full h-[35px] space-x-3 flex flex-row px-3 overflow-x-scroll scroll-smooth scrollbar-hide">
                     {hobbies.map((hobby: HobbyType) => (
                         <Link
-                            href={`/crew?hobbyId=${hobby.hobbyId}`}
                             key={hobby.hobbyId}
+                            href={`/crew?hobbyId=${hobby.hobbyId}`}
+                            passHref
+                            scroll={false}
                             className={`flex-none w-auto px-5 flex justify-center items-center rounded-xl ${focusedHobbyId == hobby.hobbyId ? 'bg-hobbing-red' : 'bg-white border-[1px] border-hobbing-red'} `}
                         >
                             <p
