@@ -22,7 +22,7 @@ export default function BasicNextButton({ path, text, theme }: BasicNextButtonPr
     return (
         <>
             {path ? (
-                <Link href={path} className={baseClasses}>
+                <Link href={path} passHref scroll={false} className={baseClasses}>
                     <Content />
                 </Link>
             ) : (

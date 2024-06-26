@@ -10,7 +10,7 @@ export default async function HomeSection1() {
     const hobbyCardsData = await getHobbyCards()
 
     return (
-        <section className="w-full h-[70dvh]">
+        <section className="w-full h-[550px]">
             <div className="w-full h-[150px] flex flex-col justify-end px-8">
                 <div className="flex flex-row items-end">
                     <p className="text-black font-extrabold text-[35px] z-[10]">
@@ -20,9 +20,9 @@ export default async function HomeSection1() {
                         <FuunnyMonster />
                     </div>
                 </div>
-                <span className="text-black text-[15px] z-[10]">
+                <span className="text-black text-[15px]">
                     다시 취미를 찾고싶으시려면
-                    <Link href="/survey" className="underline font-bold px-2">
+                    <Link href="/survey" passHref scroll={false} className="underline font-bold px-2">
                         <span className="text-black text-[15px]">여기를</span>
                     </Link>
                     눌러주세요!

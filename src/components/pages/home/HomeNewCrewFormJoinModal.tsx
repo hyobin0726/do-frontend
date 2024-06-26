@@ -1,11 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 import postFormJoin from '@/api/crew/postFormJoin'
 
-import RightArrow from '@/components/images/RightArrow'
 import SliderModal from '@/components/common/SliderModal'
 import getBaseRegion from '@/api/crew/getBaseRegion'
 import getMyProfile from '@/api/auth/getMyProfile'
@@ -19,8 +18,17 @@ interface crewJoinFormtype {
     gender: string
 }
 
-export default function CrewFormJoinButton({ crewId, crewName }: { crewId: number; crewName: string }) {
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+export default function HomeNewCrewFormJoinModal({
+    crewId,
+    crewName,
+    isModalOpen,
+    modalController,
+}: {
+    crewId: number
+    crewName: string
+    isModalOpen: boolean
+    modalController: () => void
+}) {
     const [errorMesage, setErrorMessage] = useState<string>('')
     const [isAlreadyJoin, setIsAlreadyJoin] = useState<boolean>(false)
     const [joinInfo, setJoinInfo] = useState<crewJoinFormtype>({
@@ -33,17 +41,6 @@ export default function CrewFormJoinButton({ crewId, crewName }: { crewId: numbe
     } as crewJoinFormtype)
 
     const router = useRouter()
-
-    const modalController = () => {
-        setIsModalOpen(!isModalOpen)
-        getMyProfileData()
-        getMyBaseRegion()
-        setJoinInfo((prevjoinInfo) => ({
-            ...prevjoinInfo,
-            joinMessage: '',
-        }))
-        setErrorMessage('')
-    }
 
     const getMyProfileData = async () => {
         const res = await getMyProfile()
@@ -67,6 +64,18 @@ export default function CrewFormJoinButton({ crewId, crewName }: { crewId: numbe
             }))
         }
     }
+
+    useEffect(() => {
+        if (isModalOpen) {
+            getMyProfileData()
+            getMyBaseRegion()
+            setJoinInfo((prevjoinInfo) => ({
+                ...prevjoinInfo,
+                joinMessage: '',
+            }))
+            setErrorMessage('')
+        }
+    }, [isModalOpen])
 
     const handleJoinMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setJoinInfo((prevjoinInfo) => ({
@@ -112,14 +121,7 @@ export default function CrewFormJoinButton({ crewId, crewName }: { crewId: numbe
 
     return (
         <>
-            <button
-                onClick={modalController}
-                className="h-[50px] w-full rounded-xl flex flex-row justify-between items-center px-5 bg-white border-[2px] border-hobbing-red"
-            >
-                <p className="text-hobbing-red text-[13px] font-bold">가입 신청하기</p>
-                <RightArrow color="#F76D67" />
-            </button>
-            <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true}>
+            <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true} bottom={true}>
                 <div className="w-full h-auto flex flex-col justify-center items-center py-4 space-y-2">
                     <p className=" text-[20px] text-center">
                         <span className="font-bold ">{crewName}</span>에 <br />

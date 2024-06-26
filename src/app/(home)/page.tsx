@@ -3,17 +3,23 @@ import { redirect } from 'next/navigation'
 import { useGetServerToken } from '@/actions/useGetServerToken'
 
 import getBaseRegion from '@/api/crew/getBaseRegion'
-import getHobbies from '@/api/survey/getHobbies'
+import getHobbyCards from '@/api/survey/getHobbyCards'
 import getNewCrew from '@/api/crew/getNewCrew'
 
 import HomeSection1 from '@/components/pages/home/HomeSection1'
 import HomeSection2 from '@/components/pages/home/HomeSection2'
+import HomeSection3 from '@/components/pages/home/HomeSection3'
+import getTop5Crew from '@/api/crew/getTop5Crew'
 
 export default async function HomePage() {
     const auth = await useGetServerToken()
     const baseRegion = await getBaseRegion()
-    const hobbies = await getHobbies()
+    const hobbies = await getHobbyCards()
     const newCrew = await getNewCrew(hobbies[0].hobbyId, baseRegion.regionId)
+    const topCrew = await getTop5Crew(baseRegion.regionId)
+    console.log('auth : ', auth)
+    console.log('baseRegion : ', baseRegion)
+    console.log('topCrew : ', topCrew)
 
     if (auth) {
         if (!baseRegion) {
@@ -26,12 +32,7 @@ export default async function HomePage() {
             <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide bg-hobbing-bg-gray">
                 <HomeSection1 />
                 <HomeSection2 hobbies={hobbies} baseRegion={baseRegion} newCrew={newCrew.data} />
-                {/* <section className="absolute top-[55dvh] drop-shadow-[0_-10px_20px_rgba(0,0,0,0.2)] w-full h-[60dvh] bg-white rounded-t-3xl p-5">
-                    <h1>New 소모임💫</h1>
-                </section>
-                <section className="absolute top-[110dvh] drop-shadow-[0_-10px_20px_rgba(0,0,0,0.2)] w-full h-[60dvh] bg-white rounded-t-3xl p-5">
-                    <h1>우리동네 Hot한 소모임🔥</h1>
-                </section> */}
+                <HomeSection3 />
             </main>
         )
     }

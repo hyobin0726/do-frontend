@@ -7,7 +7,7 @@ export default async function CrewSetting({ params }: { params: { crewId: string
     return (
         <main className="w-full flex flex-col items-center space-y-5 py-10 px-5">
             <div className="w-full">
-                <Link href={`/crewsetting/${crewId}/info`} passHref>
+                <Link href={`/crewsetting/${crewId}/info`} passHref scroll={false}>
                     <div className="w-full flex flex-row justify-between items-center shadow-md rounded-lg p-6 text-center border-2 border-hobbing-pink text-hobbing-red  font-medium">
                         <p>소모임 정보</p>
                         <RightArrow width={12} height={12} color="#FF8595" />
@@ -15,7 +15,7 @@ export default async function CrewSetting({ params }: { params: { crewId: string
                 </Link>
             </div>
             <div className="w-full ">
-                <Link href={`/crewsetting/${crewId}/member`} passHref>
+                <Link href={`/crewsetting/${crewId}/member`} passHref scroll={false}>
                     <div className="w-full flex flex-row justify-between items-center shadow-md rounded-lg p-6 text-center border-2 border-hobbing-pink text-hobbing-red font-medium">
                         <p>회원 정보</p>
                         <RightArrow width={12} height={12} color="#FF8595" />
@@ -23,7 +23,7 @@ export default async function CrewSetting({ params }: { params: { crewId: string
                 </Link>
             </div>
             <div className="w-full ">
-                <Link href={`/crewsetting/${crewId}/join`} passHref>
+                <Link href={`/crewsetting/${crewId}/join`} passHref scroll={false}>
                     <div className="w-full flex flex-row justify-between items-center shadow-md rounded-lg p-6 text-center border-2 border-hobbing-pink text-hobbing-red font-medium">
                         <p>가입 신청 내역</p>
                         <RightArrow width={12} height={12} color="#FF8595" />

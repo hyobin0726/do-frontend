@@ -21,7 +21,7 @@ export default function Board({ boardId }: { boardId: string }) {
         <>
             {board && (
                 <>
-                    <Link href={`/board/${board.boardId}`} className=" space-y-2 ">
+                    <Link href={`/board/${board.boardId}`} passHref scroll={false} className=" space-y-2">
                         <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
                         <p>{board.content}</p>
                         <BoardImage imageUrls={board.imageUrls} />
