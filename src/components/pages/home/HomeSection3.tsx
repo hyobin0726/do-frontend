@@ -1,4 +1,4 @@
-import SmileMonster from '@/components/images/monsters/SmileMonster'
+import Monster5 from '@/components/images/monsters/Monster5'
 
 export default function HomeSection3() {
     return (
@@ -9,7 +9,7 @@ export default function HomeSection3() {
                         우리동네에서 <br /> 가장 HOT한 소식
                     </p>
                     <div className="w-[50px] h-[50px]">
-                        <SmileMonster />
+                        <Monster5 />
                     </div>
                 </div>
                 <div className="w-full h-[calc(100%-140px)] bg-yellow-200">test</div>

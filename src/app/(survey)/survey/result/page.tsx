@@ -5,7 +5,7 @@ export default async function SurveyResultPage() {
     const hobbyCardsData = await getHobbyCards()
 
     return (
-        <main className="w-full h-[calc(100dvh-60px)] bg-green-200">
+        <main className="w-full h-[calc(100dvh-60px)]">
             <SurveyResult hobbyCardsData={hobbyCardsData} />
         </main>
     )

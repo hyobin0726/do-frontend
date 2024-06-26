@@ -17,16 +17,16 @@ export default async function HomePage() {
     const hobbies = await getHobbyCards()
     const newCrew = await getNewCrew(hobbies[0].hobbyId, baseRegion.regionId)
     const topCrew = await getTop5Crew(baseRegion.regionId)
-    console.log('auth : ', auth)
-    console.log('baseRegion : ', baseRegion)
-    console.log('topCrew : ', topCrew)
+    // console.log('auth : ', auth)
+    // console.log('baseRegion : ', baseRegion)
+    // console.log('topCrew : ', topCrew)
 
     if (auth) {
         if (!baseRegion) {
             redirect('/mypage/region/initial')
         }
         if (!hobbies) {
-            redirect('/survey')
+            redirect('/survey?step=1')
         }
         return (
             <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide bg-hobbing-bg-gray">
