@@ -1,16 +1,35 @@
 'use client'
+import React, { useRef, useState } from 'react'
 import Image from 'next/image'
-import { useRef, useState } from 'react'
 import BoardImageUpload from './BoardImageUpload'
 import Alert from '@/components/common/Alert'
 
-function BoardWritingBottom({ images }: { images: (images: File[]) => void }) {
+// S3 업로드 API 호출 함수
+const uploadImageToS3 = async (file: File): Promise<string | null> => {
+    const formData = new FormData()
+    formData.append('img', file)
+
+    try {
+        const response = await fetch('/api/s3-upload', {
+            method: 'POST',
+            body: formData,
+        })
+        const result = await response.json()
+        return result.imgUrl // S3 URL 반환
+    } catch (error) {
+        console.error('S3 업로드 오류:', error)
+        return null
+    }
+}
+
+function BoardWritingBottom() {
     const multiRef = useRef<HTMLInputElement>(null)
     const [multiImages, setMultiImages] = useState<Array<File>>([])
+    const [imageUrls, setImageUrls] = useState<string[]>([]) // 이미지 URL을 저장할 상태
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
-    const multiFileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(imageUrls)
+    const multiFileHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const uploadedFiles = Array.from((event.target as HTMLInputElement).files as FileList)
-
         const existingFileNames = new Set(multiImages.map((file) => file.name))
         const currentImageCount = multiImages.length
         const maxImageCount = 5
@@ -20,28 +39,32 @@ function BoardWritingBottom({ images }: { images: (images: File[]) => void }) {
             .filter((file) => !existingFileNames.has(file.name))
             .slice(0, maxImageCount - currentImageCount)
 
-        setMultiImages((prevFiles) => [...prevFiles, ...newFiles])
-        images([...multiImages, ...newFiles])
+        // S3에 이미지를 업로드하고 URL을 받아옴
+        const newFileUrls = await Promise.all(newFiles.map((file) => uploadImageToS3(file)))
 
-        if (multiImages.length === 5) {
+        // 유효한 URL만 필터링
+        const validUrls = newFileUrls.filter((url) => url !== null) as string[]
+
+        setMultiImages((prevFiles) => [...prevFiles, ...newFiles])
+        setImageUrls((prevUrls) => [...prevUrls, ...validUrls])
+
+        if (multiImages.length + newFiles.length >= maxImageCount) {
             setIsAlertOpen(true)
-        } else {
-            multiRef.current?.click()
         }
     }
 
     const handleMultiImageDelete = (index: number) => {
         setMultiImages((prevFiles) => prevFiles.filter((_, i) => i !== index))
-        images(multiImages.filter((_, i) => i !== index))
+        setImageUrls((prevUrls) => prevUrls.filter((_, i) => i !== index))
     }
 
     return (
-        <div className="flex absolute bottom-0  border-t-[1px] w-full p-2 space-x-2 border-hobbing-gray  overflow-x-scroll">
+        <div className="flex absolute bottom-5 border-t-[1px] w-full p-2 space-x-2 border-hobbing-gray overflow-x-scroll">
             {multiImages.length > 0 && (
-                <div className="flex space-x-2 ">
-                    {multiImages?.map((file: File, index: number) => (
+                <div className="flex space-x-2">
+                    {multiImages.map((file, index) => (
                         <div key={index} className="relative">
-                            <div className="w-[60px] h-[60px] ">
+                            <div className="w-[60px] h-[60px]">
                                 <Image
                                     src={URL.createObjectURL(file)}
                                     alt={`이미지 미리보기 ${index + 1}`}
@@ -61,7 +84,7 @@ function BoardWritingBottom({ images }: { images: (images: File[]) => void }) {
             )}
             <div className="w-16 h-[65px] border-[1px] border-hobbing-red rounded-xl flex-col flex justify-center items-center">
                 <BoardImageUpload multiRef={multiRef} multiFileHandler={multiFileHandler} />
-                <div className=" text-hobbing-pink text-sm">{multiImages.length} / 5</div>
+                <div className="text-hobbing-pink text-sm">{multiImages.length} / 5</div>
             </div>
             {isAlertOpen && (
                 <Alert type="info" isAlertOpen={isAlertOpen}>
@@ -78,7 +101,9 @@ function BoardWritingBottom({ images }: { images: (images: File[]) => void }) {
                     </button>
                 </Alert>
             )}
+            <input type="hidden" name="imageUrls" value={imageUrls.join(',')} />
         </div>
     )
 }
+
 export default BoardWritingBottom

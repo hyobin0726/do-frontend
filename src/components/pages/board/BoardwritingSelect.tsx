@@ -1,37 +1,36 @@
 'use client'
-import { useGetClientToken } from '@/actions/useGetClientToken'
 import { CrewType } from '@/type/CrewType'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-export default function BoardwritingSelect() {
-    const [crewList, setCrewList] = useState([])
-    const auth = useGetClientToken()
+export default function BoardwritingSelect({ crewList }: { crewList: CrewType[] }) {
+    const [clicked, setClicked] = useState<string>(crewList[0].crewId)
 
-    useEffect(() => {
-        const getCrew = async () => {
-            const response = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/crew/list/profile`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `${auth.token}`,
-                },
-            })
-            const data = await response.json()
-            if (data.isSuccess === true) {
-                console.log('소모임 목록을 불러왔습니다.', data.data)
-                setCrewList(data.data)
-            }
-            return data.data
-        }
-        getCrew()
-    }, [])
+    const handleClick = (crewId: string) => {
+        setClicked(crewId)
+    }
+    console.log(clicked)
     return (
-        <section className="flex space-x-1 p-4">
-            {crewList.map((crew: CrewType) => (
-                <div key={crew.crewId}>
-                    <p className=" inline-block bg-hobbing-red text-white  px-3 py-1 rounded-full">{crew.name}</p>
+        <section>
+            <div className="p-2 space-y-2">
+                <h1 className="text-[18px] font-medium px-1">소모임 선택</h1>
+                <div className="flex space-x-1  ">
+                    {crewList.map((crew: CrewType) => (
+                        <div key={crew.crewId}>
+                            <div
+                                className={`px-3 py-1 rounded-xl ${clicked == crew.crewId ? 'bg-hobbing-red' : 'bg-white border-[1px] border-hobbing-red'} `}
+                                onClick={() => handleClick(crew.crewId)}
+                            >
+                                <p
+                                    className={`${clicked == crew.crewId ? 'text-white' : 'text-hobbing-red '} text-[16px]`}
+                                >
+                                    {crew.name}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            ))}
+            </div>
+            <input type="hidden" name="crewId" value={clicked} />
         </section>
     )
 }
