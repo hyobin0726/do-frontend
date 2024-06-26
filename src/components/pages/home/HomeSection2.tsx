@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import getNewCrew from '@/api/crew/getNewCrew'
-import Monster4 from '@/components/images/monsters/Monster4 '
+import Monster4 from '@/components/images/monsters/Monster4'
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
