@@ -1,7 +1,7 @@
 'use client'
 import { useGetClientToken } from '@/actions/useGetClientToken'
 import { EventSourcePolyfill } from 'event-source-polyfill'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface ChatListType {
     crewId: string
@@ -9,17 +9,29 @@ interface ChatListType {
     unreadCount: number
     createdAt: string
 }
-function ChatListLastMessage({ crewId }: { crewId: string }) {
+function ChatListLastMessage({
+    crewId,
+    onUpdateCreatedAt,
+}: {
+    crewId: string
+    onUpdateCreatedAt: (crewId: string, createdAt: string) => void
+}) {
     const [chatList, setChatList] = useState<ChatListType>()
     const auth = useGetClientToken()
+    const isMounted = useRef(false)
     // console.log('auth:', auth.token)
 
     useEffect(() => {
+        if (!auth.token) return
+        isMounted.current = true
+
         const connectToSSE = () => {
             const EventSource = EventSourcePolyfill
+
             const eventSource = new EventSource(
                 `${process.env.BASE_URL}/chat-service/v1/users/chat/latest/stream/${crewId}`,
                 {
+                    withCredentials: true,
                     headers: {
                         Authorization: `${auth.token}`,
                     },
@@ -28,37 +40,33 @@ function ChatListLastMessage({ crewId }: { crewId: string }) {
             eventSource.onmessage = (event) => {
                 const data = JSON.parse(event.data)
                 if (data.isSuccess === true) {
-                    console.log('소모임 목록을 불러왔습니다.', data.data)
+                    console.log('lastchat', data.data)
                     setChatList(data.data)
+                    onUpdateCreatedAt(crewId, data.data.createdAt)
+                } else {
+                    console.error('Failed', data.message)
                 }
-                // console.log('event:', event)
+
                 return data.data
             }
             eventSource.onerror = (error) => {
                 console.error('Failed to get chat list:', error)
                 eventSource.close()
-                // if (error) {
-                //     setChatList({
-                //         crewId: crewId,
-                //         lastChatContent: '새로운 소모임이 생성되었습니다.',
-                //         unreadCount: 0,
-                //         createdAt: '',
-                //     })
-                // } else {
-                //     eventSource.close()
-                //     setTimeout(() => {
-                //         // connectToSSE()
-                //     }, 5000)
-                // }
+                setTimeout(() => {
+                    if (isMounted.current) {
+                        connectToSSE()
+                    }
+                }, 5000)
             }
             return eventSource
         }
         const eventSource = connectToSSE()
 
         return () => {
+            isMounted.current = false
             eventSource.close()
         }
-    }, [])
+    }, [auth.token])
     // console.log('data:', chatList)
 
     const formatTimestamp = (timestamp: string) => {

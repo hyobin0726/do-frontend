@@ -23,6 +23,7 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
     const auth = useGetClientToken()
 
     useEffect(() => {
+        if (!auth.token) return
         const ConnectionChat = async () => {
             const BodyData = {
                 crewId: params.crewId,
@@ -43,7 +44,7 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
                     throw new Error(`Error: ${response.status}`)
                 }
                 const data = await response.json()
-                console.log('data:', data)
+                // console.log('data:', data)
                 return data
             } catch (error) {
                 console.error('Failed to connect to chat:', error)
@@ -51,13 +52,15 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
             }
         }
         ConnectionChat()
-    }, [params.crewId])
+    }, [params.crewId, auth.token])
 
     // 실시간 조회
     useEffect(() => {
+        if (!auth.token) return
         const connectToSSE = () => {
             const EventSource = EventSourcePolyfill
             const eventSource = new EventSource(`${process.env.BASE_URL}/chat-service/v1/users/chat/${params.crewId}`, {
+                withCredentials: true,
                 headers: {
                     Authorization: `${auth.token}`,
                 },
@@ -91,9 +94,9 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
                 console.error('EventSource failed:', error)
 
                 eventSource.close()
-                // setTimeout(() => {
-                //     connectToSSE()
-                // }, 35000)
+                setTimeout(() => {
+                    connectToSSE()
+                }, 5000)
             }
             return eventSource
         }
@@ -102,7 +105,7 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
         return () => {
             eventSource.close()
         }
-    }, [params.crewId])
+    }, [params.crewId, auth.token])
 
     return (
         <section>
@@ -123,12 +126,12 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
                     {messages.map((message, index) => (
                         <div key={index}>
                             <div
-                                className={`flex mb-4 mt-2 ${message.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
+                                className={`flex ${message.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
                             >
                                 {message.uuid === auth.uuid ? (
                                     <ChatSender chat={message} />
                                 ) : (
-                                    <ChatReceiver chat={message} crewMembers={crewMembers} />
+                                    <ChatReceiver chat={message} crewMembers={crewMembers} memberUuid={message.uuid} />
                                 )}
                             </div>
                             {message.entryExitNotice && (

@@ -1,5 +1,5 @@
 'use client'
-import {  useState } from 'react'
+import { useState } from 'react'
 import { CrewMemberType } from '@/type/CrewType'
 import { postMemberExit } from '@/api/crew/postMemberExit'
 import CrewRole from '@/components/images/CrewRole'
@@ -29,7 +29,7 @@ export default function CrewMemberList({
             console.error('Error while deleting member:', error)
         }
     }
-    console.log('members:', members)
+    // console.log('members:', members)
     return (
         <section>
             {members.map((member, idx) => (
