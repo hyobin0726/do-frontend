@@ -29,7 +29,7 @@ export default function Board({ boardId }: { boardId: string }) {
         <>
             {board && (
                 <>
-                    <div className="flex justify-between ">
+                    <div className="flex justify-between mb-4 ">
                         <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
                         <button className="w-5" onClick={modalController}>
                             <MoreInfo />
