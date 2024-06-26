@@ -1,6 +1,9 @@
 'use client'
 import { GetBoardComment } from '@/api/board/boardcomment'
+import LoadingMark from '@/components/images/LoadingMark'
+import MoreInfo from '@/components/images/MoreInfo'
 import { useState, useTransition } from 'react'
+import CommentSetting from './CommentSetting'
 
 interface CommentListType {
     commentId: string
@@ -15,6 +18,7 @@ function BoardComment({ boardId, data, lastPage }: { boardId: string; data: Comm
     const [CommentList, setCommentList] = useState<CommentListType[]>(data)
     const [isLast, setIsLast] = useState<boolean>(lastPage)
     const [isPending, startTransition] = useTransition()
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
     const handleLoadMore = () => {
         startTransition(async () => {
@@ -31,30 +35,15 @@ function BoardComment({ boardId, data, lastPage }: { boardId: string; data: Comm
             }
         })
     }
+    const modalController = () => {
+        setIsModalOpen(!isModalOpen)
+    }
+
     return (
         <section className="space-y-3 ">
             {isPending && (
                 <div className="flex justify-center my-4">
-                    <svg
-                        className="animate-spin h-5 w-5 text-gray-600"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                    >
-                        <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                        ></circle>
-                        <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
-                    </svg>
+                    <LoadingMark />
                 </div>
             )}
             {!isLast ? (
@@ -69,15 +58,33 @@ function BoardComment({ boardId, data, lastPage }: { boardId: string; data: Comm
 
             {CommentList.map((comment, idx) => (
                 <div key={idx} className=" space-y-2 ">
-                    <div className="flex items-center mt-2 ">
-                        <div className="bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center text-sm"></div>
-                        <div className="ml-3 ">
-                            <p className="">작성자</p>
+                    <div className="flex items-center mt-2 justify-between">
+                        <div className="flex">
+                            <div className="bg-gray-400 rounded-full w-8 h-8 flex items-center justify-center text-sm"></div>
+                            <div className="ml-3 ">
+                                <p className="">작성자</p>
+                            </div>
                         </div>
+                        <button className="w-3 rotate-90" onClick={modalController}>
+                            <MoreInfo />
+                        </button>
                     </div>
 
                     <p>{comment.content}</p>
-                    <p className="text-sm">{comment.createdAt}</p>
+                    <p className="text-sm">
+                        {new Date(comment.createdAt).toLocaleTimeString('ko-KR', {
+                            year: 'numeric',
+                            month: 'numeric',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                        })}
+                    </p>
+                    <CommentSetting
+                        isModalOpen={isModalOpen}
+                        modalController={modalController}
+                        commentId={comment.commentId}
+                    />
                 </div>
             ))}
         </section>

@@ -11,6 +11,7 @@ export const GetBoardComment = async (boardId: string, page: number) => {
                 'Content-Type': 'application/json',
                 Uuid: `${auth.token}`,
             },
+            next: { tags: ['comment'] },
         },
     )
     const data = await res.json()
