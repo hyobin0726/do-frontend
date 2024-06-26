@@ -12,7 +12,7 @@ export default async function Board({ params }: { params: { boardId: string } })
     const board: BoardType = await GetBoard(boardId)
     const comment = await GetBoardComment(boardId, 0)
     return (
-        <main className="space-y-3 p-3 h-[calc(100dvh-110px)] overflow-y-scroll">
+        <main className="space-y-3 p-3 h-[calc(100dvh-130px)] overflow-y-scroll ">
             <div className="flex items-center mb-4">
                 <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
             </div>
@@ -20,7 +20,7 @@ export default async function Board({ params }: { params: { boardId: string } })
                 <p>{board.content}</p>
             </div>
             <BoardImage imageUrls={board.imageUrls} />
-            {/* <BoardLikeAndComment /> */}
+            <BoardLikeAndComment />
             <BoardComment boardId={boardId} data={comment.commentList} lastPage={comment.isLast} />
         </main>
     )

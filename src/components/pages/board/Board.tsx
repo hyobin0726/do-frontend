@@ -15,6 +15,7 @@ export default function Board({ boardId }: { boardId: string }) {
     useEffect(() => {
         const fetchBoard = async () => {
             const getBoard: BoardType = await GetBoard(boardId)
+            // const getBoard: BoardType = await ReadBoard(boardId)
             setBoard(getBoard)
         }
         fetchBoard()
@@ -28,15 +29,18 @@ export default function Board({ boardId }: { boardId: string }) {
         <>
             {board && (
                 <>
-                    <Link href={`/board/${board.boardId}`} passHref scroll={false} className=" space-y-2">
+                    <div className="flex justify-between ">
                         <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
+                        <button className="w-5" onClick={modalController}>
+                            <MoreInfo />
+                        </button>
+                    </div>
+                    <Link href={`/board/${board.boardId}`} passHref scroll={false} className=" space-y-2">
                         <p>{board.content}</p>
                         <BoardImage imageUrls={board.imageUrls} />
                     </Link>
-                    <button className="w-5" onClick={modalController}>
-                        <MoreInfo />
-                    </button>
-                    <BoardLikeAndComment boardId={boardId} />
+
+                    <BoardLikeAndComment />
                     <BoardSetting isModalOpen={isModalOpen} modalController={modalController} boardId={board.boardId} />
                 </>
             )}

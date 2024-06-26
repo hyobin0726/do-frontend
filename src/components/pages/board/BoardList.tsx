@@ -76,7 +76,7 @@ export default function BoardList({
     return (
         <section>
             {boardList.map((item: BoardListIds, index) => (
-                <div className="p-5 space-y-2 border-[1px] border-hobbing-gray" key={index}>
+                <div className="p-5 space-y-2 border-[1px] border-hobbing-gray " key={index}>
                     <Board boardId={item.boardId} />
                 </div>
             ))}

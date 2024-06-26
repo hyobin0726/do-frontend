@@ -15,6 +15,6 @@ export async function getCrewBoardList(crewId: string, page: number) {
         },
     )
     const data = await res.json()
-    console.log(data.data)
+    // console.log(data.data, '???')
     return data.data
 }

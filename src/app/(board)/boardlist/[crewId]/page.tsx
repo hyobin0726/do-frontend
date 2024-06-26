@@ -10,7 +10,7 @@ export default async function BoardPage({ params }: { params: { crewId: string }
     const data = await getCrewBoardList(crewId, 0)
 
     return (
-        <main>
+        <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide bg-hobbing-bg-gray">
             <BoardNav crew={crew} selectedCrewId={crewId} />
             <BoardList data={data.boardList} crewId={crewId} lastPage={data.isLast} />
             {data.boardList.length === 0 && (

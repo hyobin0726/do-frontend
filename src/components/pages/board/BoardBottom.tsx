@@ -1,5 +1,6 @@
 'use client'
 import { useGetClientToken } from '@/actions/useGetClientToken'
+import { PostComment } from '@/api/board/postComment'
 import Send from '@/components/images/Send'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
@@ -9,6 +10,7 @@ function BoardBottom() {
     const params = useParams<{ boardId: string }>()
 
     const [message, setMessage] = useState<string>('')
+
     const handleSendMsg = async () => {
         const trimmedMessage = message.trim()
 
@@ -16,36 +18,20 @@ function BoardBottom() {
 
         const bodyData = {
             content: trimmedMessage,
-            isInCrew: true,
         }
 
-        try {
-            const response = await fetch(
-                `${process.env.BASE_URL}/board-service/v1/users/crew/board-interaction/${params.boardId}/comment`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Uuid: `${auth.token}`,
-                    },
-                    body: JSON.stringify(bodyData),
-                },
-            )
-
-            if (response.ok) {
-                console.log('Message sent to server successfully')
-            } else {
-                console.error('Failed to send message to server', response)
-            }
-        } catch (error) {
-            console.error('Error sending message to server:', error)
+        const result = await PostComment(params.boardId, bodyData)
+        if (result && result.isSuccess) {
+            console.log('댓글 작성 완료')
+            setMessage('')
+        } else {
+            console.error('댓글 작성 실패:', result)
         }
-        setMessage('')
     }
 
     return (
-        <form className="fixed bottom-0 w-full  z-[100]">
-            <div className="flex justify-between items-center px-3 py-2">
+        <form className="fixed bottom-0 w-full z-[1000] h-[80px]  bg-white ">
+            <div className="flex justify-between items-center p-2">
                 <input
                     onChange={(e) => setMessage(e.target.value)}
                     value={message}
@@ -66,6 +52,5 @@ function BoardBottom() {
         </form>
     )
 }
-
 
 export default BoardBottom
