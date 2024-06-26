@@ -1,25 +1,34 @@
-import getMyProfile from '@/api/auth/getMyProfile'
 import Link from 'next/link'
+
+import FuunnyMonster from '@/components/images/monsters/FuunnyMonster'
+import getMyProfile from '@/api/auth/getMyProfile'
+import getHobbyCards from '@/api/survey/getHobbyCards'
+import HomeUserHobbySwiper from './HomeUserHobbySwiper'
 
 export default async function HomeSection1() {
     const profileData = await getMyProfile()
+    const hobbyCardsData = await getHobbyCards()
+
     return (
-        <>
-            <section className="absolute top-0  w-full h-[60dvh] bg-hobbing-red px-10 py-5">
-                <div className="w-full h-[30%] flex flex-col justify-center ">
-                    <p className="text-white font-bold text-[28px]">
+        <section className="w-full h-[550px]">
+            <div className="w-full h-[150px] flex flex-col justify-end px-8">
+                <div className="flex flex-row items-end">
+                    <p className="text-black font-extrabold text-[35px] z-[10]">
                         {profileData.name}님의 <br /> 추천취미 Top5!
                     </p>
-                    <span className="text-white text-[15px]">
-                        다시 취미를 찾고싶으시면
-                        <Link href="/mypage/edit" className="underline font-bold">
-                            <span className="text-white text-[15px]"> 여기를 </span>
-                        </Link>
-                        눌러주세요!
-                    </span>
+                    <div className="w-[50px] h-[50px]">
+                        <FuunnyMonster />
+                    </div>
                 </div>
-                <div className="w-full h-[60%] flex items-center">취미리스트 section</div>
-            </section>
-        </>
+                <span className="text-black text-[15px] z-[10]">
+                    다시 취미를 찾고싶으시려면
+                    <Link href="/survey" className="underline font-bold px-2">
+                        <span className="text-black text-[15px]">여기를</span>
+                    </Link>
+                    눌러주세요!
+                </span>
+            </div>
+            <HomeUserHobbySwiper hobbyCardsData={hobbyCardsData} />
+        </section>
     )
 }

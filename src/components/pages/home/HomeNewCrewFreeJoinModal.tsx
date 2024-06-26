@@ -1,23 +1,25 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import RightArrow from '@/components/images/RightArrow'
 import postFreeJoin from '@/api/crew/postFreeJoin'
 import SliderModal from '@/components/common/SliderModal'
 
-export default function CrewFreeJoinButton({ crewId, crewName }: { crewId: number; crewName: string }) {
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+export default function HomeNewCrewFreeJoinModal({
+    crewId,
+    crewName,
+    isModalOpen,
+    modalController,
+}: {
+    crewId: number
+    crewName: string
+    isModalOpen: boolean
+    modalController: () => void
+}) {
     const router = useRouter()
-
-    const modalController = () => {
-        setIsModalOpen(!isModalOpen)
-    }
 
     const handleFreeJoin = async () => {
         const res = await postFreeJoin(crewId)
-
         if (res.isSuccess) {
             modalController()
             router.push(`/chat`)
@@ -28,14 +30,7 @@ export default function CrewFreeJoinButton({ crewId, crewName }: { crewId: numbe
 
     return (
         <>
-            <button
-                onClick={modalController}
-                className="h-[50px] w-full rounded-xl flex flex-row justify-between items-center px-5 bg-hobbing-red"
-            >
-                <p className="text-white text-[13px]">바로 가입하기</p>
-                <RightArrow />
-            </button>
-            <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true}>
+            <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true} bottom={80}>
                 <div className="w-full h-auto flex justify-center items-center pt-3">
                     <p className=" text-[20px] text-center">
                         <span className="font-bold ">{crewName}</span>에 <br />
