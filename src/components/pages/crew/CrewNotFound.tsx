@@ -1,4 +1,3 @@
-import getHobbyCards from '@/api/survey/getHobbyCards'
 import Link from 'next/link'
 
 interface HobbyCard {
@@ -9,29 +8,33 @@ interface HobbyCard {
     fitRate: number
 }
 
-export default async function CrewNotFound({ hobbyId }: { hobbyId: number }) {
-    const hobbyCard = await getHobbyCards()
-    // const hobbyImage = hobbyCard.find((card: HobbyCard) => card.hobbyId === hobbyId)?.imageUrl
-    const hobbyImage = 'https://despbukkit.s3.ap-northeast-2.amazonaws.com/RPGCLASS_BELPHEGOR.png'
+export default async function CrewNotFound({ hobbies, hobbyId }: { hobbies: HobbyCard[]; hobbyId: number }) {
+    const hobbyImageUrl = hobbies.find((hobby: HobbyCard) => hobby.hobbyId === hobbyId)?.imageUrl || ''
+    const tempImageUrl = 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/image_1718327243910_crew.png'
 
     return (
         <section className="w-full h-[calc(100%-55px)]">
             <div
-                className="w-full h-full bg-center bg-cover bg-no-repeat"
+                className="w-full h-full bg-center bg-cover bg-no-repeat "
                 style={{
-                    backgroundImage: `url(${hobbyImage})`,
+                    backgroundImage: hobbyImageUrl.startsWith('https://hobbiedo-bucket')
+                        ? `url(${hobbyImageUrl})`
+                        : `url(${tempImageUrl})`,
+                    // backgroundImage: `url(${hobbyImageUrl})`,
                 }}
             >
-                <div className="w-full h-full backdrop-blur bg-black/50 flex flex-col justify-center items-center">
-                    <div className="w-full h-2/3 flex justify-center items-center">
-                        <p className="text-white text-[14px]">해당 취미에 맞는 소모임이 없습니다.</p>
+                <div className="relative w-full h-full bg-black/30 backdrop-blur-sm">
+                    <div className="absolute top-0 w-full h-full flex flex-col items-center px-6">
+                        <p className="text-white text-[18px] font-medium text-center h-full flex  items-center">
+                            아직 등록된 소모임이 없어요! <br /> 직접 만들어보시겠어요?
+                        </p>
+                        <Link
+                            href={'/crewcreate'}
+                            className="absolute bottom-16 w-1/2 h-[50px] bg-hobbing-red flex justify-center items-center px-5 rounded-full"
+                        >
+                            <p className="text-white text-[15px]">소모임 만들기</p>
+                        </Link>
                     </div>
-                    <Link
-                        href={'/crewcreate'}
-                        className="w-1/2 h-[50px] bg-hobbing-red flex justify-center items-center px-5 rounded-full"
-                    >
-                        <p className="text-white text-[13px]">소모임 만들기</p>
-                    </Link>
                 </div>
             </div>
         </section>

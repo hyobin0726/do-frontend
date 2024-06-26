@@ -10,7 +10,7 @@ export default async function HomeSection1() {
     const hobbyCardsData = await getHobbyCards()
 
     return (
-        <section className="w-full h-[70dvh]">
+        <section className="w-full h-[550px]">
             <div className="w-full h-[150px] flex flex-col justify-end px-8">
                 <div className="flex flex-row items-end">
                     <p className="text-black font-extrabold text-[35px] z-[10]">
