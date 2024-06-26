@@ -24,7 +24,8 @@ export const CreateCrewSchema = z.object({
             message: '소개는 최대 200자 이하로 입력해주세요.',
         }),
 
-    joinType: z.union([z.literal(0), z.literal(1)]).refine((value) => [0, 1].includes(value), {
-        message: '가입 형식은 자유 가입 또는 신청 가입이어야 합니다.',
-    }),
+    // joinType: z.union([z.literal(0), z.literal(1)]).refine((value) => [0, 1].includes(value), {
+    //     message: '가입 형식은 자유 가입 또는 신청 가입이어야 합니다.',
+    // }),
+
 })

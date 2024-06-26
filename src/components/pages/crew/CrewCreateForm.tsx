@@ -1,36 +1,11 @@
 'use client'
 import { useState } from 'react'
-export default function CrewCreateForm() {
-    const [crewName, setCrewName] = useState('')
-    const [crewNameValue, setCrewNameValue] = useState('')
-    const [crewDescription, setCrewDescription] = useState('')
-    const [crewDescriptionValue, setCrewDescriptionValue] = useState('')
+import { zodError } from './CrewCreate'
+export default function CrewCreateForm({ zodError, introLength }: { zodError: zodError; introLength: number }) {
     const [inputHashTag, setInputHashTag] = useState('')
     const [hashTags, setHashTags] = useState<string[]>([])
     const [selectedJoinType, setSelectedJoinType] = useState<number>(0)
 
-    const handleCrewName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const crewName = event.target.value
-        setCrewName(crewName)
-        // onCrewName(crewName)
-        if (crewName.trim().length < 1) {
-            setCrewNameValue('1자 이상 입력해주세요')
-        } else {
-            setCrewNameValue('')
-        }
-    }
-    const handleCrewDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let crewDescription = event.target.value
-        if (crewDescription.trim().length > 200) {
-            alert('200자 이하로 입력해주세요')
-            crewDescription = crewDescription.substring(0, 200)
-        }
-        setCrewDescription(crewDescription)
-        // onIntroduction(crewDescription)
-        if (crewDescription.trim().length < 1) {
-            setCrewDescriptionValue('1자 이상 입력해주세요')
-        } else setCrewDescriptionValue('')
-    }
     const isEmptyValue = (value: string) => {
         return value.trim().length === 0
     }
@@ -75,7 +50,6 @@ export default function CrewCreateForm() {
     }
     const handleJoinTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedJoinType(Number(e.target.value))
-        // onJoinType(Number(e.target.value))
     }
 
     const handleHashTagDelete = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
@@ -84,7 +58,7 @@ export default function CrewCreateForm() {
     }
     return (
         <>
-            <section className="w-full h-auto space-y-5">
+            <div className="w-full h-auto space-y-5">
                 <div className="space-y-3">
                     <div className="flex justify-between mb-2">
                         <p className="text-gray-600 text-sm ml-1 font-semibold">소모임 이름</p>
@@ -93,30 +67,26 @@ export default function CrewCreateForm() {
                         type="text"
                         name="crewName"
                         placeholder="소모임 이름을 입력해주세요. (최대 20자)"
-                        className={`w-full h-[50px] px-3 rounded-xl border-[1px] flex flex-row justify-center outline-none
-                    ${crewNameValue ? 'border-hobbing-pink bg-hobbing-light-pink' : 'bg-white border-hobbing-gray'}`}
+                        className="w-full h-[50px] px-3 rounded-xl border-[1px] flex flex-row justify-center outline-none bg-white border-hobbing-gra"
                         maxLength={20}
-                        value={crewName}
-                        onChange={handleCrewName}
                     />
-                    {crewNameValue && <p className="text-hobbing-red text-[11px] font-medium ">* {crewNameValue}</p>}
+                    {zodError && zodError.crewName !== '' && (
+                        <p className="text-hobbing-red text-[11px] font-medium ">{`* ${zodError.crewName}`}</p>
+                    )}
                 </div>
                 <div className="space-y-3">
                     <div className="flex justify-between mb-2">
                         <p className="text-gray-600 text-sm ml-1 font-semibold">소모임 소개글</p>
-                        <p className="text-gray-600 text-sm">{crewDescription.length}자 / 200자</p>
+                        <p className="text-gray-600 text-sm">{introLength}자 / 200자</p>
                     </div>
                     <textarea
                         placeholder="소모임 소개글 작성해주세요."
-                        className={`w-full h-[80px] p-3 rounded-xl border-[1px] flex flex-row justify-center outline-none
-                     ${crewDescription.length > 200 || crewDescriptionValue ? 'border-hobbing-pink bg-hobbing-light-pink' : 'bg-white border-hobbing-gray'}`}
+                        className="w-full h-[80px] p-3 rounded-xl border-[1px] flex flex-row justify-center outline-none bg-white border-hobbing-gray"
                         maxLength={200}
-                        value={crewDescription}
-                        onChange={handleCrewDescription}
                         name="introduction"
                     />
-                    {crewDescriptionValue && (
-                        <p className="text-hobbing-red text-[11px] font-medium ">* {crewDescriptionValue}</p>
+                    {zodError && zodError.introduction !== '' && (
+                        <p className="text-hobbing-red text-[11px] font-medium ">{`* ${zodError.introduction}`}</p>
                     )}
                 </div>
 
@@ -188,7 +158,7 @@ export default function CrewCreateForm() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </>
     )
 }

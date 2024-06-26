@@ -47,7 +47,7 @@ export default function CrewCreateSelect() {
     }
     // console.log(selectedAddress, 'address')
     return (
-        <section className="flex justify-center gap-x-2 w-full">
+        <div className="flex justify-center gap-x-2 w-full">
             <div className="flex w-full">
                 <button
                     className="w-full border-[1px] px-2 py-2.5 flex items-center justify-between  whitespace-nowrap border-hobbing-gray"
@@ -147,6 +147,6 @@ export default function CrewCreateSelect() {
                     </div>
                 )}
             </div>
-        </section>
+        </div>
     )
 }
