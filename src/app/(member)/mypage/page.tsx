@@ -12,7 +12,7 @@ export default function MypagePage() {
     return (
         <>
             <MainHeader title="마이페이지" />
-            <main className="w-full h-[calc(100dvh-120px)] bg-hobbing-bg-gray p-5 overflow-y-scroll space-y-3 scrollbar-hide">
+            <main className="w-full h-[calc(100dvh-140px)] bg-hobbing-bg-gray p-5 overflow-y-scroll space-y-3 scrollbar-hide">
                 <Profile />
                 {MypageData.map((category, index) => (
                     <section key={index} className="bg-white rounded-2xl drop-shadow py-3 px-4 flex flex-col space-y-2">

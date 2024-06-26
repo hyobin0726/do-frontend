@@ -27,7 +27,7 @@ export default function PageHeader() {
         } else if (/^\/chatimglist\/\d+/.test(pathname)) {
             setMyTitle('사진첩')
         } else if (pathname === '/mypage/crew-apply') {
-            setMyTitle('소모임 가입신청 현황')
+            setMyTitle('소모임 가입신청 확인')
         } else if (pathname === '/mypage/edit') {
             setMyTitle('프로필 수정')
         } else if (pathname === '/mypage/infomation') {
@@ -37,9 +37,17 @@ export default function PageHeader() {
         } else if (pathname === '/mypage/region') {
             setMyTitle('활동지역 관리')
         }
+        //survey
+        else if (pathname === '/survey/result') {
+            setMyTitle('설문조사 결과')
+        }
         //crew
         else if (pathname === '/crewcreate') {
             setMyTitle('소모임 만들기')
+        }
+        //chat
+        else if (/^\/crewsetting\/\d+/.test(pathname)) {
+            setMyTitle('소모임 설정')
         }
         //default
         else {
@@ -48,7 +56,7 @@ export default function PageHeader() {
     }, [pathname])
 
     return (
-        <header className="bg-white drop-shadow-sm sticky top-0 z-[1000]">
+        <header className="bg-white drop-shadow-sm sticky top-0 z-[400]">
             <nav className="relative w-full h-[60px] flex items-center">
                 <RouterBackArrowButton className="z-[10] absolute left-5 h-[60px] w-[50px] flex items-center" />
                 <h1 className="w-full text-center font-Pretendard text-[20px] sm:text-[18px] md:text-[23px] font-bold ">

@@ -14,7 +14,6 @@ interface ShareKakaoProps {
 
 export default function ShareKakao({ thumbnail, crewName, crewIntroduction, path }: ShareKakaoProps) {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false)
-
     const onShareModalChange = () => {
         setIsShareModalOpen(!isShareModalOpen)
     }
@@ -42,33 +41,40 @@ export default function ShareKakao({ thumbnail, crewName, crewIntroduction, path
         }
     }
     const handleCopyClick = () => {
-        const textToCopy = `http://localhost:3000/${path}`
+        const textToCopy = `https://hobbie-do.site/${path}`
         copyToClipboard(textToCopy)
         setIsShareModalOpen(!isShareModalOpen)
     }
     return (
-        <>
-            <div className="text-xs" onClick={onShareModalChange}>
+        <section>
+            <p className="text-xs" onClick={onShareModalChange}>
                 공유하기
-            </div>
+            </p>
             <BasicModal isBasicModalOpen={isShareModalOpen}>
-                <div className="font-bold mb-2">공유하기</div>
-                <div className="flex space-x-4 items-center">
-                    <div className="flex flex-col items-center">
-                        <div className="relative">
-                            <KaKaoLogo onClick={handlerKakaoShare} />
+                <div className=" flex items-center flex-col space-y-3">
+                    <p className="font-bold mb-2">공유하기</p>
+                    <div className="flex space-x-4 items-center">
+                        <div className="flex flex-col items-center">
+                            <div className="relative">
+                                <KaKaoLogo onClick={handlerKakaoShare} />
+                            </div>
+                            <p className="mt-2 text-sm">카카오톡</p>
                         </div>
-                        <div className="mt-2 text-sm">카카오톡</div>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <div className="flex border rounded-full w-[50px] h-[50px] items-center justify-center bg-white ">
-                            <Share onClick={handleCopyClick} />
+                        <div className="flex flex-col items-center">
+                            <div className="flex border rounded-full w-[50px] h-[50px] items-center justify-center bg-white ">
+                                <Share onClick={handleCopyClick} />
+                            </div>
+                            <p className="mt-2 text-sm ">링크복사</p>
                         </div>
-                        <div className="mt-2 text-sm ">링크복사</div>
                     </div>
+                    <button
+                        onClick={onShareModalChange}
+                        className="w-[50%] h-[40px] bg-hobbing-red rounded-xl flex justify-center items-center"
+                    >
+                        <p className="text-white text-[13px] font-bold"> 닫기</p>
+                    </button>
                 </div>
-                <button onClick={onShareModalChange}>닫기</button>
             </BasicModal>
-        </>
+        </section>
     )
 }

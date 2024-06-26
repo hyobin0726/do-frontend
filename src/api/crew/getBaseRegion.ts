@@ -13,5 +13,5 @@ export default async function getBaseRegion() {
         },
     })
     const data = await res.json()
-    return data.data.regionId
+    return data.data
 }

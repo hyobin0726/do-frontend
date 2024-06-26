@@ -1,10 +1,14 @@
 import PageHeader from '@/components/common/PageHeader'
+import EditProfile from '@/components/pages/mypage/EditProfile'
+import getMyProfile from '@/api/auth/getMyProfile'
 
-export default function EditProfilePage() {
+export default async function EditProfilePage() {
+    const profileData = await getMyProfile()
+
     return (
         <>
             <PageHeader />
-            <div>프로필 수정 페이지</div>
+            <EditProfile prevProfilData={profileData} />
         </>
     )
 }

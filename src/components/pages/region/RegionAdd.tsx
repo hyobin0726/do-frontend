@@ -6,7 +6,13 @@ import Add from '@/components/images/Add'
 import RegionAddModal from './RegionAddModal'
 import Alert from '@/components/common/Alert'
 
-export default function RegionAdd() {
+export default function RegionAdd({
+    currentLatitude,
+    currentLongitude,
+}: {
+    currentLatitude: number
+    currentLongitude: number
+}) {
     const [locationModalOpen, setLocationModalOpen] = useState<boolean>(false)
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [alertMessage, setAlertMessage] = useState<string>('')
@@ -34,7 +40,12 @@ export default function RegionAdd() {
                 <p className="font-Pretendard text-hobbing-red text-[15px] font-bold underline">지역 추가하기</p>
             </button>
             {locationModalOpen && (
-                <RegionAddModal handleLocationModalOpen={handleLocationModalOpen} handleAlertOpen={handleAlertOpen} />
+                <RegionAddModal
+                    currentLatitude={currentLatitude}
+                    currentLongitude={currentLongitude}
+                    handleLocationModalOpen={handleLocationModalOpen}
+                    handleAlertOpen={handleAlertOpen}
+                />
             )}
             {isAlertOpen && (
                 <Alert type="warning" isAlertOpen={isAlertOpen}>

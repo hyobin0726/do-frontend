@@ -5,12 +5,13 @@ import Send from '@/components/images/Send'
 import Image from 'next/image'
 import { ChangeEvent, useState } from 'react'
 import { useParams } from 'next/navigation'
+import { useGetClientToken } from '@/actions/useGetClientToken'
 
 export default function ChatBottom() {
     const params = useParams<{ crewId: string }>()
     const [previewImg, setPreviewImg] = useState<FileList>()
     const [message, setMessage] = useState<string>('')
-    const [imgUrl, setImgUrl] = useState<string | null>(null)
+    const auth = useGetClientToken()
 
     const saveHandler = async () => {
         if (!previewImg) {
@@ -27,7 +28,6 @@ export default function ChatBottom() {
             }).then((res) => res.json())
 
             if (result.message == 'OK') {
-                setImgUrl(result.imgUrl)
                 // alert('이미지가 저장되었습니다.')
                 handleSendMsg(result.imgUrl)
             }
@@ -60,7 +60,7 @@ export default function ChatBottom() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    uuid: 'uuid1',
+                    Authorization: `${auth.token}`,
                 },
                 body: JSON.stringify(bodyData),
             })
@@ -74,23 +74,22 @@ export default function ChatBottom() {
             console.error('Error sending message to server:', error)
         }
         setMessage('')
-        setImgUrl(null)
     }
 
     return (
         <div>
-            <form className=" bottom-0 z-[1] fixed  h-[125px]">
-                <div className=" w-screen ">
+            <form className="bg-white bottom-0 z-[100] fixed h-[170px] w-full">
+                <div className="w-screen">
                     <textarea
                         onChange={(e) => setMessage(e.target.value)}
                         value={message}
                         name="message"
-                        className="p-2 w-full h-20"
+                        className="p-2 w-full h-[100px] outline-none caret-hobbing-red scrollbar-hide"
                         autoFocus
                     />
                 </div>
-                <div className="flex justify-between items-center px-2 py-1">
-                    <div className="flex items-center space-x-1">
+                <div className="flex justify-between items-center px-2 py-1 h-[50px]">
+                    <div className="flex items-center space-x-2">
                         <div>
                             <label htmlFor="inputFile">
                                 <div className="w-5">

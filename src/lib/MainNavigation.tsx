@@ -15,7 +15,7 @@ export const MainNavigationData: MainNavigationDataType[] = [
         id: 1,
         title: '소모임',
         icon: Crew,
-        url: '/crew',
+        url: '/crew?hobbyId=',
     },
     {
         id: 2,
