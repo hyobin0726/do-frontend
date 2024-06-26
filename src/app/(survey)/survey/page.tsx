@@ -9,8 +9,10 @@ export default async function SurveyPage({ searchParams }: { searchParams: { [ke
 
     return (
         <>
-            <main className="w-full h-[calc(100dvh-60px)] bg-green-100">
-                <div>test</div>
+            <main className="w-full h-[calc(100dvh-60px)] bg-green-100 px-10">
+                <section className="bg-yellow-50 w-full h-[30%]">test</section>
+                <section className="bg-yellow-100 w-full h-[50%]">test</section>
+                <section className="bg-yellow-200 w-full h-[20%]">test</section>
             </main>
         </>
     )

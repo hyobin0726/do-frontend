@@ -40,6 +40,8 @@ export default function PageHeader() {
         //survey
         else if (pathname === '/survey/result') {
             setMyTitle('설문조사 결과')
+        } else if (pathname === '/survey') {
+            setMyTitle('설문조사')
         }
         //crew
         else if (pathname === '/crewcreate') {
