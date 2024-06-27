@@ -1,6 +1,6 @@
 export default function Monster15() {
     return (
-        <svg width="249" height="248" viewBox="0 0 249 248" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="100%" height="100%" viewBox="0 0 249 248" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M185.456 111.72C185.456 111.72 205.914 110.661 205.051 119.775C204.212 128.639 196.245 127.131 184.306 126.578L185.456 111.72Z"
                 fill="#B1C891"
