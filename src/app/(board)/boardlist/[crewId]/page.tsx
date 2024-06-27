@@ -1,6 +1,7 @@
 import { getCrewBoardList } from '@/api/board/BoardList'
 import { GetBoardPin } from '@/api/board/getBoardPin'
 import { getCrewList } from '@/api/crew/CrewList'
+import BoardNotification from '@/components/images/BoardNotification'
 import Board from '@/components/pages/board/Board'
 import BoardList from '@/components/pages/board/BoardList'
 import BoardNav from '@/components/pages/board/BoardNav'
@@ -13,10 +14,16 @@ export default async function BoardPage({ params }: { params: { crewId: string }
     const pindata = await GetBoardPin(crewId)
 
     return (
-        <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide bg-hobbing-bg-gray">
+        <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide ">
             <BoardNav crew={crew} selectedCrewId={crewId} />
             {pindata && (
-                <div className="p-5 space-y-2">
+                <div className="p-5 space-y-3 ">
+                    <div className="flex space-x-3 flex-row  items-center d">
+                        <div className="w-5 h-5">
+                            <BoardNotification />
+                        </div>
+                        <p className="font-bold ">공지사항</p>
+                    </div>
                     <Board boardId={pindata.boardId} />
                 </div>
             )}

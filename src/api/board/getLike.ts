@@ -9,7 +9,7 @@ export async function GetLike(boardId: string) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Uuid: `${auth.token}`,
+                Authorization: `${auth.token}`,
             },
         },
     )

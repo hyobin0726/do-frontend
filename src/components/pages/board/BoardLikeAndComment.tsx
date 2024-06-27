@@ -7,7 +7,15 @@ import BoardComment from '@/components/images/BoardCommet'
 import BoardUnLike from '@/components/images/BoardUnLike'
 import { useEffect, useState } from 'react'
 
-export default function BoardLikeAndComment({ boardId }: { boardId: string }) {
+export default function BoardLikeAndComment({
+    boardId,
+    likeCount,
+    commentCount,
+}: {
+    boardId: string
+    likeCount: number
+    commentCount: number
+}) {
     const [like, setLike] = useState<boolean>(false)
 
     useEffect(() => {
@@ -39,10 +47,10 @@ export default function BoardLikeAndComment({ boardId }: { boardId: string }) {
 
     return (
         <section className="border-t-[1px]">
-            <div className="flex space-x-4 mt-2">
+            <div className="flex space-x-5 mt-2">
                 <button className="flex justify-center items-center" onClick={handleLike}>
                     {like ? (
-                        <div className=" w-7 h-7 mr-1">
+                        <div className=" w-5 h-5 mr-1">
                             <BoardLike />
                         </div>
                     ) : (
@@ -51,13 +59,13 @@ export default function BoardLikeAndComment({ boardId }: { boardId: string }) {
                         </div>
                     )}
 
-                    <p className="flex ">0 </p>
+                    <p className="flex ">{likeCount}</p>
                 </button>
                 <button className="flex justify-center items-center">
-                    <div className=" w-7 h-7 mr-1">
+                    <div className=" w-5 h-5 mr-1">
                         <BoardComment />
                     </div>
-                    <p>0</p>
+                    <p>{commentCount}</p>
                 </button>
             </div>
         </section>

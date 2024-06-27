@@ -7,7 +7,7 @@ export async function GetBoardPin(crewId: string) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Uuid: `${auth.token}`,
+            Authorization: `${auth.token}`,
         },
     })
     const data = await response.json()

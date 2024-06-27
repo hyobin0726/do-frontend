@@ -1,11 +1,12 @@
 'use server'
 import { useGetServerToken } from '@/actions/useGetServerToken'
 import { error } from 'console'
+import { redirect } from 'next/navigation'
 
-export async function PostLike(boardId: string) {
+export async function postBoardPin(boardId: string) {
     const auth = await useGetServerToken()
     const response = await fetch(
-        `${process.env.BASE_URL}/board-service/v1/users/crew/board-interaction/${boardId}/like`,
+        `${process.env.BASE_URL}/board-service/v1/users/crew/board-interaction/${boardId}/pin`,
         {
             method: 'POST',
             headers: {
@@ -15,10 +16,12 @@ export async function PostLike(boardId: string) {
         },
     )
     const data = await response.json()
-    if (data.isSuccess === true) {
-        console.log('좋아요 성공', data)
+    console.log(data)
+    if (data.isSuccess) {
+        console.log('Board delete response:', data)
+        redirect('/boardlist')
     } else {
-        console.error('좋아요 성공 에러.', error)
+        console.log('Board delete response:', error)
     }
     return data
 }

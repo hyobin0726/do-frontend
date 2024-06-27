@@ -1,25 +1,10 @@
 export default function BoardComment() {
     return (
-        <svg
-            width="100%"
-            height="100%"
-            viewBox="0 0 17 17"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-        >
-            <rect width="17" height="17" fill="url(#pattern0_912_558)" />
-            <defs>
-                <pattern id="pattern0_912_558" patternContentUnits="objectBoundingBox" width="1" height="1">
-                    <use xlinkHref="#image0_912_558" transform="scale(0.0111111)" />
-                </pattern>
-                <image
-                    id="image0_912_558"
-                    width="90"
-                    height="90"
-                    xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJUlEQVR4nO2cMW5UMRRFfxUQW4AVsJ+0DAWyC3wHsYK0FKwAAcsBUgESW0hJgUj+m87ImoYikUjw/OufOUd6/fPJnTvjFJ4mAAAAAAAAAAAAAPhX6mbzcPcyvwql87nky1CuxzRzO3PJX3Ylbav04CDJudKLJ3NJ392HjUFmVvrWnHRPMpLztbK7JntfF/4UxZCT1E1062T/gfKYU9LnbqJnpd/2A2nMaW66iXYfJgYfRAvR1Z1CEi2/OKpDfql0tBBd3Ykj0fJLojrkF0hHa6zhwiJEV3cKSbT84qgO+aXS0UJ0dSeORMsvieqQXyAdrbGGC4sQXd0pJNHyi6M65JdKRwvR1Z04Ei2/JKpDfoF0tMYaLixCdHWnkETLL47qkF8qHS1EV3fiSLT8kqgO+QXS0RpruLAI0dWdQhItvziqQ36pdLQQXd2JI9HyS6I6dIQdzesG+UbJc0m/Ol5YeK8jlnivoz3W5P54xqhTcukmur0b1N4Psh9Kg03JX+vZ6cnU/ZUwZNe/JV+9zo+nQ9CS3R5rar10jF+Q8/7Mn1pddE9yT+L/PqbP3fuvhrhzkvJH9+6rIu4m+UdN6ZF791URt5Vc8uVO+al77/sveps27p1XSdwqzemDe9/VEvTyOKJnenkh0Vt6+eCiZ6X3Hf6eEPxeXoagl5cSnS5u+AJ8ttAKx0GU/OaaXn7n3uveUc9OT/ay00WU/DOU3w7970YAgMnKH7AjPP46yzpiAAAAAElFTkSuQmCC"
-                />
-            </defs>
+        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M1.5 4.25C1.5 3.284 2.284 2.5 3.25 2.5H20.75C21.716 2.5 22.5 3.284 22.5 4.25V16.75C22.5 17.2141 22.3156 17.6592 21.9874 17.9874C21.6592 18.3156 21.2141 18.5 20.75 18.5H11.06L7.487 22.073C7.28305 22.2762 7.02352 22.4144 6.74112 22.4703C6.45872 22.5262 6.16609 22.4973 5.90011 22.3871C5.63414 22.277 5.40673 22.0905 5.24655 21.8513C5.08636 21.6121 5.00058 21.3309 5 21.043V18.5H3.25C2.78587 18.5 2.34075 18.3156 2.01256 17.9874C1.68437 17.6592 1.5 17.2141 1.5 16.75V4.25ZM3.25 4C3.1837 4 3.12011 4.02634 3.07322 4.07322C3.02634 4.12011 3 4.1837 3 4.25V16.75C3 16.888 3.112 17 3.25 17H5.75C5.94891 17 6.13968 17.079 6.28033 17.2197C6.42098 17.3603 6.5 17.5511 6.5 17.75V20.94L10.22 17.22C10.3605 17.0793 10.5512 17.0002 10.75 17H20.75C20.8163 17 20.8799 16.9737 20.9268 16.9268C20.9737 16.8799 21 16.8163 21 16.75V4.25C21 4.1837 20.9737 4.12011 20.9268 4.07322C20.8799 4.02634 20.8163 4 20.75 4H3.25Z"
+                fill="#F76D67"
+            />
         </svg>
     )
 }

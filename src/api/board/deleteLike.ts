@@ -10,7 +10,7 @@ export async function DeleteLike(boardId: string) {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                Uuid: `${auth.token}`,
+                Authorization: `${auth.token}`,
             },
         },
     )

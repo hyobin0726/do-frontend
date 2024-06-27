@@ -8,7 +8,6 @@ import { BoardType } from '@/type/BoardType'
 import MoreInfo from '@/components/images/MoreInfo'
 import BoardSetting from './BoardSetting'
 import { ReadBoard } from '@/api/board/readBoard'
-import { GetLike } from '@/api/board/getLike'
 
 export default function Board({ boardId }: { boardId: string }) {
     const [board, setBoard] = useState<BoardType>()
@@ -25,25 +24,37 @@ export default function Board({ boardId }: { boardId: string }) {
     const modalController = () => {
         setIsModalOpen(!isModalOpen)
     }
-
+    // console.log(board)
     return (
         <>
             {board && (
-                <>
+                <div>
                     <div className="flex justify-between mb-4 ">
-                        <BoardProfile writerUuid={board.writerUuid} createdAt={board.createdAt} />
+                        <BoardProfile
+                            createdAt={board.createdAt}
+                            writerName={board.writerName}
+                            writerProfileImageUrl={board.writerProfileImageUrl}
+                        />
                         <button className="w-5" onClick={modalController}>
                             <MoreInfo />
                         </button>
                     </div>
-                    <Link href={`/board/${board.boardId}`} passHref scroll={false} className=" space-y-2">
+                    <Link href={`/board/${board.boardId}`} passHref scroll={false} className="space-y-2">
                         <p>{board.content}</p>
                         <BoardImage imageUrls={board.imageUrls} />
                     </Link>
-
-                    <BoardLikeAndComment boardId={board.boardId} />
-                    <BoardSetting isModalOpen={isModalOpen} modalController={modalController} boardId={board.boardId} />
-                </>
+                    <BoardLikeAndComment
+                        boardId={board.boardId}
+                        likeCount={board.likeCount}
+                        commentCount={board.commentCount}
+                    />
+                    <BoardSetting
+                        isModalOpen={isModalOpen}
+                        modalController={modalController}
+                        boardId={board.boardId}
+                        boardPin={board.pinned}
+                    />
+                </div>
             )}
         </>
     )

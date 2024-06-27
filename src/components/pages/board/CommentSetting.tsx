@@ -1,37 +1,36 @@
 import { deleteComment } from '@/api/board/deleteComment'
 import SliderModal from '@/components/common/SliderModal'
 import Delete from '@/components/images/Delete'
-import { useParams, useRouter } from 'next/navigation'
 
 export default function CommentSetting({
     isModalOpen,
     modalController,
     commentId,
+    onDeleteComment, 
 }: {
     isModalOpen: boolean
     modalController: () => void
     commentId: string
+    onDeleteComment: (commentId: string) => void 
 }) {
-    const params = useParams()
-    const router = useRouter()
-    console.log('params', params)
-    const handlerdelete = async () => {
+    const handleDelete = async () => {
         try {
             await deleteComment(commentId)
-            modalController()
+            onDeleteComment(commentId) 
+            modalController() 
         } catch (error) {
-            console.log(error)
+            console.error('댓글 삭제에 실패했습니다:', error)
         }
     }
 
     return (
-        <div className="flex items-end justify-center ">
+        <div className="flex items-end justify-center bg-white">
             <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true} bottom={true}>
-                <div className="w-full bg-white  ">
+                <div className="w-full bg-white">
                     <div className="w-full h-auto flex flex-col items-center pt-3 pb-3 space-y-3">
                         <div
                             className="w-full h-auto flex justify-center items-center py-2 border-b border-gray-300 space-x-2"
-                            onClick={handlerdelete}
+                            onClick={handleDelete}
                         >
                             <div className="w-5 h-5">
                                 <Delete />
@@ -47,3 +46,4 @@ export default function CommentSetting({
         </div>
     )
 }
+

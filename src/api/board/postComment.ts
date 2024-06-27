@@ -10,7 +10,7 @@ export async function PostComment(boardId: string, bodyData: { content: string }
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Uuid: `${auth.token}`,
+                    Authorization: `${auth.token}`,
                 },
                 body: JSON.stringify(bodyData),
             },
