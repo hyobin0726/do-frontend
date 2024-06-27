@@ -8,10 +8,12 @@ import { BoardType } from '@/type/BoardType'
 import MoreInfo from '@/components/images/MoreInfo'
 import BoardSetting from './BoardSetting'
 import { ReadBoard } from '@/api/board/readBoard'
+import { useGetClientToken } from '@/actions/useGetClientToken'
 
 export default function Board({ boardId }: { boardId: string }) {
     const [board, setBoard] = useState<BoardType>()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+    const auth = useGetClientToken()
 
     useEffect(() => {
         const fetchBoard = async () => {
@@ -24,7 +26,6 @@ export default function Board({ boardId }: { boardId: string }) {
     const modalController = () => {
         setIsModalOpen(!isModalOpen)
     }
-    // console.log(board)
     return (
         <>
             {board && (
@@ -38,9 +39,11 @@ export default function Board({ boardId }: { boardId: string }) {
                                 updated={board.updated}
                             />
                         </Link>
-                        <button className="w-5" onClick={modalController}>
-                            <MoreInfo />
-                        </button>
+                        {auth && auth.uuid === board.writerUuid && (
+                            <button className="w-5" onClick={modalController}>
+                                <MoreInfo />
+                            </button>
+                        )}
                     </div>
                     <Link href={`/board/${board.boardId}`} passHref scroll={false} className="space-y-2">
                         <p>{board.content}</p>
