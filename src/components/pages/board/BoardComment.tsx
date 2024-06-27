@@ -4,6 +4,7 @@ import LoadingMark from '@/components/images/LoadingMark'
 import MoreInfo from '@/components/images/MoreInfo'
 import { useState } from 'react'
 import CommentSetting from './CommentSetting'
+import { useGetClientToken } from '@/actions/useGetClientToken'
 
 interface CommentListType {
     commentId: string
@@ -21,7 +22,7 @@ function BoardComment({ boardId, data, lastPage }: { boardId: string; data: Comm
     const [isLast, setIsLast] = useState<boolean>(lastPage)
     const [loading, setLoading] = useState<boolean>(false)
     const [activeCommentId, setActiveCommentId] = useState<string | null>(null)
-
+    const auth = useGetClientToken()
     const handleLoadMore = async () => {
         setLoading(true) // 로딩 시작
         try {
@@ -80,7 +81,7 @@ function BoardComment({ boardId, data, lastPage }: { boardId: string; data: Comm
                         </button>
                     </div>
                     <p className="m-2">{comment.content}</p>
-                    {activeCommentId === comment.commentId && (
+                    {activeCommentId === comment.commentId && auth && auth.uuid === comment.writerUuid && (
                         <CommentSetting
                             isModalOpen={true}
                             modalController={() => modalController(comment.commentId)}
