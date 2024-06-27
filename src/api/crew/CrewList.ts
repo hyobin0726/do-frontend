@@ -12,7 +12,7 @@ export async function getCrewList() {
     })
     const data = await response.json()
     if (data.isSuccess === true) {
-        console.log('소모임 목록을 불러왔습니다.', data.data)
+        // console.log('소모임 목록을 불러왔습니다.', data.data)
     }
     return data.data
 }

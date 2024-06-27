@@ -2,27 +2,28 @@
 import Alert from '@/components/common/Alert'
 import React, { useState } from 'react'
 
-export default function BoardContent({ contents }: { contents: (content: string) => void }) {
+export default function BoardContent() {
     const [text, setText] = useState('')
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const inputText = e.target.value
-        if (inputText.length > 1000) {
+        if (inputText.length >= 1000) {
             setIsAlertOpen(true)
             return
         }
         setText(inputText)
-        contents(inputText)
     }
 
     return (
-        <form className="h-[calc(100vh-13rem)]">
+        <div className="h-[calc(100vh-15.5rem)]">
             <textarea
                 placeholder="멤버들과 공유하고 싶은 소식을 남겨보세요."
-                className="w-full h-full p-4"
+                className="w-full h-full p-2"
                 value={text}
                 onChange={handleChange}
+                maxLength={1000}
+                name="content"
             />
             {isAlertOpen && (
                 <Alert type="info" isAlertOpen={isAlertOpen}>
@@ -39,6 +40,6 @@ export default function BoardContent({ contents }: { contents: (content: string)
                     </button>
                 </Alert>
             )}
-        </form>
+        </div>
     )
 }
