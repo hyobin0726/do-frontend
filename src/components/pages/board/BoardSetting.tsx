@@ -8,6 +8,7 @@ import Modify from '@/components/images/Modify'
 import Pin from '@/components/images/pin'
 import { useRouter } from 'next/navigation'
 
+
 export default function BoardSetting({
     isModalOpen,
     modalController,
@@ -72,6 +73,7 @@ export default function BoardSetting({
                         </div>
                         <div
                             className="w-full  flex justify-center items-center py-2 border-b border-gray-300 space-x-2"
+
                             onClick={handlerdelete}
                         >
                             <div className="w-5 h-5">

@@ -58,7 +58,6 @@ export default function BoardLikeAndComment({
                             <BoardUnLike />
                         </div>
                     )}
-
                     <p className="flex ">{likeCount}</p>
                 </button>
                 <button className="flex justify-center items-center">
@@ -66,6 +65,7 @@ export default function BoardLikeAndComment({
                         <BoardComment />
                     </div>
                     <p>{commentCount}</p>
+
                 </button>
             </div>
         </section>

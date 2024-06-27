@@ -20,6 +20,7 @@ export default function CommentSetting({
             modalController() 
         } catch (error) {
             console.error('댓글 삭제에 실패했습니다:', error)
+
         }
     }
 
@@ -46,4 +47,5 @@ export default function CommentSetting({
         </div>
     )
 }
+
 
