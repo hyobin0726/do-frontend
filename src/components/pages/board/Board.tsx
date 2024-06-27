@@ -5,17 +5,18 @@ import BoardLikeAndComment from './BoardLikeAndComment'
 import BoardImage from './BoardImage'
 import Link from 'next/link'
 import { BoardType } from '@/type/BoardType'
-import { GetBoard } from '@/api/board/board'
 import MoreInfo from '@/components/images/MoreInfo'
 import BoardSetting from './BoardSetting'
+import { ReadBoard } from '@/api/board/readBoard'
+import { GetLike } from '@/api/board/getLike'
 
 export default function Board({ boardId }: { boardId: string }) {
     const [board, setBoard] = useState<BoardType>()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
     useEffect(() => {
         const fetchBoard = async () => {
-            const getBoard: BoardType = await GetBoard(boardId)
-            // const getBoard: BoardType = await ReadBoard(boardId)
+            const getBoard: BoardType = await ReadBoard(boardId)
             setBoard(getBoard)
         }
         fetchBoard()
@@ -40,7 +41,7 @@ export default function Board({ boardId }: { boardId: string }) {
                         <BoardImage imageUrls={board.imageUrls} />
                     </Link>
 
-                    <BoardLikeAndComment />
+                    <BoardLikeAndComment boardId={board.boardId} />
                     <BoardSetting isModalOpen={isModalOpen} modalController={modalController} boardId={board.boardId} />
                 </>
             )}

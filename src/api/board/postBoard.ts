@@ -7,7 +7,7 @@ export async function PostBoard(crewId: string, rowFormData: any) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Uuid: `${auth.token}`,
+                Uuid: `${auth.uuid}`,
             },
             body: JSON.stringify(rowFormData),
         })

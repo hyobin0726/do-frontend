@@ -11,6 +11,7 @@ export default async function Board({ params }: { params: { boardId: string } })
     // console.log('boardId', boardId)
     const board: BoardType = await GetBoard(boardId)
     const comment = await GetBoardComment(boardId, 0)
+
     return (
         <main className="space-y-3 p-3 h-[calc(100dvh-130px)] overflow-y-scroll ">
             <div className="flex items-center mb-4">
@@ -20,7 +21,7 @@ export default async function Board({ params }: { params: { boardId: string } })
                 <p>{board.content}</p>
             </div>
             <BoardImage imageUrls={board.imageUrls} />
-            <BoardLikeAndComment />
+            <BoardLikeAndComment boardId={boardId} />
             <BoardComment boardId={boardId} data={comment.commentList} lastPage={comment.isLast} />
         </main>
     )

@@ -11,7 +11,6 @@ export default async function BoardPage({ params }: { params: { crewId: string }
     const { crewId } = params
     const data = await getCrewBoardList(crewId, 0)
     const pindata = await GetBoardPin(crewId)
-    console.log('pindata', pindata)
 
     return (
         <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide bg-hobbing-bg-gray">
