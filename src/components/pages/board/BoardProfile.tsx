@@ -2,12 +2,12 @@ export default function BoardProfile({
     createdAt,
     writerName,
     writerProfileImageUrl,
-    updatedAt,
+    updated,
 }: {
     createdAt: string
     writerName: string
     writerProfileImageUrl: string
-    updatedAt?: boolean
+    updated?: boolean
 }) {
     return (
         <section className="flex items-center ">
@@ -24,7 +24,7 @@ export default function BoardProfile({
                             minute: '2-digit',
                         })}
                     </p>
-                    {updatedAt && <p className="text-xs mt-0.5">(수정됨)</p>}
+                    {updated && <p className="text-xs mt-0.5">(수정됨)</p>}
                 </div>
             </div>
         </section>

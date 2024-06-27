@@ -1,3 +1,4 @@
+'use client'
 import { deleteBoard } from '@/api/board/deleteBoard'
 import { deleteBoardPin } from '@/api/board/deleteBoardPin'
 import { postBoardPin } from '@/api/board/postBoardPin'
@@ -5,6 +6,7 @@ import SliderModal from '@/components/common/SliderModal'
 import Delete from '@/components/images/Delete'
 import Modify from '@/components/images/Modify'
 import Pin from '@/components/images/pin'
+import { useRouter } from 'next/navigation'
 
 export default function BoardSetting({
     isModalOpen,
@@ -17,6 +19,8 @@ export default function BoardSetting({
     boardId: string
     boardPin: boolean
 }) {
+    const router = useRouter()
+
     const handlepin = async () => {
         let result
         if (boardPin == false) {
@@ -30,6 +34,10 @@ export default function BoardSetting({
                 modalController()
             }
         }
+    }
+
+    const handleModify = () => {
+        router.push(`/boardwriting/${boardId}`)
     }
 
     const handlerdelete = async () => {
@@ -55,9 +63,11 @@ export default function BoardSetting({
                             </div>
                             <p className="text-[18px] text-center text-gray-600">고정</p>
                         </div>
-                        <div className="w-full  flex justify-center items-center py-2 border-b border-gray-300 space-x-2">
+                        <div
+                            className="w-full  flex justify-center items-center py-2 border-b border-gray-300 space-x-2"
+                            onClick={handleModify}
+                        >
                             <Modify />
-
                             <p className="text-[18px] text-center text-gray-600">수정</p>
                         </div>
                         <div

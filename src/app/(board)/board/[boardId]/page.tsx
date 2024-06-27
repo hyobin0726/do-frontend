@@ -19,7 +19,7 @@ export default async function Board({ params }: { params: { boardId: string } })
                     createdAt={board.createdAt}
                     writerName={board.writerName}
                     writerProfileImageUrl={board.writerProfileImageUrl}
-                    updatedAt={board?.updatedAt}
+                    updated={board?.updated}
                 />
             </div>
             <div>

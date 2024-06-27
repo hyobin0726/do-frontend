@@ -30,11 +30,14 @@ export default function Board({ boardId }: { boardId: string }) {
             {board && (
                 <div>
                     <div className="flex justify-between mb-4 ">
-                        <BoardProfile
-                            createdAt={board.createdAt}
-                            writerName={board.writerName}
-                            writerProfileImageUrl={board.writerProfileImageUrl}
-                        />
+                        <Link href={`/board/${board.boardId}`} passHref scroll={false} className="space-y-2">
+                            <BoardProfile
+                                createdAt={board.createdAt}
+                                writerName={board.writerName}
+                                writerProfileImageUrl={board.writerProfileImageUrl}
+                                updated={board.updated}
+                            />
+                        </Link>
                         <button className="w-5" onClick={modalController}>
                             <MoreInfo />
                         </button>
