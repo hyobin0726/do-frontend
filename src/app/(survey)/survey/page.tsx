@@ -1,10 +1,9 @@
-import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 import getSurveyQuestions from '@/api/survey/getSurveyQuestions'
 
 import SurveyQuestions from '@/components/pages/survey/SurveyQuestions'
-import SurveyStep from '@/components/pages/survey/SurveyStep'
-import { redirect } from 'next/navigation'
+import SurveyAnswer from '@/components/pages/survey/SurveyAnswer'
 
 export default async function SurveyPage({ searchParams }: { searchParams: { [key: string]: number } }) {
     const surveyQuestions = await getSurveyQuestions()
@@ -17,12 +16,9 @@ export default async function SurveyPage({ searchParams }: { searchParams: { [ke
 
     return (
         <>
-            <main className="w-full h-[calc(100dvh-60px)] px-10">
+            <main className="w-full h-[calc(100dvh-60px)] px-8">
                 <SurveyQuestions surveyQuestions={surveyQuestions.data} surveyStep={surveyStep} />
-                <section className="w-full h-[25%]">
-                    <Link href={`/survey?step=${surveyStep + 1}`}>test</Link>
-                </section>
-                <SurveyStep surveyQuestions={surveyQuestions.data} surveyStep={surveyStep} />
+                <SurveyAnswer surveyQuestions={surveyQuestions.data} surveyStep={surveyStep} />
             </main>
         </>
     )

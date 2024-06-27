@@ -22,7 +22,7 @@ import Monster24 from '@/components/images/monsters/Monster24'
 export default function SurveyQuestionMonster({ surveyStep }: { surveyStep: number }) {
     return (
         <>
-            <div className=" w-full h-3/6">
+            <div className="absolute bottom-0 w-full h-3/6">
                 {surveyStep === 1 && <Monster1 />}
                 {surveyStep === 2 && <Monster24 />}
                 {surveyStep === 3 && <Monster23 />}

@@ -1,9 +1,9 @@
-import PageHeader from '@/components/common/PageHeader'
+import SurveyHeader from '@/components/pages/survey/SurveyHeader'
 
 export default function SurveyLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            <PageHeader />
+            <SurveyHeader />
             {children}
         </>
     )

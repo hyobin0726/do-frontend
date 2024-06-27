@@ -21,7 +21,7 @@ export const MypageData: MypageDataType[] = [
             {
                 id: 2,
                 name: '설문조사 결과',
-                path: '/survey/result',
+                path: '/result?from=1',
             },
         ],
     },

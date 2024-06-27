@@ -16,8 +16,8 @@ export default function SurveyQuestions({
     surveyStep: number
 }) {
     return (
-        <section className="w-full h-[50%] flex flex-col justify-end items-center ">
-            <div className="relative w-full h-[100px] flex">
+        <section className="relative w-full h-[50%] flex flex-col items-center pt-16">
+            <div className=" w-full h-fit flex">
                 <div className="w-[20px] h-[20px]">
                     <QuotesLeft />
                 </div>
