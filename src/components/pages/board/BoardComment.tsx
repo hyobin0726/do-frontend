@@ -42,7 +42,7 @@ function BoardComment({ boardId, data, lastPage }: { boardId: string; data: Comm
     const handleDeleteComment = (commentId: string) => {
         setCommentList((prev) => prev.filter((comment) => comment.commentId !== commentId))
     }
-
+    console.log('CommentList', CommentList)
     return (
         <section className="space-y-3 ">
             {loading && (
@@ -59,12 +59,17 @@ function BoardComment({ boardId, data, lastPage }: { boardId: string; data: Comm
             )}
 
             {CommentList.map((comment, idx) => (
-                <div key={idx} className="space-y-2 border-b-[0.5px]">
+                <div key={idx} className="space-y-2 border-b-[0.5px] py-2 ">
                     <div className="flex items-center mt-2 justify-between">
                         <div className="flex items-center">
                             <img src={comment.writerProfileImageUrl} className="rounded-xl w-10 h-10" />
-                            <div className="ml-3">
-                                <p className="font-medium">{comment.writerName}</p>
+                            <div className="ml-3 space-y-1">
+                                <div className="flex items-center space-x-2">
+                                    <p className="font-medium">{comment.writerName}</p>
+                                    <p className="text-[10px] border border-hobbing-red p-[2px] rounded-xl text-hobbing-red">
+                                        {comment.isInCrew ? '소모임 회원' : ''}
+                                    </p>
+                                </div>
                                 <p className="text-sm">
                                     {new Date(comment.createdAt).toLocaleTimeString('ko-KR', {
                                         year: 'numeric',
