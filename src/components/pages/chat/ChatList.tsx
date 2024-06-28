@@ -36,9 +36,7 @@ function ChatList({ crewList }: { crewList: CrewType[] }) {
         }
     }
     useEffect(() => {
-        console.log('useEffect')
         fetchChatList()
-        console.log('fetchChatList')
     }, [action])
     // 실시간 조회
     useEffect(() => {
