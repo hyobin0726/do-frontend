@@ -22,9 +22,7 @@ export default function PageHeader() {
             setMyTitle('회원가입')
         }
         // mypage
-        else if (pathname === '/mypage/region/initial') {
-            setMyTitle('활동지역 등록')
-        } else if (/^\/chatimglist\/\d+/.test(pathname)) {
+        else if (/^\/chatimglist\/\d+/.test(pathname)) {
             setMyTitle('사진첩')
         } else if (pathname === '/mypage/crew-apply') {
             setMyTitle('소모임 가입신청 확인')
@@ -36,10 +34,6 @@ export default function PageHeader() {
             setMyTitle('비밀번호 변경')
         } else if (pathname === '/mypage/region') {
             setMyTitle('활동지역 관리')
-        }
-        //survey
-        else if (pathname === '/survey/result') {
-            setMyTitle('설문조사 결과')
         }
         //crew
         else if (pathname === '/crewcreate') {

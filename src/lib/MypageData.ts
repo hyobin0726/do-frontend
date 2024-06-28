@@ -16,12 +16,12 @@ export const MypageData: MypageDataType[] = [
             {
                 id: 1,
                 name: '설문조사 하기',
-                path: '/survey',
+                path: '/survey?step=1&from=2',
             },
             {
                 id: 2,
                 name: '설문조사 결과',
-                path: '/survey/result',
+                path: '/result?from=1',
             },
         ],
     },

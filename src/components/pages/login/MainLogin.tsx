@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import Link from 'next/link'
 
 import HOBBINGLogo from '@/components/images/HOBBINGLogo'
-import RunMonster from '@/components/images/monsters/RunMonster'
+import Monster1 from '@/components/images/monsters/Monster1'
 import LoginForm from './LoginForm'
 import GoogleLogin from './GoogleLogin'
 
@@ -30,7 +30,7 @@ export default function MainLogin({ loginError }: { loginError: boolean }) {
             </section>
             <section className="w-full h-[20svh] overflow-hidden flex justify-center relative">
                 <div className="w-full h-full absolute -bottom-10">
-                    <RunMonster />
+                    <Monster1 />
                 </div>
             </section>
         </>

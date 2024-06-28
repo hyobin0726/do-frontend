@@ -1,7 +1,7 @@
 'use client'
 import BasicNextButton from '@/components/common/BasicNextButton'
 import GoogleSignup from './GoogleSignup'
-import SquidMonster from '@/components/images/monsters/SquidMonster '
+import Monster4 from '@/components/images/monsters/Monster4'
 
 import { useSignUpStore } from '@/hooks/useSignUpStore'
 
@@ -34,7 +34,7 @@ export default function SignUpStep1() {
             </section>
             <section className="w-full h-[35%] flex overflow-hidden relative">
                 <div className="w-full h-5/6 absolute bottom-5 -left-28 ">
-                    <SquidMonster />
+                    <Monster4 />
                 </div>
             </section>
         </main>

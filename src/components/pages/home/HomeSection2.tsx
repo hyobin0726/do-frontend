@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import getNewCrew from '@/api/crew/getNewCrew'
-import SquidMonster from '@/components/images/monsters/SquidMonster '
+import Monster4 from '@/components/images/monsters/Monster4'
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -108,7 +108,7 @@ export default function HomeSection2({
                         우리동네 <br /> NEW 소모임
                     </p>
                     <div className="w-[50px] h-[50px]">
-                        <SquidMonster />
+                        <Monster4 />
                     </div>
                 </div>
                 <div className="w-full h-[60px] flex items-center">

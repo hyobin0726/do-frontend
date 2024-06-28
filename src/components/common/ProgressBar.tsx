@@ -1,14 +1,12 @@
 export default function ProgressBar({ step, total }: { step: number; total: number }) {
+    const progress = (step / total) * 100
+
     return (
-        <>
-            <div className="bg-white w-full h-auto flex flex-row space-x-3">
-                {Array.from({ length: total }, (_, i) => (
-                    <div
-                        key={i}
-                        className={`w-1/2 h-[5px] rounded-full bg-hobbing-orange ${i + 1 === step ? 'opacity-100' : 'opacity-25'}`}
-                    ></div>
-                ))}
-            </div>
-        </>
+        <div className="bg-white w-full h-auto">
+            <div
+                className="h-[5px] rounded-full bg-hobbing-orange transition-width duration-500 ease-out"
+                style={{ width: `${progress}%` }}
+            ></div>
+        </div>
     )
 }

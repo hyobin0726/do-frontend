@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import FuunnyMonster from '@/components/images/monsters/FuunnyMonster'
+import Monster3 from '@/components/images/monsters/Monster3'
 import getMyProfile from '@/api/auth/getMyProfile'
 import getHobbyCards from '@/api/survey/getHobbyCards'
 import HomeUserHobbySwiper from './HomeUserHobbySwiper'
@@ -17,12 +17,12 @@ export default async function HomeSection1() {
                         {profileData.name}님의 <br /> 추천취미 Top5!
                     </p>
                     <div className="w-[50px] h-[50px]">
-                        <FuunnyMonster />
+                        <Monster3 />
                     </div>
                 </div>
                 <span className="text-black text-[15px]">
                     다시 취미를 찾고싶으시려면
-                    <Link href="/survey" passHref scroll={false} className="underline font-bold px-2">
+                    <Link href="/survey?step=1&from=1" passHref scroll={false} className="underline font-bold px-2">
                         <span className="text-black text-[15px]">여기를</span>
                     </Link>
                     눌러주세요!
