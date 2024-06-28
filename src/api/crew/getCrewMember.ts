@@ -5,7 +5,7 @@ export async function GetCrewMember({ crewId }: { crewId: string }) {
     const res = await fetch(`${process.env.BASE_URL}/read-only-service/v1/users/crew/member/profiles/${crewId}`, {
         method: 'GET',
         headers: {
-            Uuid: `${auth.token}`,
+            Authorization: `${auth.token}`,
             'Content-Type': 'application/json',
         },
         next: { tags: ['memberRefresh'] },

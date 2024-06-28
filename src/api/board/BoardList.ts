@@ -10,7 +10,7 @@ export async function getCrewBoardList(crewId: string, page: number) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Uuid: `${auth.token}`,
+                Authorization: `${auth.token}`,
             },
         },
     )

@@ -2,8 +2,8 @@
 import Alert from '@/components/common/Alert'
 import React, { useState } from 'react'
 
-export default function BoardContent() {
-    const [text, setText] = useState('')
+export default function BoardContent({ boardContent }: { boardContent: string }) {
+    const [text, setText] = useState(boardContent)
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
