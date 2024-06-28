@@ -50,9 +50,7 @@ export default function HomeUserHobbySwiper({ hobbyCardsData }: { hobbyCardsData
                                 <p className="w-fit h-auto text-[13px] px-3 py-2 flex justify-center items-center text-white bg-hobbing-red rounded-xl">
                                     적합도 {hobbyCard.fitRate}%
                                 </p>
-                                <p className="w-full h-[14px] text-[12px] text-white text-ellipsis overflow-hidden mt-2">
-                                    {hobbyCard.description}
-                                </p>
+                                <p className="w-full h-[40px] text-[12px] text-white mt-2">{hobbyCard.description}</p>
                             </div>
                         </div>
                     </SwiperSlide>

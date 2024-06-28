@@ -1,9 +1,19 @@
-export default function ErrorMark({ rotate, color }: { rotate?: number; color?: string }) {
+export default function ErrorMark({
+    width,
+    height,
+    rotate,
+    color,
+}: {
+    width?: string
+    height?: string
+    rotate?: number
+    color?: string
+}) {
     return (
         <>
             <svg
-                width="100%"
-                height="100%"
+                width={width ? width : '100%'}
+                height={height ? height : '100%'}
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
