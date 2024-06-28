@@ -7,6 +7,7 @@ import { SurveyAnswerData } from '@/lib/SurveyAnswerData'
 
 import ProgressBar from '@/components/common/ProgressBar'
 import RightArrow from '@/components/images/RightArrow'
+import SurveySubmmit from './SurveySubmmit'
 
 interface SurveyQuestion {
     questionId: number
@@ -17,9 +18,11 @@ interface SurveyQuestion {
 export default function SurveyAnswer({
     surveyQuestions,
     surveyStep,
+    surveyFrom,
 }: {
     surveyQuestions: SurveyQuestion[]
     surveyStep: number
+    surveyFrom: number
 }) {
     const [questionId, setQuestionId] = useState<number | null>(null)
     const [questionType, setQuestionType] = useState<string | null>(null)
@@ -81,7 +84,7 @@ export default function SurveyAnswer({
                         <div key={index} className="w-[55px] h-full flex flex-col justify-center items-center">
                             <button
                                 className={`rounded-full bg-hobbing-pink
-                                ${answer === data.id ? '' : 'opacity-20 hover:opacity-100'}
+                                ${answer === data.id ? '' : 'opacity-20'}
                                 ${data.id === 0 || data.id === 4 ? 'w-[50px] h-[50px]' : data.id === 1 || data.id === 3 ? 'w-[40px] h-[40px]' : 'w-[30px] h-[30px]'}
                                 `}
                                 onClick={() => handleAnswer(data.id)}
@@ -106,7 +109,7 @@ export default function SurveyAnswer({
             </section>
             <section className="w-full h-[25%] space-y-10">
                 {surveyStep < surveyQuestions.length ? (
-                    <Link href={`/survey?step=${surveyStep + 1}`} passHref scroll={false}>
+                    <Link href={`/survey?step=${surveyStep + 1}&from=${surveyFrom}`} passHref scroll={false}>
                         <button
                             disabled={isDisabled}
                             className={`bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8 ${
@@ -118,13 +121,7 @@ export default function SurveyAnswer({
                         </button>
                     </Link>
                 ) : (
-                    <button
-                        className="bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8"
-                        disabled={isDisabled}
-                    >
-                        <p className="text-white text-[15px] font-bold">결과 확인</p>
-                        <RightArrow width={15} height={15} />
-                    </button>
+                    <SurveySubmmit isDisabled={isDisabled} surveyFrom={surveyFrom} />
                 )}
                 <ProgressBar step={surveyStep} total={surveyQuestions.length} />
             </section>

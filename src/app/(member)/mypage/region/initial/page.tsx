@@ -1,7 +1,7 @@
-import PageHeader from '@/components/common/PageHeader'
 import InitialRegionRegistration from '@/components/pages/region/InitialRegionRegistration'
 import { useGetServerToken } from '@/actions/useGetServerToken'
 import { redirect } from 'next/navigation'
+import InitialRegionHeader from '@/components/pages/region/InitialRegionHeader'
 
 const getUserRegions = async (token: string) => {
     const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/region/address-names`, {
@@ -24,7 +24,7 @@ export default async function InitialRegionPage() {
 
     return (
         <>
-            <PageHeader />
+            <InitialRegionHeader />
             <InitialRegionRegistration />
         </>
     )

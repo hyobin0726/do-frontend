@@ -13,21 +13,20 @@ import getTop5Crew from '@/api/crew/getTop5Crew'
 
 export default async function HomePage() {
     const auth = await useGetServerToken()
-    const baseRegion = await getBaseRegion()
-    const hobbies = await getHobbyCards()
-    const newCrew = await getNewCrew(hobbies[0].hobbyId, baseRegion.regionId)
-    const topCrew = await getTop5Crew(baseRegion.regionId)
-    // console.log('auth : ', auth)
-    // console.log('baseRegion : ', baseRegion)
-    // console.log('topCrew : ', topCrew)
 
     if (auth) {
+        const baseRegion = await getBaseRegion()
         if (!baseRegion) {
             redirect('/mypage/region/initial')
         }
+
+        const hobbies = await getHobbyCards()
         if (!hobbies) {
-            redirect('/survey?step=1')
+            redirect('/survey?step=1&from=0')
         }
+
+        const newCrew = await getNewCrew(hobbies[0].hobbyId, baseRegion.regionId)
+        const topCrew = await getTop5Crew(baseRegion.regionId)
         return (
             <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide bg-hobbing-bg-gray">
                 <HomeSection1 />

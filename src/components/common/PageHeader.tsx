@@ -22,9 +22,7 @@ export default function PageHeader() {
             setMyTitle('회원가입')
         }
         // mypage
-        else if (pathname === '/mypage/region/initial') {
-            setMyTitle('활동지역 등록')
-        } else if (/^\/chatimglist\/\d+/.test(pathname)) {
+        else if (/^\/chatimglist\/\d+/.test(pathname)) {
             setMyTitle('사진첩')
         } else if (pathname === '/mypage/crew-apply') {
             setMyTitle('소모임 가입신청 확인')
