@@ -1,7 +1,7 @@
 'use client'
 import BasicNextButton from '@/components/common/BasicNextButton'
 import GoogleSignup from './GoogleSignup'
-import Monster4 from '@/components/images/monsters/Monster4 '
+import Monster4 from '@/components/images/monsters/Monster4'
 
 import { useSignUpStore } from '@/hooks/useSignUpStore'
 
