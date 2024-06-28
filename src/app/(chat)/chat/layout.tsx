@@ -7,9 +7,9 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
     return (
         <>
             <MainHeader title="채팅방">
-                <div className="w-5 h-full">
+                {/* <div className="w-5 h-full">
                     <Search />
-                </div>
+                </div> */}
                 <div className="w-5 h-full">
                     <Notification />
                 </div>
