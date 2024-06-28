@@ -16,6 +16,7 @@ export async function PostComment(boardId: string, bodyData: { content: string }
             },
         )
         const data = await response.json()
+        // console.log('메세ㅣ', data)
         return data
     } catch (error) {
         console.error('네트워크 에러:', error)

@@ -1,12 +1,10 @@
 'use client'
-import { useGetClientToken } from '@/actions/useGetClientToken'
 import { PostComment } from '@/api/board/postComment'
 import Send from '@/components/images/Send'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 
 function BoardBottom() {
-    const auth = useGetClientToken()
     const params = useParams<{ boardId: string }>()
 
     const [message, setMessage] = useState<string>('')

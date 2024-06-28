@@ -11,4 +11,5 @@ export interface BoardType {
     imageUrls: string[]
     likeCount: number
     commentCount: number
+    hostStatus: boolean
 }
