@@ -1,9 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import Link from 'next/link'
+
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Location from '@/components/images/Location'
 import postBaseRegion from '@/api/crew/postBaseRegion'
+import ErrorMark from '../images/ErrorMark'
 
 import {
     DropdownMenu,
@@ -73,6 +76,21 @@ export default function RegionSelector({
                             </div>
                         </DropdownMenuRadioItem>
                     ))}
+                    {regionList.length < 3 && (
+                        <DropdownMenuRadioItem value={'지역 추가하기'}>
+                            <Link
+                                href={'mypage/region'}
+                                passHref
+                                scroll={false}
+                                className="w-full h-full flex flex-row items-center space-x-2"
+                            >
+                                <div className="w-[15px] h-[15px] rounded-full bg-hobbing-red flex justify-center items-center">
+                                    <ErrorMark rotate={45} color="#ffffff" width="11" height="15" />
+                                </div>
+                                <p>지역 추가하기</p>
+                            </Link>
+                        </DropdownMenuRadioItem>
+                    )}
                 </DropdownMenuRadioGroup>
             </DropdownMenuContent>
         </DropdownMenu>
