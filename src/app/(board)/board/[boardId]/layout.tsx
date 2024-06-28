@@ -1,4 +1,3 @@
-import BoardBottom from '@/components/pages/board/BoardBottom'
 import BoardDetailNav from '@/components/pages/board/BoardDetailNav'
 
 export default function BoardLayout({ children }: { children: React.ReactNode }) {
@@ -6,7 +5,6 @@ export default function BoardLayout({ children }: { children: React.ReactNode })
         <main>
             <BoardDetailNav />
             {children}
-            <BoardBottom />
         </main>
     )
 }
