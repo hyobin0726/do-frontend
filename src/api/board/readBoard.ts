@@ -7,12 +7,12 @@ export async function ReadBoard(boardId: string) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Uuid: `${auth.token}`,
+            Authorization: `${auth.token}`,
         },
     })
     const data = await response.json()
     if (data.isSuccess === true) {
-        console.log('게시글 상세 불러왔습니다.', data.data)
+        // console.log('게시글 상세 불러왔습니다.', data.data)
     } else {
         console.error('게시글 상세 불러오는데 실패했습니다.', data.message)
     }

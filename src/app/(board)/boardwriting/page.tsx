@@ -36,9 +36,9 @@ export default async function BoardWriting() {
     return (
         <form action={handlePostBoard}>
             <BoardWritingNav />
-            <BoardwritingSelect crewList={crewList} />
-            <BoardContent />
-            <BoardWritingBottom />
+            <BoardwritingSelect crewList={crewList} crewId="" />
+            <BoardContent boardContent="" />
+            <BoardWritingBottom boardImage={[]} />
         </form>
     )
 }

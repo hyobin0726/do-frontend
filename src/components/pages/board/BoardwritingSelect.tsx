@@ -2,13 +2,13 @@
 import { CrewType } from '@/type/CrewType'
 import { useState } from 'react'
 
-export default function BoardwritingSelect({ crewList }: { crewList: CrewType[] }) {
-    const [clicked, setClicked] = useState<string>(crewList[0].crewId)
+export default function BoardwritingSelect({ crewList, crewId }: { crewList: CrewType[]; crewId: string }) {
+    const [clicked, setClicked] = useState<string>(crewId ? crewId : crewList[0].crewId)
 
     const handleClick = (crewId: string) => {
         setClicked(crewId)
     }
-    console.log(clicked)
+
     return (
         <section>
             <div className="p-2 space-y-2">

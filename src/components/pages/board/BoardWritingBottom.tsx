@@ -22,10 +22,11 @@ const uploadImageToS3 = async (file: File): Promise<string | null> => {
     }
 }
 
-function BoardWritingBottom() {
+function BoardWritingBottom({ boardImage }: { boardImage: string[] }) {
+    // console.log(boardImage)
     const multiRef = useRef<HTMLInputElement>(null)
     const [multiImages, setMultiImages] = useState<Array<File>>([])
-    const [imageUrls, setImageUrls] = useState<string[]>([]) // 이미지 URL을 저장할 상태
+    const [imageUrls, setImageUrls] = useState<string[]>(boardImage || []) // 이미지 URL을 저장할 상태
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     console.log(imageUrls)
     const multiFileHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +53,6 @@ function BoardWritingBottom() {
             setIsAlertOpen(true)
         }
     }
-
     const handleMultiImageDelete = (index: number) => {
         setMultiImages((prevFiles) => prevFiles.filter((_, i) => i !== index))
         setImageUrls((prevUrls) => prevUrls.filter((_, i) => i !== index))
@@ -60,17 +60,22 @@ function BoardWritingBottom() {
 
     return (
         <div className="flex absolute bottom-5 border-t-[1px] w-full p-2 space-x-2 border-hobbing-gray overflow-x-scroll">
-            {multiImages.length > 0 && (
+            {imageUrls && (
                 <div className="flex space-x-2">
-                    {multiImages.map((file, index) => (
+                    {imageUrls.map((url, index) => (
                         <div key={index} className="relative">
                             <div className="w-[60px] h-[60px]">
-                                <Image
-                                    src={URL.createObjectURL(file)}
-                                    alt={`이미지 미리보기 ${index + 1}`}
-                                    fill
-                                    sizes="50px"
-                                />
+                                {boardImage &&
+                                    (index < boardImage.length ? (
+                                        <Image src={url} alt={`기존 이미지 미리보기 ${index + 1}`} fill sizes="50px" />
+                                    ) : (
+                                        <Image
+                                            src={URL.createObjectURL(multiImages[index - boardImage.length])}
+                                            alt={`새 이미지 미리보기 ${index + 1}`}
+                                            fill
+                                            sizes="50px"
+                                        />
+                                    ))}
                             </div>
                             <button
                                 className="absolute top-0 right-0 p-1 bg-hobbing-red text-white rounded-full"
@@ -84,7 +89,7 @@ function BoardWritingBottom() {
             )}
             <div className="w-16 h-[65px] border-[1px] border-hobbing-red rounded-xl flex-col flex justify-center items-center">
                 <BoardImageUpload multiRef={multiRef} multiFileHandler={multiFileHandler} />
-                <div className="text-hobbing-pink text-sm">{multiImages.length} / 5</div>
+                <div className="text-hobbing-pink text-sm">{imageUrls ? imageUrls.length : 0} / 5</div>
             </div>
             {isAlertOpen && (
                 <Alert type="info" isAlertOpen={isAlertOpen}>
@@ -101,7 +106,7 @@ function BoardWritingBottom() {
                     </button>
                 </Alert>
             )}
-            <input type="hidden" name="imageUrls" value={imageUrls.join(',')} />
+            <input type="hidden" name="imageUrls" value={imageUrls?.join(',')} />
         </div>
     )
 }

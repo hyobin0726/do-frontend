@@ -7,7 +7,7 @@ export default function BoardDetailNav() {
             <div className="relative  mx-auto px-2 flex items-center">
                 <RouterBackArrowButton />
                 <div className="flex-1 text-center ">
-                    <p className="font-semibold">test</p>
+                    <p className="font-semibold">상세보기</p>
                 </div>
                 <img
                     width="25"

@@ -4,12 +4,12 @@ import { useGetServerToken } from '@/actions/useGetServerToken'
 export const GetBoardComment = async (boardId: string, page: number) => {
     const auth = await useGetServerToken()
     const res = await fetch(
-        `${process.env.BASE_URL}/board-service/v1/users/crew/board-interaction/${boardId}/comment-list?page=${page}&size=2`,
+        `${process.env.BASE_URL}/read-only-service/v1/users/crew/board/${boardId}/comment-list?page=${page}`,
         {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Uuid: `${auth.token}`,
+                Authorization: `${auth.token}`,
             },
             next: { tags: ['comment'] },
         },
