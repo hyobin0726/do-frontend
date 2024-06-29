@@ -15,7 +15,7 @@ export default function NotificationButton() {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [notificationData, setNotificationData] = useState<notificationData[]>([])
     const auth = useGetClientToken()
-    console.log('auth:', auth.token)
+    // console.log('auth:', auth.token)
     const modalController = () => {
         setIsModalOpen(!isModalOpen)
     }
