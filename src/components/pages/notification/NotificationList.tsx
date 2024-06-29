@@ -24,9 +24,8 @@ export default function NotificationList({
 }) {
     const handleDelete = async (notificationId: string) => {
         try {
-            await DeleteNotification(notificationId)  
+            await DeleteNotification(notificationId)
             onDeleteNotification(notificationId)
-            modalController()
         } catch (error) {
             console.error('알림 삭제에 실패했습니다:', error)
         }

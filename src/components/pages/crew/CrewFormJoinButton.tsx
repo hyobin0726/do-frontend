@@ -102,7 +102,6 @@ export default function CrewFormJoinButton({ crewId, crewName }: { crewId: numbe
 
         const res = await postFormJoin(crewId, joinInfo)
         if (res.isSuccess) {
-            modalController()
             router.push('/mypage/crew-apply')
         } else {
             setErrorMessage(res.message)
@@ -152,7 +151,6 @@ export default function CrewFormJoinButton({ crewId, crewName }: { crewId: numbe
                     >
                         <button
                             onClick={() => {
-                                modalController()
                                 router.push('/mypage/crew-apply')
                             }}
                             className="w-auto h-[40px] bg-hobbing-red rounded-xl font-Pretendard text-[14px] text-white font-medium px-4"
@@ -171,7 +169,9 @@ export default function CrewFormJoinButton({ crewId, crewName }: { crewId: numbe
                             확인
                         </button>
                         <button
-                            onClick={modalController}
+                            onClick={() => {
+                                setIsModalOpen(!isModalOpen)
+                            }}
                             className="w-[80px] h-[45px] bg-white border-[1px] border-hobbing-red text-hobbing-red rounded-xl font-Pretendard text-[14px] font-medium px-3"
                         >
                             닫기
