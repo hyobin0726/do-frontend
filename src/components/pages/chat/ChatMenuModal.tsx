@@ -43,18 +43,19 @@ export default function ChatMenuModal({
                             <ChatAlbumButton crewId={crewId} />
                             <ChatMemberList crewId={crewId} />
                         </div>
-                        <div className="flex justify-between mt-auto">
+                        <div className="flex justify-between mb-4">
                             <button className="flex items-center space-x-2" onClick={handleDeleteButton}>
                                 <div className="w-5 h-5">
                                     <ChatLeave />
                                 </div>
                                 <p className="text-[#F76D67]">채팅방 나가기</p>
                             </button>
-                            {userRole === 1 && (
-                                <Link href={`/crewsetting/${crewId}`} passHref scroll={false} className="w-5 h-5">
-                                    <Setting />
-                                </Link>
-                            )}
+                            {/* {userRole === 1 && ( */}
+
+                            <Link href={`/crewsetting/${crewId}`} passHref scroll={false} className="w-5 h-5">
+                                <Setting />
+                            </Link>
+                            {/* )} */}
                         </div>
                     </div>
                 </div>
