@@ -142,13 +142,15 @@ export default function InitialRegionRegistration() {
                             <p className="font-Pretendard text-balance text-center text-[15px] leading-loose">
                                 {alertMessage}
                                 <br />
-                                홈화면으로 이동합니다.
+                                취미추천을 위한
+                                <br />
+                                설문조사로 이동합니다.
                             </p>
                             <div className="bg-white flex flex-row justify-center items-center space-x-3 w-full">
                                 <button
                                     onClick={() => {
                                         handleAlert()
-                                        router.push('/')
+                                        router.push('/survey?step=1&from=0')
                                     }}
                                     className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
                                 >
