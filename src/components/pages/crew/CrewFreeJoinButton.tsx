@@ -19,7 +19,6 @@ export default function CrewFreeJoinButton({ crewId, crewName }: { crewId: numbe
         const res = await postFreeJoin(crewId)
 
         if (res.isSuccess) {
-            modalController()
             router.push(`/chat`)
         } else {
             alert('가입에 실패했습니다. 다시 시도해주세요')

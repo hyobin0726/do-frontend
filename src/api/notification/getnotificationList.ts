@@ -13,6 +13,5 @@ export default async function getNotificationList() {
         },
     })
     const data = await res.json()
-    console.log(data)
     return data
 }
