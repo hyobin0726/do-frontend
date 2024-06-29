@@ -22,7 +22,13 @@ interface suggestionCrewId {
     hashTagList: string[]
 }
 
-export default function CrewInfoSlider({ suggestionCrewIdList }: { suggestionCrewIdList: suggestionCrewId[] }) {
+export default function CrewInfoSlider({
+    suggestionCrewIdList,
+    token,
+}: {
+    suggestionCrewIdList: suggestionCrewId[]
+    token: string | undefined
+}) {
     return (
         <>
             <section className="w-full h-[55px]">
@@ -50,7 +56,7 @@ export default function CrewInfoSlider({ suggestionCrewIdList }: { suggestionCre
                 >
                     {suggestionCrewIdList?.map((crew, index) => (
                         <SwiperSlide key={index}>
-                            <Crewinfo crewInfo={crew} />
+                            <Crewinfo crewInfo={crew} token={token} />
                         </SwiperSlide>
                     ))}
                 </Swiper>

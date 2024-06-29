@@ -23,7 +23,7 @@ export default function HomeSection2({
     hobbies,
     baseRegion,
     newCrew,
-    token
+    token,
 }: {
     hobbies: HobbyType[]
     baseRegion: baseRegion
@@ -93,22 +93,23 @@ export default function HomeSection2({
                 </div>
                 <div className="w-full h-[60px] flex items-center">
                     <div className="w-full h-[35px] space-x-3 flex flex-row px-8 overflow-x-scroll scroll-smooth scrollbar-hide">
-                        {hobbies && hobbies.map((hobby: HobbyType, idx: number) => (
-                            <div
-                                key={idx}
-                                onClick={() => {
-                                    setFocusedHobbyId(hobby.hobbyId)
-                                    setFocysedHobbyIdx(idx)
-                                }}
-                                className={`flex-none w-auto px-5 flex justify-center items-center rounded-xl ${focusedHobbyId == hobby.hobbyId ? 'bg-hobbing-red' : 'bg-white border-[1px] border-hobbing-red'} `}
-                            >
-                                <p
-                                    className={`${focusedHobbyId == hobby.hobbyId ? 'text-white' : 'text-hobbing-red '} text-[13px]`}
+                        {hobbies &&
+                            hobbies.map((hobby: HobbyType, idx: number) => (
+                                <div
+                                    key={idx}
+                                    onClick={() => {
+                                        setFocusedHobbyId(hobby.hobbyId)
+                                        setFocysedHobbyIdx(idx)
+                                    }}
+                                    className={`flex-none w-auto px-5 flex justify-center items-center rounded-xl ${focusedHobbyId == hobby.hobbyId ? 'bg-hobbing-red' : 'bg-white border-[1px] border-hobbing-red'} `}
                                 >
-                                    {hobby.hobbyName}
-                                </p>
-                            </div>
-                        ))}
+                                    <p
+                                        className={`${focusedHobbyId == hobby.hobbyId ? 'text-white' : 'text-hobbing-red '} text-[13px]`}
+                                    >
+                                        {hobby.hobbyName}
+                                    </p>
+                                </div>
+                            ))}
                     </div>
                 </div>
                 <div className="w-full h-[calc(100%-200px)] flex items-center px-8">
@@ -234,6 +235,7 @@ export default function HomeSection2({
                 modalController={() => {
                     JoinModalController()
                 }}
+                token={token}
             />
             <HomeNewCrewFormJoinModal
                 crewId={joinModalCrewId}
@@ -242,6 +244,7 @@ export default function HomeSection2({
                 modalController={() => {
                     JoinModalController()
                 }}
+                token={token}
             />
         </>
     )

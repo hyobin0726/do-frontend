@@ -21,7 +21,7 @@ export default async function RegionPage() {
     return (
         <>
             <PageHeader />
-            <RegionManagement data={userRegions} />
+            <RegionManagement data={userRegions} token={auth.token} />
         </>
     )
 }

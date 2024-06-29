@@ -19,7 +19,15 @@ interface crewJoinFormtype {
     gender: string
 }
 
-export default function CrewFormJoinButton({ crewId, crewName }: { crewId: number; crewName: string }) {
+export default function CrewFormJoinButton({
+    crewId,
+    crewName,
+    token,
+}: {
+    crewId: number
+    crewName: string
+    token: string | undefined
+}) {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [errorMesage, setErrorMessage] = useState<string>('')
     const [isAlreadyJoin, setIsAlreadyJoin] = useState<boolean>(false)
@@ -46,7 +54,7 @@ export default function CrewFormJoinButton({ crewId, crewName }: { crewId: numbe
     }
 
     const getMyProfileData = async () => {
-        const res = await getMyProfile()
+        const res = await getMyProfile(token)
         if (res) {
             setJoinInfo((prevjoinInfo) => ({
                 ...prevjoinInfo,
@@ -59,7 +67,7 @@ export default function CrewFormJoinButton({ crewId, crewName }: { crewId: numbe
     }
 
     const getMyBaseRegion = async () => {
-        const res = await getBaseRegion()
+        const res = await getBaseRegion(token)
         if (res) {
             setJoinInfo((prevjoinInfo) => ({
                 ...prevjoinInfo,

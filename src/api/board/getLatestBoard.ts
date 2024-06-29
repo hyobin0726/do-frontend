@@ -1,17 +1,13 @@
 'use server'
 
-import { useGetServerToken } from '@/actions/useGetServerToken'
-
-export default async function getLatestBoard(crewId: number) {
-    const auth = await useGetServerToken()
-
+export default async function getLatestBoard(crewId: number, token: string | undefined) {
     const response = await fetch(
         `${process.env.BASE_URL}/read-only-service/v1/users/crew/board/${crewId}/latest-board`,
         {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `${auth.token}`,
+                Authorization: `${token}`,
             },
         },
     )

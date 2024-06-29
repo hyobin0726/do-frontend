@@ -6,12 +6,12 @@ import getBaseRegion from '@/api/crew/getBaseRegion'
 import Alert from '@/components/common/Alert'
 import deleteRegion from '@/api/crew/deleteRegion'
 
-export default function RegionDelete({ regionId }: { regionId: number }) {
+export default function RegionDelete({ regionId, token }: { regionId: number; token: string }) {
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [alertMessage, setAlertMessage] = useState<string>('')
 
     const handleRegionDelete = async () => {
-        const baseRegionData = await getBaseRegion()
+        const baseRegionData = await getBaseRegion(token)
         if (baseRegionData.regionId === regionId) {
             setIsAlertOpen(true)
             setAlertMessage('기본 주소지는 삭제할 수 없습니다.')

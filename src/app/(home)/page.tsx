@@ -37,17 +37,17 @@ const getPageData = async (token: string) => {
 }
 
 export default async function HomePage() {
-    const token = await useGetServerToken()
-    if (!token) {
+    const auth = await useGetServerToken()
+    if (!auth) {
         redirect('/login')
     }
-    const { baseRegion, hobbies, newCrew, topCrew, hobbyCardsData, profileData } = await getPageData(token.token)
+    const { baseRegion, hobbies, newCrew, topCrew, hobbyCardsData, profileData } = await getPageData(auth.token)
 
     return (
         <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide bg-hobbing-bg-gray">
             <HomeSection1 hobbyCardsData={hobbyCardsData} profileData={profileData} />
-            <HomeSection2 hobbies={hobbies} baseRegion={baseRegion} newCrew={newCrew.data} token={token.token} />
-            <HomeSection3 />
+            <HomeSection2 hobbies={hobbies} baseRegion={baseRegion} newCrew={newCrew.data} token={auth.token} />
+            <HomeSection3 topCrew={topCrew.data} token={auth.token} />
         </main>
     )
 }
