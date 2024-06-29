@@ -9,6 +9,9 @@ export const signUpStep2Schema = z
             })
             .max(20, {
                 message: '이름은 최대 20자 이하이어야 합니다.',
+            })
+            .regex(/^[a-zA-Z가-힣]+$/, {
+                message: '이름은 영어와 한글만 포함할 수 있습니다.',
             }),
         id: z
             .string()
