@@ -33,7 +33,7 @@ export default function SignUpStep1() {
                 <GoogleSignup />
             </section>
             <section className="w-full h-[35%] flex overflow-hidden relative">
-                <div className="w-full h-5/6 absolute bottom-5 -left-28 ">
+                <div className="w-[250px] h-[250px] absolute -left-14 bottom-0">
                     <Monster4 />
                 </div>
             </section>

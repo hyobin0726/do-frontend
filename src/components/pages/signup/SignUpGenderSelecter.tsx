@@ -54,7 +54,7 @@ const SignUpGenderSelecter = forwardRef<HTMLInputElement, InputProps>(
                 </div>
 
                 <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true}>
-                    <div className="bg-hobbing-light-pink h-[30svh] w-[80%] flex flex-col items-center pt-10 space-y-10">
+                    <div className="h-[30svh] w-[80%] flex flex-col items-center pt-10 space-y-10">
                         <p className="text-[20px] font-Pretendard text-black font-medium">성별을 선택해주세요</p>
                         <div className="w-[100%] flex flex-row bg-hobbing-light-pink p-2 rounded-full space-x-2 relative">
                             <div
