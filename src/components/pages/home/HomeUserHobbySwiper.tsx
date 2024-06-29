@@ -6,43 +6,43 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 // Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/pagination'
-
-interface HobbyCardType {
-    hobbyId: number
-    hobbyName: string
-    description: string
-    imageUrl: string
-    fitRate: number
-}
+import 'swiper/css/autoplay'
+import { Autoplay } from 'swiper/modules'
+import { HobbyCardType } from '@/type/DataType'
 
 export default function HomeUserHobbySwiper({ hobbyCardsData }: { hobbyCardsData: HobbyCardType[] }) {
     const tempImageUrl = 'https://hobbiedo-bucket.s3.ap-northeast-2.amazonaws.com/image_1718327243910_crew.png'
 
     return (
-        <div className="w-full h-[calc(100%-150px)] py-5">
+        <div className="w-full h-[55vh] py-5">
             <Swiper
-                slidesPerView={'auto'}
-                centeredSlides={true}
-                spaceBetween={20}
+                modules={[Autoplay]}
+                slidesPerView={1.3}
+                centeredSlides={false}
+                autoplay={{
+                    delay: 1000,
+                    disableOnInteraction: false,
+                }}
+                spaceBetween={25}
                 pagination={{
                     clickable: true,
                 }}
                 loop={true}
-                className="w-full h-full"
+                className="w-auto h-full left-[1.5rem]"
             >
-                {hobbyCardsData.map((hobbyCard: HobbyCardType, idx: number) => (
+                {hobbyCardsData && hobbyCardsData.map((hobbyCard: HobbyCardType, idx: number) => (
                     <SwiperSlide
                         key={idx}
-                        className="flex-none bg-center bg-cover bg-no-repeat relative rounded-xl overflow-hidden"
+                        className="flex-none bg-center bg-cover bg-no-repeat relative rounded-2xl"
                         style={{
-                            width: '70%',
+                            
                             backgroundImage: hobbyCard.imageUrl.startsWith('https://hobbiedo-bucket')
                                 ? `url(${hobbyCard.imageUrl})`
                                 : `url(${tempImageUrl})`,
                             // backgroundImage: `url(${hobbyCard.imageUrl})`,
                         }}
                     >
-                        <div className="absolute top-0 w-full h-full bg-black opacity-30"></div>
+                        <div className="absolute top-0 w-full h-full bg-black opacity-30 rounded-2xl"></div>
                         <div className="absolute top-0 w-full h-full flex flex-col justify-between items-end px-6 pb-5 pt-1">
                             <p className="w-full h-auto font-black text-[50px] text-white">{idx + 1}</p>
                             <div className="w-full h-auto flex flex-col justify-end">

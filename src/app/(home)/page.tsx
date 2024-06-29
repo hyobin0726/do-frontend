@@ -10,27 +10,44 @@ import HomeSection1 from '@/components/pages/home/HomeSection1'
 import HomeSection2 from '@/components/pages/home/HomeSection2'
 import HomeSection3 from '@/components/pages/home/HomeSection3'
 import getTop5Crew from '@/api/crew/getTop5Crew'
+import getMyProfile from '@/api/auth/getMyProfile'
 
-export default async function HomePage() {
-    const baseRegion = await getBaseRegion()
-
+const getPageData = async (token: string) => {
+    const baseRegion = await getBaseRegion(token)
     if (!baseRegion) {
         redirect('/mypage/region/initial')
     }
-
-    const hobbies = await getHobbyCards()
+    const hobbies = await getHobbyCards(token)
     if (!hobbies) {
         redirect('/survey?step=1&from=0')
     }
+    const newCrew = await getNewCrew(hobbies[0].hobbyId, baseRegion.regionId, token)
+    const topCrew = await getTop5Crew(baseRegion.regionId, token)
+    const hobbyCardsData = await getHobbyCards(token)
+    const profileData = await getMyProfile(token)
 
-    const newCrew = await getNewCrew(hobbies[0].hobbyId, baseRegion.regionId)
-    const topCrew = await getTop5Crew(baseRegion.regionId)
+    return {
+        baseRegion,
+        hobbies,
+        newCrew,
+        topCrew,
+        hobbyCardsData,
+        profileData,
+    }
+}
+
+export default async function HomePage() {
+    const token = await useGetServerToken()
+    if (!token) {
+        redirect('/login')
+    }
+    const { baseRegion, hobbies, newCrew, topCrew, hobbyCardsData, profileData } = await getPageData(token.token)
 
     return (
         <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide bg-hobbing-bg-gray">
-            <HomeSection1 />
-            <HomeSection2 hobbies={hobbies} baseRegion={baseRegion} newCrew={newCrew.data} />
-            <HomeSection3 topCrew={topCrew.data} />
+            <HomeSection1 hobbyCardsData={hobbyCardsData} profileData={profileData} />
+            <HomeSection2 hobbies={hobbies} baseRegion={baseRegion} newCrew={newCrew.data} token={token.token} />
+            <HomeSection3 />
         </main>
     )
 }

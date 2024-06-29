@@ -7,13 +7,20 @@ import Profile from '@/components/pages/mypage/Profile'
 
 import { MypageData } from '@/lib/MypageData'
 import LogOut from '@/components/pages/mypage/Logout'
+import { useGetServerToken } from '@/actions/useGetServerToken'
+import getMyProfile from '@/api/auth/getMyProfile'
+import { ProfileType } from '@/type/DataType'
 
-export default function MypagePage() {
+export default async function MypagePage() {
+
+    const token = await useGetServerToken()
+    const profileData:ProfileType = await getMyProfile(token.token)
+
     return (
         <>
             <MainHeader title="마이페이지" />
             <main className="w-full h-[calc(100dvh-140px)] bg-hobbing-bg-gray p-5 overflow-y-scroll space-y-3 scrollbar-hide">
-                <Profile />
+                <Profile profileData={profileData}/>
                 {MypageData.map((category, index) => (
                     <section key={index} className="bg-white rounded-2xl drop-shadow py-3 px-4 flex flex-col space-y-2">
                         <div className="w-full border-b-[1px] border-hobbing-gray p-1">
