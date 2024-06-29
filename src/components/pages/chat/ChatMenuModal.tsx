@@ -28,8 +28,8 @@ export default function ChatMenuModal({
     return (
         <section>
             {chatMenuModal && (
-                <div className="fixed top-0 z-[200] w-screen h-screen bg-black bg-opacity-30">
-                    <div className="bg-white w-2/3 fixed right-0 h-screen p-4 flex flex-col justify-between">
+                <div className="fixed top-0 z-[200] w-screen h-dvh bg-black bg-opacity-30">
+                    <div className="bg-white w-2/3 fixed right-0 h-dvh p-4 flex flex-col justify-between">
                         <div className=" space-y-5">
                             <div className="flex justify-between ">
                                 <div className="font-bold text-lg">{crewName} 서랍</div>
@@ -43,7 +43,7 @@ export default function ChatMenuModal({
                             <ChatAlbumButton crewId={crewId} />
                             <ChatMemberList crewId={crewId} />
                         </div>
-                        <div className="flex justify-between mb-4">
+                        <div className="flex justify-between pb-4">
                             <button className="flex items-center space-x-2" onClick={handleDeleteButton}>
                                 <div className="w-5 h-5">
                                     <ChatLeave />
