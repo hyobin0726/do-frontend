@@ -1,17 +1,14 @@
 import Link from 'next/link'
 
 import Monster3 from '@/components/images/monsters/Monster3'
-import getMyProfile from '@/api/auth/getMyProfile'
-import getHobbyCards from '@/api/survey/getHobbyCards'
 import HomeUserHobbySwiper from './HomeUserHobbySwiper'
+import { HobbyCardType, ProfileType } from '@/type/DataType'
 
-export default async function HomeSection1() {
-    const profileData = await getMyProfile()
-    const hobbyCardsData = await getHobbyCards()
+export default function HomeSection1({ hobbyCardsData, profileData}: { hobbyCardsData: HobbyCardType[], profileData: ProfileType}) {
 
     return (
-        <section className="w-full h-[550px]">
-            <div className="w-full h-[150px] flex flex-col justify-end px-8">
+        <section className="w-full my-[2rem]">
+            <div className="w-full flex flex-col justify-end px-8">
                 <div className="flex flex-row items-end">
                     <p className="text-black font-extrabold text-[35px] z-[10]">
                         {profileData.name}님의 <br /> 추천취미 Top5!

@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import AuthProvider from '@/providers/AuthProvider'
 import KakaoScript from '@/providers/KakaoScript'
+import { getServerSession } from 'next-auth'
+import { options } from './api/auth/[...nextauth]/options'
 
 declare global {
     interface Window {
@@ -26,15 +28,20 @@ export const metadata: Metadata = {
     },
     manifest: '/manifest.json',
 }
-export default function RootLayout({
+
+
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode
 }>) {
+
+    const session = await getServerSession(options);
+
     return (
         <html lang="ko">
             <body>
-                <AuthProvider>{children}</AuthProvider>
+                <AuthProvider session={session}>{children}</AuthProvider>
             </body>
             <KakaoScript />
         </html>
