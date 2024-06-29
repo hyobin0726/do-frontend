@@ -21,7 +21,13 @@ export default function MyJoinForm({ myJoinForms }: { myJoinForms: MyJoinForm[] 
     return (
         <>
             <main className="w-full h-[calc(80dvh-60px)] flex flex-col items-center">
-                {myJoinForms.length === 0 ? (
+                {myJoinForms == undefined ? (
+                    <section className="w-full h-[calc(80dvh-60px)] flex justify-center items-center">
+                        <p className="text-[15px] sm:text-[13px] md:text-[17px] text-text-gray">
+                            가입 신청한 소모임이 없습니다.
+                        </p>
+                    </section>
+                ) : myJoinForms.length === 0 ? (
                     <section className="w-full h-[calc(80dvh-60px)] flex justify-center items-center">
                         <p className="text-[15px] sm:text-[13px] md:text-[17px] text-text-gray">
                             가입 신청한 소모임이 없습니다.
