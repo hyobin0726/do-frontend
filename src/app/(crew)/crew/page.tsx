@@ -1,3 +1,5 @@
+import { useGetServerToken } from '@/actions/useGetServerToken'
+
 import { redirect } from 'next/navigation'
 
 import getSuggestionCrewList from '@/api/crew/getSuggestionCrewList'
@@ -9,10 +11,12 @@ import CrewNotFound from '@/components/pages/crew/CrewNotFound'
 import CrewHeader from '@/components/pages/crew/CreawHeader'
 
 export default async function CrewPage({ searchParams }: { searchParams: { [key: string]: string } }) {
-    const hobbies = await getHobbyCards()
-    const region = await getBaseRegion()
+    const auth = await useGetServerToken()
+
+    const hobbies = await getHobbyCards(auth.token)
+    const region = await getBaseRegion(auth.token)
     const focusedHobbyId = searchParams.hobbyId
-    
+
     if (!focusedHobbyId) {
         return redirect(`/crew?hobbyId=${hobbies[0].hobbyId}`)
     }
@@ -25,7 +29,7 @@ export default async function CrewPage({ searchParams }: { searchParams: { [key:
             {suggestionCrewIdList.length === 0 ? (
                 <CrewNotFound hobbies={hobbies} hobbyId={parseInt(focusedHobbyId)} />
             ) : (
-                <CrewInfoSlider suggestionCrewIdList={suggestionCrewIdList} />
+                <CrewInfoSlider suggestionCrewIdList={suggestionCrewIdList} token={auth.token} />
             )}
         </main>
     )

@@ -12,7 +12,7 @@ interface crewInfo {
     hashTagList: string[]
 }
 
-export default function CrewInfo({ crewInfo }: { crewInfo: crewInfo }) {
+export default function CrewInfo({ crewInfo, token }: { crewInfo: crewInfo; token: string | undefined }) {
     return (
         <div
             className="w-full h-full bg-center bg-cover bg-no-repeat relative"
@@ -58,9 +58,9 @@ export default function CrewInfo({ crewInfo }: { crewInfo: crewInfo }) {
                     )}
                 </div>
                 {crewInfo.joinType === 1 ? (
-                    <CrewFormJoinButton crewId={crewInfo.crewId} crewName={crewInfo.crewName} />
+                    <CrewFormJoinButton crewId={crewInfo.crewId} crewName={crewInfo.crewName} token={token} />
                 ) : (
-                    <CrewFreeJoinButton crewId={crewInfo.crewId} crewName={crewInfo.crewName} />
+                    <CrewFreeJoinButton crewId={crewInfo.crewId} crewName={crewInfo.crewName} token={token} />
                 )}
             </div>
         </div>

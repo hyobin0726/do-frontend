@@ -23,11 +23,13 @@ export default function HomeNewCrewFormJoinModal({
     crewName,
     isModalOpen,
     modalController,
+    token,
 }: {
     crewId: number
     crewName: string
     isModalOpen: boolean
     modalController: () => void
+    token: string
 }) {
     const [errorMesage, setErrorMessage] = useState<string>('')
     const [isAlreadyJoin, setIsAlreadyJoin] = useState<boolean>(false)
@@ -43,7 +45,7 @@ export default function HomeNewCrewFormJoinModal({
     const router = useRouter()
 
     const getMyProfileData = async () => {
-        const res = await getMyProfile()
+        const res = await getMyProfile(token)
         if (res) {
             setJoinInfo((prevjoinInfo) => ({
                 ...prevjoinInfo,
@@ -56,7 +58,7 @@ export default function HomeNewCrewFormJoinModal({
     }
 
     const getMyBaseRegion = async () => {
-        const res = await getBaseRegion()
+        const res = await getBaseRegion(token)
         if (res) {
             setJoinInfo((prevjoinInfo) => ({
                 ...prevjoinInfo,

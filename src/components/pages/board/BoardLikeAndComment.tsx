@@ -2,7 +2,7 @@
 import { DeleteLike } from '@/api/board/deleteLike'
 import { GetLike } from '@/api/board/getLike'
 import { PostLike } from '@/api/board/postLike'
-import BoardLike from '@/components/images/BoarLike'
+import BoardLike from '@/components/images/BoardLike'
 import BoardComment from '@/components/images/BoardCommet'
 import BoardUnLike from '@/components/images/BoardUnLike'
 import { useEffect, useState } from 'react'
@@ -65,7 +65,6 @@ export default function BoardLikeAndComment({
                         <BoardComment />
                     </div>
                     <p>{commentCount}</p>
-
                 </button>
             </div>
         </section>

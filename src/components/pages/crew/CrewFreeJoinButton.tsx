@@ -7,7 +7,15 @@ import RightArrow from '@/components/images/RightArrow'
 import postFreeJoin from '@/api/crew/postFreeJoin'
 import SliderModal from '@/components/common/SliderModal'
 
-export default function CrewFreeJoinButton({ crewId, crewName }: { crewId: number; crewName: string }) {
+export default function CrewFreeJoinButton({
+    crewId,
+    crewName,
+    token,
+}: {
+    crewId: number
+    crewName: string
+    token: string | undefined
+}) {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const router = useRouter()
 
@@ -16,7 +24,7 @@ export default function CrewFreeJoinButton({ crewId, crewName }: { crewId: numbe
     }
 
     const handleFreeJoin = async () => {
-        const res = await postFreeJoin(crewId)
+        const res = await postFreeJoin(crewId, token)
 
         if (res.isSuccess) {
             router.push(`/chat`)

@@ -11,10 +11,6 @@ import Link from 'next/link'
 import Location from '@/components/images/Location'
 // import getCurrentPos from '@/actions/getCurrentPos'
 
-interface RegionManagementProps {
-    data: regionData[]
-}
-
 interface regionData {
     regionId: number
     addressName: string
@@ -25,7 +21,7 @@ interface positionType {
     longitude: number
 }
 
-export default function RegionManagement({ data }: RegionManagementProps) {
+export default function RegionManagement({ data, token }: { data: regionData[]; token: string }) {
     const [position, setPosition] = useState<positionType>({ latitude: 0, longitude: 0 })
 
     useEffect(() => {
@@ -80,7 +76,7 @@ export default function RegionManagement({ data }: RegionManagementProps) {
                             currentLongitude={position.longitude}
                             regionId={region.regionId}
                         />
-                        <RegionDelete regionId={region.regionId} />
+                        <RegionDelete regionId={region.regionId} token={token} />
                     </div>
                 ))}
                 {data.length < 3 && (

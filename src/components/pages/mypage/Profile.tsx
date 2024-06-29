@@ -1,10 +1,9 @@
-import getMyProfile from '@/api/auth/getMyProfile'
 import Edit from '@/components/images/Edit'
+import { ProfileType } from '@/type/DataType'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default async function Profile() {
-    const profileData = await getMyProfile()
+export default function Profile({profileData}: {profileData: ProfileType}) {
 
     return (
         <>

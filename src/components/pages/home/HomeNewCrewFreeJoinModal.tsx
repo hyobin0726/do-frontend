@@ -10,16 +10,18 @@ export default function HomeNewCrewFreeJoinModal({
     crewName,
     isModalOpen,
     modalController,
+    token,
 }: {
     crewId: number
     crewName: string
     isModalOpen: boolean
     modalController: () => void
+    token: string
 }) {
     const router = useRouter()
 
     const handleFreeJoin = async () => {
-        const res = await postFreeJoin(crewId)
+        const res = await postFreeJoin(crewId, token)
         if (res.isSuccess) {
             modalController()
             router.push(`/chat`)

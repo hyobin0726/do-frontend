@@ -8,9 +8,8 @@ export default function Logout() {
     const handleSignOut = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = await postLogout()
-        if (data) {
-            signOut()
-        }
+        console.log(data)
+        if (data.isSuccess) signOut()
     }
 
     return (

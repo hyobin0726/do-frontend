@@ -17,38 +17,18 @@ import { Pagination } from 'swiper/modules'
 import Location from '@/components/images/Location'
 import HomeNewCrewFreeJoinModal from './HomeNewCrewFreeJoinModal'
 import HomeNewCrewFormJoinModal from './HomeNewCrewFormJoinModal'
-
-interface HobbyType {
-    hobbyId: number
-    hobbyName: string
-    description: string
-    imageUrl: string
-    fitRate: number
-}
-
-interface baseRegion {
-    regionId: number
-    addressName: string
-}
-
-interface crewInfo {
-    crewId: number
-    crewName: string
-    addressName: string
-    currentParticipant: number
-    joinType: number
-    profileUrl: string
-    hashTagList: string[]
-}
+import { HobbyType, baseRegion, crewInfo } from '@/type/DataType'
 
 export default function HomeSection2({
     hobbies,
     baseRegion,
     newCrew,
+    token,
 }: {
     hobbies: HobbyType[]
     baseRegion: baseRegion
     newCrew: crewInfo[]
+    token: string
 }) {
     const [focusedHobbyId, setFocusedHobbyId] = useState<number>(hobbies[0].hobbyId)
     const [focysedHobbyIdx, setFocysedHobbyIdx] = useState<number>(0)
@@ -90,7 +70,7 @@ export default function HomeSection2({
     }, [newCrew])
 
     const fetchData = async () => {
-        const res = await getNewCrew(focusedHobbyId, baseRegion.regionId)
+        const res = await getNewCrew(focusedHobbyId, baseRegion.regionId, token)
         if (res.isSuccess) {
             setNewCrewInfo(res.data)
         }
@@ -113,22 +93,23 @@ export default function HomeSection2({
                 </div>
                 <div className="w-full h-[60px] flex items-center">
                     <div className="w-full h-[35px] space-x-3 flex flex-row px-8 overflow-x-scroll scroll-smooth scrollbar-hide">
-                        {hobbies.map((hobby: HobbyType, idx: number) => (
-                            <div
-                                key={idx}
-                                onClick={() => {
-                                    setFocusedHobbyId(hobby.hobbyId)
-                                    setFocysedHobbyIdx(idx)
-                                }}
-                                className={`flex-none w-auto px-5 flex justify-center items-center rounded-xl ${focusedHobbyId == hobby.hobbyId ? 'bg-hobbing-red' : 'bg-white border-[1px] border-hobbing-red'} `}
-                            >
-                                <p
-                                    className={`${focusedHobbyId == hobby.hobbyId ? 'text-white' : 'text-hobbing-red '} text-[13px]`}
+                        {hobbies &&
+                            hobbies.map((hobby: HobbyType, idx: number) => (
+                                <div
+                                    key={idx}
+                                    onClick={() => {
+                                        setFocusedHobbyId(hobby.hobbyId)
+                                        setFocysedHobbyIdx(idx)
+                                    }}
+                                    className={`flex-none w-auto px-5 flex justify-center items-center rounded-xl ${focusedHobbyId == hobby.hobbyId ? 'bg-hobbing-red' : 'bg-white border-[1px] border-hobbing-red'} `}
                                 >
-                                    {hobby.hobbyName}
-                                </p>
-                            </div>
-                        ))}
+                                    <p
+                                        className={`${focusedHobbyId == hobby.hobbyId ? 'text-white' : 'text-hobbing-red '} text-[13px]`}
+                                    >
+                                        {hobby.hobbyName}
+                                    </p>
+                                </div>
+                            ))}
                     </div>
                 </div>
                 <div className="w-full h-[calc(100%-200px)] flex items-center px-8">
@@ -254,6 +235,7 @@ export default function HomeSection2({
                 modalController={() => {
                     JoinModalController()
                 }}
+                token={token}
             />
             <HomeNewCrewFormJoinModal
                 crewId={joinModalCrewId}
@@ -262,6 +244,7 @@ export default function HomeSection2({
                 modalController={() => {
                     JoinModalController()
                 }}
+                token={token}
             />
         </>
     )
