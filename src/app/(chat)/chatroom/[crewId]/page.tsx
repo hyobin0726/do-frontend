@@ -55,7 +55,7 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
             className="bg-[#F8F8F8] "
             ref={chatContainerRef}
             style={{
-                height: 'calc(100dvh - 240px)',
+                height: 'calc(100dvh - 150px)',
                 overflow: 'scroll',
             }}
         >

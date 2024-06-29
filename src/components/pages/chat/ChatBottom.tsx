@@ -78,35 +78,35 @@ export default function ChatBottom() {
 
     return (
         <div>
-            <form className="bg-white bottom-0 z-[100] fixed h-[170px] w-full">
-                <div className="w-screen">
-                    <textarea
+            <form className="bg-white bottom-0 z-[100] fixed h-[80px] w-full ">
+                <div className="flex justify-between items-center p-2 space-x-2">
+                    <div>
+                        <label htmlFor="inputFile">
+                            <div className="w-7">
+                                <Album />
+                            </div>
+                        </label>
+                        <input
+                            type="file"
+                            id="inputFile"
+                            style={{ display: 'none' }}
+                            onChange={(e) => fileHandler(e)}
+                        />
+                    </div>
+                    <input
                         onChange={(e) => setMessage(e.target.value)}
                         value={message}
                         name="message"
-                        className="p-2 w-full h-[100px] outline-none caret-hobbing-red scrollbar-hide"
-                        autoFocus
+                        className="flex-grow p-2 rounded-full border border-hobbing-gray focus:outline-none"
                     />
-                </div>
-                <div className="flex justify-between items-center px-2 py-1 h-[50px]">
-                    <div className="flex items-center space-x-2">
-                        <div>
-                            <label htmlFor="inputFile">
-                                <div className="w-5">
-                                    <Album />
-                                </div>
-                            </label>
-                            <input
-                                type="file"
-                                id="inputFile"
-                                style={{ display: 'none' }}
-                                onChange={(e) => fileHandler(e)}
-                            />
-                        </div>
-                        <div className="w-5">
+
+                    {/* <div className="flex justify-between items-center px-2 py-1 h-[50px]"> */}
+                    {/* <div className="flex items-center space-x-2"> */}
+
+                    {/* <div className="w-5">
                             <Emoticon />
-                        </div>
-                    </div>
+                        </div> */}
+                    {/* </div> */}
                     <button
                         type="button"
                         onClick={() => handleSendMsg(null)}
