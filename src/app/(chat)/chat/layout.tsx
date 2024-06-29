@@ -1,18 +1,13 @@
 import MainNavigation from '@/components/layouts/MainNavigation'
 import Notification from '@/components/images/Notification'
 import MainHeader from '@/components/layouts/MainHeader'
-import Search from '@/components/images/Search'
+import NotificationButton from '@/components/pages/notification/notificationButton'
 
 export default function ChatLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <MainHeader title="채팅방">
-                <div className="w-5 h-full">
-                    <Search />
-                </div>
-                <div className="w-5 h-full">
-                    <Notification />
-                </div>
+                <NotificationButton />
             </MainHeader>
             {children}
             <MainNavigation />
