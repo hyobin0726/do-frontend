@@ -45,12 +45,12 @@ export default function MemberInfomation({ signupinfo }: MemberInfomationProps) 
                 {signupInfoArray.map((info) => (
                     <div
                         key={info.infotype}
-                        className="w-[95%] h-[55px] border-b-[1px] border-hobbing-red flex items-center px-4 space-x-4"
+                        className="w-full h-[55px] border-b-[1px] border-hobbing-red flex items-center px-3 space-x-3"
                     >
-                        <div className="w-auto h-1/3">
+                        <div className="w-[24px] h-[24px]">
                             <MemberInfo infoType={info.infotype} />
                         </div>
-                        <p className="text-[15px] sm:text-[13px] md:text-[17px]">{info.value}</p>
+                        <p className="text-[15px] sm:text-[13px] md:text-[17px] font-medium">{info.value}</p>
                     </div>
                 ))}
             </section>
