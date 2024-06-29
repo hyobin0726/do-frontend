@@ -1,6 +1,16 @@
+import getLatestBoard from '@/api/board/getLatestBoard'
+
 import Monster5 from '@/components/images/monsters/Monster5'
 
-export default function HomeSection3() {
+interface topCrew {
+    crewId: number
+    name: string
+}
+
+export default async function HomeSection3({ topCrew }: { topCrew: topCrew[] }) {
+    // console.log('topCrew: ', topCrew)
+    // const latestBoard = await getLatestBoard(topCrew[0].crewId)
+    // // console.log('latestBoard: ', latestBoard)
     return (
         <>
             <section className="w-full h-[550px] bg-green-100 px-8">

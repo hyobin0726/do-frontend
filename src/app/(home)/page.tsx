@@ -31,7 +31,7 @@ export default async function HomePage() {
             <main className="w-full h-[calc(100dvh-140px)] relative overflow-y-scroll scrollbar-hide bg-hobbing-bg-gray">
                 <HomeSection1 />
                 <HomeSection2 hobbies={hobbies} baseRegion={baseRegion} newCrew={newCrew.data} />
-                <HomeSection3 />
+                <HomeSection3 topCrew={topCrew.data} />
             </main>
         )
     }

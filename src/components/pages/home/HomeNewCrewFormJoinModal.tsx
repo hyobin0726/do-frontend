@@ -111,7 +111,6 @@ export default function HomeNewCrewFormJoinModal({
 
         const res = await postFormJoin(crewId, joinInfo)
         if (res.isSuccess) {
-            modalController()
             router.push('/mypage/crew-apply')
         } else {
             setErrorMessage(res.message)

@@ -24,9 +24,8 @@ export default function NotificationList({
 }) {
     const handleDelete = async (notificationId: string) => {
         try {
-            await DeleteNotification(notificationId)  
+            await DeleteNotification(notificationId)
             onDeleteNotification(notificationId)
-            modalController()
         } catch (error) {
             console.error('알림 삭제에 실패했습니다:', error)
         }
@@ -49,23 +48,20 @@ export default function NotificationList({
                         </div>
                         {notificationData &&
                             notificationData.map((notification: notificationData, idx: number) => (
-                                <div key={idx} className="flex items-center space-x-3 p-2 border-b ">
-                                    <Image
-                                        src={notification.crewProfileUrl}
-                                        alt="채팅방 프로필"
-                                        width={40}
-                                        height={40}
-                                        className="rounded-xl w-[50px] h-[50px] object-cover "
-                                        priority
-                                    />
-                                    <div className="flex justify-between space-x-2 w-[80%] items-center">
+                                <div key={idx} className="flex items-center justify-between p-2 border-b">
+                                    <div className="flex flex-row space-x-2 w-[80%] items-center">
+                                        <Image
+                                            src={notification.crewProfileUrl}
+                                            alt="채팅방 프로필"
+                                            width={40}
+                                            height={40}
+                                            className="rounded-xl w-[50px] h-[50px] object-cover "
+                                            priority
+                                        />
                                         <div className="">{notification.content}.</div>
-                                        <div
-                                            className="w-4 h-4"
-                                            onClick={() => handleDelete(notification.notificationId)}
-                                        >
-                                            <Delete />
-                                        </div>
+                                    </div>
+                                    <div className="w-4 h-4" onClick={() => handleDelete(notification.notificationId)}>
+                                        <Delete />
                                     </div>
                                 </div>
                             ))}
