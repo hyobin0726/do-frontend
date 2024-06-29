@@ -11,12 +11,13 @@ import CrewHeader from '@/components/pages/crew/CreawHeader'
 export default async function CrewPage({ searchParams }: { searchParams: { [key: string]: string } }) {
     const hobbies = await getHobbyCards()
     const region = await getBaseRegion()
-    const suggestionCrewIdList = await getSuggestionCrewList(parseInt(searchParams.hobbyId), region.regionId)
-
     const focusedHobbyId = searchParams.hobbyId
+    
     if (!focusedHobbyId) {
         return redirect(`/crew?hobbyId=${hobbies[0].hobbyId}`)
     }
+
+    const suggestionCrewIdList = await getSuggestionCrewList(parseInt(searchParams.hobbyId), region.regionId)
 
     return (
         <main className="w-full h-[calc(100dvh-140px)]">

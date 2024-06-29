@@ -4,7 +4,7 @@ import { revalidateTag } from 'next/cache'
 
 export default async function postCrewAgree({ joinFormId }: { joinFormId: string }) {
     const auth = await useGetServerToken()
-    const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/acceptance/join/${joinFormId}`, {
+    const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/crew/acceptance/join/${joinFormId}`, {
         method: 'POST',
         headers: {
             Authorization: `${auth.token}`,
