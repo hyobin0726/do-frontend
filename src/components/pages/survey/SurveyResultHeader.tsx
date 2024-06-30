@@ -6,7 +6,7 @@ export default function SurveyResultHeader({ type }: { type: string }) {
     return (
         <header className="bg-white drop-shadow-sm sticky top-0 z-[400]">
             <nav className="relative w-full h-[60px] flex items-center">
-                {type == '1' ? (
+                {type == '2' ? (
                     //마이페이지에서 왔을 때
                     <Link
                         href="/mypage"

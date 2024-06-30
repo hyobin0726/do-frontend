@@ -20,7 +20,7 @@ export default function SurveyAnswer({
     surveyStep,
     surveyFrom,
 }: {
-    surveyQuestions: SurveyQuestion[]
+    surveyQuestions: SurveyQuestion
     surveyStep: number
     surveyFrom: number
 }) {
@@ -54,7 +54,7 @@ export default function SurveyAnswer({
                 setAnswer(data.answer)
                 setIsDisabled(false)
             } else {
-                const currentQuestion = surveyQuestions[surveyStep - 1]
+                const currentQuestion = surveyQuestions
                 setQuestionId(currentQuestion.questionId)
                 setQuestionType(currentQuestion.questionType)
                 setAnswer(null)
@@ -74,7 +74,7 @@ export default function SurveyAnswer({
                 }),
             )
         }
-    }, [questionId, questionType, answer, surveyStep])
+    }, [answer])
 
     return (
         <>
@@ -108,7 +108,7 @@ export default function SurveyAnswer({
                 </div>
             </section>
             <section className="w-full h-[25%] space-y-10">
-                {surveyStep < surveyQuestions.length ? (
+                {surveyStep < 20 ? (
                     <Link href={`/survey?step=${surveyStep + 1}&from=${surveyFrom}`} passHref scroll={false}>
                         <button
                             disabled={isDisabled}
@@ -123,10 +123,8 @@ export default function SurveyAnswer({
                 ) : (
                     <SurveySubmmit isDisabled={isDisabled} surveyFrom={surveyFrom} />
                 )}
-                <ProgressBar step={surveyStep} total={surveyQuestions.length} />
+                <ProgressBar step={surveyStep} total={20} />
             </section>
         </>
     )
 }
-
-//result?from=0로 보내기

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 
 import postSurvey from '@/api/survey/postSurvey'
 import RightArrow from '@/components/images/RightArrow'
+import LoadingMark from '@/components/images/LoadingMark'
 
 interface SessionStorageItems {
     [key: string]: string | any
@@ -24,6 +25,7 @@ export default function SurveySubmmit({ isDisabled, surveyFrom }: { isDisabled: 
     const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswerDataType>({
         hobbyQuestionRequestVoList: [],
     })
+    const [loading, setLoading] = useState<boolean>(false)
 
     const router = useRouter()
 
@@ -36,12 +38,15 @@ export default function SurveySubmmit({ isDisabled, surveyFrom }: { isDisabled: 
         const allItems: SessionStorageItems = {}
 
         keys.forEach((key) => {
-            const item = storage.getItem(key)
-            try {
-                allItems[key] = item ? JSON.parse(item) : null
-            } catch (error) {
-                console.error(`Error parsing JSON for key ${key}:`, error)
-                allItems[key] = item
+            if (key.startsWith('surveyStep')) {
+                // Only include keys starting with 'surveyStep'
+                const item = storage.getItem(key)
+                try {
+                    allItems[key] = item ? JSON.parse(item) : null
+                } catch (error) {
+                    console.error(`Error parsing JSON for key ${key}:`, error)
+                    allItems[key] = item
+                }
             }
         })
 
@@ -53,7 +58,7 @@ export default function SurveySubmmit({ isDisabled, surveyFrom }: { isDisabled: 
 
         if (Object.values(allSessionStorageItems).length !== 20) {
             alert('설문조사를 완료해주세요')
-            router.push(`/survey?step=1&from=${surveyFrom}`)
+            return
         }
 
         const sessionyAnswerArray = Object.values(allSessionStorageItems).filter(
@@ -67,6 +72,7 @@ export default function SurveySubmmit({ isDisabled, surveyFrom }: { isDisabled: 
 
     useEffect(() => {
         if (surveyAnswers.hobbyQuestionRequestVoList.length == 20) {
+            setLoading(true)
             const postSurveyData = async () => {
                 const surveyRes = await postSurvey(surveyAnswers)
                 if (surveyRes.isSuccess) {
@@ -79,21 +85,29 @@ export default function SurveySubmmit({ isDisabled, surveyFrom }: { isDisabled: 
                     sessionStorage.clear()
                     router.push(`/survey?step=1&from=${surveyFrom}`)
                 }
+                setLoading(false)
             }
             postSurveyData()
         }
     }, [surveyAnswers])
 
     return (
-        <button
-            onClick={handleSubmmit}
-            className={`bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8 ${
-                isDisabled ? 'opacity-50' : ''
-            }`}
-            disabled={isDisabled}
-        >
-            <p className="text-white text-[15px] font-bold">결과 확인</p>
-            <RightArrow width={15} height={15} />
-        </button>
+        <>
+            <button
+                onClick={handleSubmmit}
+                className={`bg-hobbing-red h-[60px] w-full rounded-xl flex flex-row justify-between items-center px-8 ${
+                    isDisabled ? 'opacity-50' : ''
+                }`}
+                disabled={isDisabled}
+            >
+                <p className="text-white text-[15px] font-bold">결과 확인</p>
+                <RightArrow width={15} height={15} />
+            </button>
+            {loading && (
+                <div className="fixed flex justify-center items-center top-0 left-0 z-[3000] w-dvw h-svh  bg-black bg-opacity-50">
+                    <LoadingMark width="80" height="80" />
+                </div>
+            )}
+        </>
     )
 }

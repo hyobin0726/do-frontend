@@ -1,12 +1,10 @@
 'use server'
-import { useGetServerToken } from '@/actions/useGetServerToken'
 
-export default async function getSurveyQuestions() {
-    const auth = await useGetServerToken()
+export default async function getSurveyQuestions(token: string) {
     const response = await fetch(`${process.env.BASE_URL}/survey-service/v1/users/survey/questions`, {
         method: 'GET',
         headers: {
-            Authorization: `${auth.token}`,
+            Authorization: `${token}`,
             'Content-Type': 'application/json',
         },
     })
