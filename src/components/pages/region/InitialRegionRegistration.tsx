@@ -150,7 +150,8 @@ export default function InitialRegionRegistration() {
                                 <button
                                     onClick={() => {
                                         handleAlert()
-                                        router.push('/survey?step=1&from=0')
+                                        // 최초 설문조사 페이지로 이동
+                                        router.push('/survey?step=0&from=0')
                                     }}
                                     className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
                                 >

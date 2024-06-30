@@ -15,11 +15,13 @@ import getMyProfile from '@/api/auth/getMyProfile'
 const getPageData = async (token: string) => {
     const baseRegion = await getBaseRegion(token)
     if (!baseRegion) {
+        // 최초 지역설정 페이지로 이동
         redirect('/mypage/region/initial')
     }
     const hobbies = await getHobbyCards(token)
     if (!hobbies) {
-        redirect('/survey?step=1&from=0')
+        // 최초 설문조사 페이지로 이동
+        redirect('/survey?step=0&from=0')
     }
     const newCrew = await getNewCrew(hobbies[0].hobbyId, baseRegion.regionId, token)
     const topCrew = await getTop5Crew(baseRegion.regionId, token)

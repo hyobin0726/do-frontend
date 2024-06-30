@@ -10,6 +10,9 @@ export default function SurveyHeader({ surveyFrom, surveyStep }: { surveyFrom: n
     // surveyFrom == 1 -> 홈>설문조사
     // surveyFrom == 2 -> 마이페이지>설문조사
 
+    // surveyStep == 0 -> 설문조사 시작
+    // surveyStep >= 1 && surveyStep <=20 -> 설문조사 진행
+
     const router = useRouter()
 
     const handleSessionClear = () => {
@@ -21,18 +24,25 @@ export default function SurveyHeader({ surveyFrom, surveyStep }: { surveyFrom: n
     }
 
     return (
-        <header className="bg-white drop-shadow-sm sticky top-0 z-[400]">
+        <header
+            className={`${surveyStep == 0 ? 'bg-hobbing-bg-pink' : 'bg-white drop-shadow-sm'} sticky top-0 z-[400]`}
+        >
             <nav className="relative w-full h-[60px] flex items-center">
-                {surveyFrom == 0 && surveyStep == 1 ? null : surveyFrom == 0 && surveyStep != 1 ? (
+                {surveyFrom == 0 && surveyStep < 2 ? null : surveyFrom == 0 && surveyStep >= 2 ? ( //초기설문조사 시작화면 + 초기설문조사 1번 질문화면
+                    //초기설문조사 2번 질문화면 이상
                     <RouterBackArrowButton className="z-[10] absolute left-5 h-[60px] w-[50px] flex items-center" />
-                ) : surveyFrom != 0 && surveyStep == 1 ? (
+                ) : surveyFrom != 0 && surveyStep < 2 ? (
+                    //홈>설문조사 시작화면 + 홈>설문조사 1번 질문화면
+                    //마이페이지>설문조사 시작화면 + 마이페이지>설문조사 1번 질문화면
                     <div
                         className="z-[10] absolute right-0 h-[60px] w-[50px] flex items-center"
                         onClick={handleSessionClear}
                     >
                         <Close />
                     </div>
-                ) : surveyFrom != 0 && surveyStep != 1 ? (
+                ) : surveyFrom != 0 && surveyStep >= 2 ? (
+                    //홈>설문조사 2번 질문화면 이상
+                    //마이페이지>설문조사 2번 질문화면 이상
                     <>
                         <RouterBackArrowButton className="z-[10] absolute left-5 h-[60px] w-[50px] flex items-center" />
                         <div
@@ -43,9 +53,11 @@ export default function SurveyHeader({ surveyFrom, surveyStep }: { surveyFrom: n
                         </div>
                     </>
                 ) : null}
-                <h1 className="w-full text-center font-Pretendard text-[20px] sm:text-[18px] md:text-[23px] font-bold ">
-                    설문조사
-                </h1>
+                {surveyStep == 0 ? null : (
+                    <h1 className="w-full text-center font-Pretendard text-[20px] sm:text-[18px] md:text-[23px] font-bold ">
+                        설문조사
+                    </h1>
+                )}
             </nav>
         </header>
     )
