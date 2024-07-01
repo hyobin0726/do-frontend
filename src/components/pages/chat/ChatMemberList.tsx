@@ -27,7 +27,7 @@ export default function ChatMemberList({ crewId }: { crewId: string }) {
         }
         fetchMembers()
     }, [crewId])
-    // console.log('members:', members)
+    console.log('members:', members)
 
     return (
         <ul className=" space-y-3">
@@ -42,7 +42,20 @@ export default function ChatMemberList({ crewId }: { crewId: string }) {
                     <div key={idx} className="flex items-center  ">
                         <img src={member.profileUrl} alt="profile" className="w-10 h-10 rounded-full" />
                         <div className="ml-4 flex">
-                            <div className="font-bold text-lg">{member.name}</div>
+                            <div className="font-bold text-lg whitespace-nowrap">{member.name}</div>
+                            {member.role === 3 && (
+                                <div className="flex">
+                                    <span className="text-white text-sm bg-[#FFB7B3] rounded-lg px-2 py-1 ml-2 whitespace-nowrap">
+                                        방장
+                                    </span>
+                                    <span className="text-white text-sm bg-[#FFB7B3] rounded-lg px-2 py-1 ml-2 whitespace-nowrap">
+                                        나
+                                    </span>
+                                </div>
+                            )}
+                            {member.role === 2 && (
+                                <span className="text-white text-sm bg-[#FFB7B3] rounded-lg px-2 py-1 ml-2">나</span>
+                            )}
                             {member.role === 1 && (
                                 <span className="text-white text-sm bg-[#FFB7B3] rounded-lg px-2 py-1 ml-2">방장</span>
                             )}

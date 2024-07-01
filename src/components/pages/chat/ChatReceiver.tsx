@@ -48,7 +48,7 @@ export default function ChatReceiver({
                         <p className="text-gray-600 ml-2">{name}</p>
                     </div>
                     <div className="flex flex-row m-3">
-                        <div className="bg-white border border-[#E5EBEF] py-2 px-4 rounded-lg w-fit justify-start">
+                        <div className="bg-white border border-[#E5EBEF] rounded-lg w-fit justify-start">
                             <img src={chat.imageUrl} alt="Image" className="w-[200px]" />
                         </div>
                         <div className="text-gray-500 text-sm ml-2 self-end">
@@ -61,7 +61,7 @@ export default function ChatReceiver({
                 </div>
             )}
             {chat.text && (
-                <div className="flex flex-col ">
+                <div className="flex flex-col">
                     <div className="flex items-center" onClick={handleClicked}>
                         <Image
                             src={profile}

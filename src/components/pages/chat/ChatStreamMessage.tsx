@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { EventSourcePolyfill } from 'event-source-polyfill'
 import { useParams } from 'next/navigation'
 import { useGetClientToken } from '@/actions/useGetClientToken'
@@ -21,6 +21,7 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
     const params = useParams<{ crewId: string }>()
     const [messages, setMessages] = useState<ChatMessageType[]>([] as ChatMessageType[])
     const auth = useGetClientToken()
+    const messagesEndRef = useRef<null | HTMLDivElement>(null)
 
     useEffect(() => {
         if (!auth.token) return
@@ -108,6 +109,13 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
         }
     }, [params.crewId, auth.token])
 
+    // 메시지가 추가될 때마다 스크롤을 메시지 리스트의 끝으로 이동
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+        }
+    }, [messages])
+
     return (
         <section>
             <div>
@@ -142,6 +150,7 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
                             )}
                         </div>
                     ))}
+                    <div ref={messagesEndRef} /> {/* messagesEndRef가 참조하는 요소 */}
                 </div>
             </div>
         </section>
