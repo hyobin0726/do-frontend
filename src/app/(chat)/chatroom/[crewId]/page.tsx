@@ -24,7 +24,8 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
         }
         fetchCrewMembers()
     }, [crewId])
-    // console.log('crewMembers:', crewMembers)
+    // console.log(currentPage, 'currentPage')
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -59,7 +60,7 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
                 overflow: 'scroll',
             }}
         >
-            <div className=" px-2 py-4">
+            <div className="px-2 py-4">
                 <div ref={loaderRef} style={{ height: '0x' }}></div>
                 <ChatOldMessage
                     currentPage={currentPage}

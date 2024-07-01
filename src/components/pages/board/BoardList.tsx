@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { getCrewBoardList } from '@/api/board/BoardList'
 import Board from './Board'
+import LoadingMark from '@/components/images/LoadingMark'
 
 interface BoardListIds {
     boardId: string
@@ -82,7 +83,11 @@ export default function BoardList({
             ))}
             {boardList.length !== 0 && (
                 <div ref={loader} style={{ height: '10px', textAlign: 'center' }}>
-                    {!isLast && <span>로딩 중...</span>}
+                    {!isLast && (
+                        <div className="flex justify-center my-4">
+                            <LoadingMark />
+                        </div>
+                    )}
                 </div>
             )}
         </section>
