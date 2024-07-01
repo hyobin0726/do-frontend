@@ -78,9 +78,9 @@ export default function ChatBottom() {
 
     return (
         <div>
-            <form className="bg-white bottom-0 z-[100] fixed h-[80px] w-full ">
-                <div className="flex justify-between items-center p-2 space-x-2">
-                    <div>
+            <form className="bg-white  bottom-0 z-[100] fixed h-[80px] w-full p-2 ">
+                <div className="flex justify-between items-center ">
+                    <div className="">
                         <label htmlFor="inputFile">
                             <div className="w-7">
                                 <Album />
@@ -110,7 +110,7 @@ export default function ChatBottom() {
                     <button
                         type="button"
                         onClick={() => handleSendMsg(null)}
-                        className="w-7 h-7 bg-hobbing-red rounded-full flex items-center justify-center"
+                        className="w-7 h-7 bg-hobbing-red rounded-full flex items-center justify-center ml-1"
                     >
                         <div className="w-5">
                             <Send />

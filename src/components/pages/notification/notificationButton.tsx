@@ -26,7 +26,7 @@ export default function NotificationButton() {
     useEffect(() => {
         const fetchNotification = async () => {
             const getData = await getNotificationList()
-            console.log(getData.data, 'restapi 알림')
+            // console.log(getData.data, 'restapi 알림')
             setNotificationData(getData.data)
         }
         fetchNotification()
@@ -54,8 +54,7 @@ export default function NotificationButton() {
             eventSource.onmessage = (event) => {
                 try {
                     const newMessage = JSON.parse(event.data)
-
-                    console.log(newMessage, '실시간 알림')
+                    // console.log(newMessage, '실시간 알림')
                     if (newMessage) {
                         setNotificationData((prevData) => [newMessage, ...prevData])
                     }

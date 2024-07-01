@@ -47,10 +47,9 @@ export default function ChatReceiver({
                         />
                         <p className="text-gray-600 ml-2">{name}</p>
                     </div>
-                    <div className="flex flex-row m-5">
-                        <div className="bg-white border border-[#E5EBEF] py-2 px-4 rounded-lg w-fit justify-start">
+                    <div className="flex flex-row m-3">
+                        <div className="bg-white border border-[#E5EBEF] rounded-lg w-fit justify-start">
                             <img src={chat.imageUrl} alt="Image" className="w-[200px]" />
-
                         </div>
                         <div className="text-gray-500 text-sm ml-2 self-end">
                             {new Date(chat.createdAt).toLocaleTimeString('ko-KR', {
@@ -62,7 +61,7 @@ export default function ChatReceiver({
                 </div>
             )}
             {chat.text && (
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col">
                     <div className="flex items-center" onClick={handleClicked}>
                         <Image
                             src={profile}
@@ -73,7 +72,7 @@ export default function ChatReceiver({
                         />
                         <p className="text-gray-600 ml-2">{name}</p>
                     </div>
-                    <div className="flex flex-row m-5">
+                    <div className="flex flex-row m-3">
                         <div className="bg-white border border-[#E5EBEF] text-gray-800 py-2 px-4 rounded-lg w-fit justify-start">
                             {chat.text}
                         </div>
