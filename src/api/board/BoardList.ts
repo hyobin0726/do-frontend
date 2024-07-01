@@ -5,7 +5,7 @@ export async function getCrewBoardList(crewId: string, page: number) {
     const auth = await useGetServerToken()
     // console.log(crewId, auth, page)
     const res = await fetch(
-        `${process.env.BASE_URL}/board-service/v1/users/crew/board/${crewId}/board-list?page=${page}&size=7`,
+        `${process.env.BASE_URL}/board-service/v1/users/crew/board/${crewId}/board-list?page=${page}`,
         {
             method: 'GET',
             headers: {

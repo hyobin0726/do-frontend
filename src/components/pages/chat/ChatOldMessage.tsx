@@ -65,7 +65,7 @@ export default function ChatOldMessage({
                 if (response.ok) {
                     const data: { data: OldMessagesType } = await response.json()
                     if (data.data.chatList.length > 0) {
-                        console.log('data:', data.data)
+                        // console.log('data:', data.data)
                         if (currentPage === 0) {
                             setOldMessages(data.data.chatList)
                             if (chatContainerRef.current) {
