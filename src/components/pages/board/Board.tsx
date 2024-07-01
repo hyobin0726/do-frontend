@@ -9,11 +9,13 @@ import MoreInfo from '@/components/images/MoreInfo'
 import BoardSetting from './BoardSetting'
 import { ReadBoard } from '@/api/board/readBoard'
 import { useGetClientToken } from '@/actions/useGetClientToken'
+import { useChatRoomStore } from '@/hooks/useChatRoleStore'
 
 export default function Board({ boardId }: { boardId: string }) {
     const [board, setBoard] = useState<BoardType>()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const auth = useGetClientToken()
+    const { userRole } = useChatRoomStore()
 
     useEffect(() => {
         const fetchBoard = async () => {
@@ -22,10 +24,12 @@ export default function Board({ boardId }: { boardId: string }) {
         }
         fetchBoard()
     }, [boardId])
+    // console.log(board, '리스트')
 
     const modalController = () => {
         setIsModalOpen(!isModalOpen)
     }
+
     return (
         <>
             {board && (
@@ -39,11 +43,11 @@ export default function Board({ boardId }: { boardId: string }) {
                                 updated={board.updated}
                             />
                         </Link>
-                        {auth && auth.uuid === board.writerUuid && (
+                        {(auth && auth.uuid === board.writerUuid) || userRole === 1 || userRole === 3 ? (
                             <button className="w-5" onClick={modalController}>
                                 <MoreInfo />
                             </button>
-                        )}
+                        ) : null}
                     </div>
                     <Link href={`/board/${board.boardId}`} passHref scroll={false} className="space-y-2">
                         <p>{board.content}</p>

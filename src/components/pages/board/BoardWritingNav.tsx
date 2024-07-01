@@ -1,4 +1,3 @@
-'use client'
 import RouterBackArrowButton from '@/components/common/RouterBackArrowButton'
 import BoardPost from './BoardPost'
 

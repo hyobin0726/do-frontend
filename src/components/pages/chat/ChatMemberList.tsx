@@ -37,7 +37,7 @@ export default function ChatMemberList({ crewId }: { crewId: string }) {
                 </div>
                 <div className="text-[#869AA9]">참여자</div>
             </div>
-            <div className="space-y-4 overflow-y-scroll h-[470px]">
+            <div className="space-y-4 overflow-y-scroll h-[470px] scrollbar-hide">
                 {members.map((member, idx) => (
                     <div key={idx} className="flex items-center  ">
                         <img src={member.profileUrl} alt="profile" className="w-10 h-10 rounded-full" />
