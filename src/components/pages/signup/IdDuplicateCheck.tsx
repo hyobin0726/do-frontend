@@ -1,4 +1,5 @@
 import Alert from '@/components/common/Alert'
+import Loading from '@/components/common/Loading'
 import { useState, useEffect } from 'react'
 
 interface IdDuplicateCheckProps {
@@ -14,13 +15,16 @@ export default function IdDuplicateCheck({
     onAlertChange,
     onIdAvailableCheck,
 }: IdDuplicateCheckProps) {
-    const [idUseable, setIdUseable] = useState<boolean | undefined>(undefined)
+    const [idUseable, setIdUseable] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
     const [idDuplicationCheckMessage, setIdDuplicationCheckMessage] = useState<string>('')
 
     useEffect(() => {
         const checkId = async () => {
             if (isIdDuplicateCheckOpen) {
+                setLoading(true)
                 const isAvailable = await checkIdDuplicate(id)
+                setLoading(false)
                 setIdUseable(isAvailable)
                 if (isAvailable) {
                     onIdAvailableCheck()
@@ -45,8 +49,8 @@ export default function IdDuplicateCheck({
     }
     return (
         <>
-            {idUseable === undefined ? (
-                <Alert type="loading" isAlertOpen={isIdDuplicateCheckOpen} />
+            {loading ? (
+                <Loading />
             ) : (
                 <Alert type={idUseable ? 'success' : 'warning'} isAlertOpen={isIdDuplicateCheckOpen}>
                     <p className="font-Pretendard text-balance text-center text-[15px]">

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 
 import postSurvey from '@/api/survey/postSurvey'
 import RightArrow from '@/components/images/RightArrow'
-import LoadingMark from '@/components/images/LoadingMark'
+import Loading from '@/components/common/Loading'
 
 interface SessionStorageItems {
     [key: string]: string | any
@@ -103,11 +103,7 @@ export default function SurveySubmmit({ isDisabled, surveyFrom }: { isDisabled: 
                 <p className="text-white text-[15px] font-bold">결과 확인</p>
                 <RightArrow width={15} height={15} />
             </button>
-            {loading && (
-                <div className="fixed flex justify-center items-center top-0 left-0 z-[3000] w-dvw h-svh  bg-black bg-opacity-50">
-                    <LoadingMark width="80" height="80" />
-                </div>
-            )}
+            {loading && <Loading />}
         </>
     )
 }

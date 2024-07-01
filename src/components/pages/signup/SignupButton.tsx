@@ -5,6 +5,8 @@ import { useState } from 'react'
 import RightArrow from '@/components/images/RightArrow'
 import Alert from '@/components/common/Alert'
 import { useRouter } from 'next/navigation'
+import { set } from 'zod'
+import Loading from '@/components/common/Loading'
 
 interface SignupButtonProps {
     isFormValid: boolean | string
@@ -32,6 +34,7 @@ export default function SignupButton({
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [alertType, setAlertType] = useState<'question' | 'info' | 'error' | 'success' | 'warning'>('question')
     const [alertMessage, setAlertMessage] = useState<string>('')
+    const [loading, setLoading] = useState<boolean>(false)
 
     const router = useRouter()
 
@@ -48,7 +51,8 @@ export default function SignupButton({
             handleAlert()
             return
         }
-        console.log('회원가입 정보:', name, id, password, phoneNumber, email, gender, birthDate)
+
+        setLoading(true)
 
         if (externalId) {
             console.log('외부 로그인 정보:', externalId)
@@ -71,11 +75,13 @@ export default function SignupButton({
             const signUpData = await signUpResponse.json()
 
             if (signUpData.isSuccess === false) {
+                setLoading(false)
                 setAlertMessage(signUpData.message)
                 setAlertType('error')
                 handleAlert()
                 return
             } else {
+                setLoading(false)
                 setAlertMessage('회원가입이 완료되었습니다.')
                 setAlertType('success')
                 handleAlert()
@@ -101,11 +107,13 @@ export default function SignupButton({
             const signUpData = await signUpResponse.json()
 
             if (signUpData.isSuccess === false) {
+                setLoading(false)
                 setAlertMessage(signUpData.message)
                 setAlertType('error')
                 handleAlert()
                 return
             } else {
+                setLoading(false)
                 setAlertMessage('회원가입이 완료되었습니다.')
                 setAlertType('success')
                 handleAlert()
@@ -160,7 +168,6 @@ export default function SignupButton({
                                 <button
                                     onClick={() => {
                                         handleAlert()
-                                        router.push('/signup')
                                     }}
                                     className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
                                 >
@@ -171,6 +178,7 @@ export default function SignupButton({
                     )}
                 </Alert>
             )}
+            {loading && <Loading />}
         </>
     )
 }
