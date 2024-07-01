@@ -16,10 +16,10 @@ export default function BoardContent({ boardContent }: { boardContent: string })
     }
 
     return (
-        <div className="h-[calc(100vh-15.5rem)]">
+        <div className="h-[calc(100vh-15.5rem)] w-full">
             <textarea
                 placeholder="멤버들과 공유하고 싶은 소식을 남겨보세요."
-                className="w-full h-full p-2"
+                className="w-full h-full p-5"
                 value={text}
                 onChange={handleChange}
                 maxLength={1000}

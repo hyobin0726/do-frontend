@@ -5,6 +5,7 @@ import Link from 'next/link'
 import SurveyHeader from './SurveyHeader'
 import HOBBINGLogo from '@/components/images/HOBBINGLogo'
 import Monster1 from '@/components/images/monsters/Monster1'
+import Start from '@/components/images/Start'
 
 interface surveyQuestions {
     questionId: number
@@ -36,9 +37,9 @@ export default function SurveyStart({
                         passHref
                         scroll={false}
                         onClick={() => sessionStorage.setItem('surveyQuestions', JSON.stringify(surveyQuestions))}
-                        className="w-[200px] h-[80px] mb-10 bg-hobbing-red rounded-full animate-pulse flex justify-center items-center"
+                        className="w-[230px] h-[80px] mb-10 px-8 bg-hobbing-red rounded-full flex justify-center items-center"
                     >
-                        <p className="text-white text-[25px] font-bold">START</p>
+                        <Start />
                     </Link>
                 </section>
                 <section className="w-full h-[30dvh] overflow-hidden flex justify-center relative">

@@ -44,7 +44,6 @@ export default function EditProfile({ prevProfilData }: ProfileType) {
 
                 if (ImgUrl) {
                     // 실제 업로드된 이미지 URL로 업데이트합니다.
-                    // console.log('이미지 업로드 성공', ImgUrl)
                     setProfileImageUrl(ImgUrl)
                 }
             } else {

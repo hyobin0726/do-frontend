@@ -59,7 +59,13 @@ function BoardWritingBottom({ boardImage }: { boardImage: string[] }) {
     }
 
     return (
-        <div className="flex absolute bottom-5 border-t-[1px] w-full p-2 space-x-2 border-hobbing-gray overflow-x-scroll">
+        <div className="flex absolute bottom-5 border-t-[1px] w-full p-3 space-x-2 border-hobbing-gray overflow-x-scroll">
+            {imageUrls.length < 5 && (
+                <div className="w-[60px] h-[60px] border-[1px] border-hobbing-red rounded-xl flex-col flex justify-center items-center">
+                    <BoardImageUpload multiRef={multiRef} multiFileHandler={multiFileHandler} />
+                    <div className="text-hobbing-pink text-sm">{imageUrls ? imageUrls.length : 0} / 5</div>
+                </div>
+            )}
             {imageUrls && (
                 <div className="flex space-x-2">
                     {imageUrls.map((url, index) => (
@@ -78,19 +84,15 @@ function BoardWritingBottom({ boardImage }: { boardImage: string[] }) {
                                     ))}
                             </div>
                             <button
-                                className="absolute top-0 right-0 p-1 bg-hobbing-red text-white rounded-full"
+                                className="absolute top-0 right-0 w-5 h-5 bg-white flex justify-center items-center rounded-full"
                                 onClick={() => handleMultiImageDelete(index)}
                             >
-                                <div className="text-xs">X</div>
+                                <div className="text-hobbing-red text-xs font-bold">X</div>
                             </button>
                         </div>
                     ))}
                 </div>
             )}
-            <div className="w-16 h-[65px] border-[1px] border-hobbing-red rounded-xl flex-col flex justify-center items-center">
-                <BoardImageUpload multiRef={multiRef} multiFileHandler={multiFileHandler} />
-                <div className="text-hobbing-pink text-sm">{imageUrls ? imageUrls.length : 0} / 5</div>
-            </div>
             {isAlertOpen && (
                 <Alert type="info" isAlertOpen={isAlertOpen}>
                     <p className="font-Pretendard text-balance text-center text-[15px] leading-loose">
