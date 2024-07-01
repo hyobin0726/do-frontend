@@ -107,7 +107,7 @@ export default function SurveyAnswer({
                     ))}
                 </div>
             </section>
-            <section className="w-full h-[25%] space-y-10">
+            <section className="w-full h-[25%]">
                 {surveyStep < 20 ? (
                     <Link href={`/survey?step=${surveyStep + 1}&from=${surveyFrom}`} passHref scroll={false}>
                         <button

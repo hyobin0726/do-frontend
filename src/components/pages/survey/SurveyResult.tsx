@@ -5,7 +5,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination } from 'swiper/modules'
+import { Pagination, Autoplay } from 'swiper/modules'
 
 interface HobbyCardType {
     hobbyId: number
@@ -21,11 +21,17 @@ export default function SurveyResult({ hobbyCardsData }: { hobbyCardsData: Hobby
     return (
         <Swiper
             direction={'vertical'}
-            slidesPerView={1}
+            centeredSlides={true}
             loop={true}
-            pagination={true}
-            modules={[Pagination]}
-            className="w-full h-full "
+            autoplay={{
+                delay: 2000,
+                disableOnInteraction: false,
+            }}
+            pagination={{
+                clickable: true,
+            }}
+            modules={[Pagination, Autoplay]}
+            className="w-full h-full"
         >
             {hobbyCardsData.map((hobbyCard: HobbyCardType, idx: number) => (
                 <SwiperSlide key={hobbyCard.hobbyId}>
