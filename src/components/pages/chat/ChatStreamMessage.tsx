@@ -72,7 +72,7 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
                     if (data.isSuccess) {
                         setMessages((prevMessages) => {
                             const newMessage = data.data as ChatMessageType
-                            console.log('newMessage:', newMessage)
+                            // console.log('newMessage:', newMessage)
 
                             const isDuplicate = prevMessages.some(
                                 (message) => message.createdAt === newMessage.createdAt,

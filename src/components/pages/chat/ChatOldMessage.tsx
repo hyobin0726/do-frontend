@@ -103,7 +103,6 @@ export default function ChatOldMessage({
             }
         }
         fetchOldMessages()
-        // }, [])
     }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage, auth.token])
 
     // console.log(lastPage, 'last')

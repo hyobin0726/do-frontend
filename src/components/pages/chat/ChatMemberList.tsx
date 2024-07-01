@@ -27,7 +27,7 @@ export default function ChatMemberList({ crewId }: { crewId: string }) {
         }
         fetchMembers()
     }, [crewId])
-    console.log('members:', members)
+    // console.log('members:', members)
 
     return (
         <ul className=" space-y-3">
