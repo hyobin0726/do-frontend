@@ -41,9 +41,9 @@ export default function NotificationList({
                     top={true}
                 >
                     <div className="h-[500px] space-y-4 p-3 overflow-y-scroll scrollbar-hide w-full ">
-                        <div className="flex justify-between ">
+                        <div className="flex justify-between px-2">
                             <p className="text-xl font-bold">알림</p>
-                            <button className="text-[#FD7A23] text-lg font-bold" onClick={() => modalController()}>
+                            <button className="text-[#FD7A23] text-[20px] font-bold" onClick={() => modalController()}>
                                 X
                             </button>
                         </div>

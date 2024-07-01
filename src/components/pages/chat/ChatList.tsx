@@ -110,14 +110,16 @@ function ChatList({ crewList }: { crewList: CrewType[] }) {
                             <Link href={`/chatroom/${crew.crewId}`} passHref scroll={false}>
                                 <div className="flex  items-center p-4 bg-white rounded-lg shadow transition w-full">
                                     <div className="w-full space-x-2 flex ">
-                                        <Image
-                                            src={crew.profileUrl}
-                                            alt="채팅방 프로필"
-                                            width={50}
-                                            height={50}
-                                            className=" rounded-2xl w-[70px] h-[60px] object-cover "
-                                            priority
-                                        />
+                                        <div className="w-[70px] h-[60px] flex justify-center items-center ">
+                                            <Image
+                                                src={crew.profileUrl}
+                                                alt="채팅방 프로필"
+                                                width={50}
+                                                height={50}
+                                                className=" rounded-2xl w-[70px] h-[60px] object-cover "
+                                                priority
+                                            />
+                                        </div>
                                         <div className="w-full flex flex-col justify-center">
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center">
