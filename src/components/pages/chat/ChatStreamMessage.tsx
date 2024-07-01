@@ -72,6 +72,7 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
                     if (data.isSuccess) {
                         setMessages((prevMessages) => {
                             const newMessage = data.data as ChatMessageType
+                            console.log('newMessage:', newMessage)
 
                             const isDuplicate = prevMessages.some(
                                 (message) => message.createdAt === newMessage.createdAt,
@@ -125,9 +126,7 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
                 <div>
                     {messages.map((message, index) => (
                         <div key={index}>
-                            <div
-                                className={`flex ${message.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}
-                            >
+                            <div className={`flex ${message.uuid === auth.uuid ? 'justify-end' : 'justify-start'}`}>
                                 {message.uuid === auth.uuid ? (
                                     <ChatSender chat={message} />
                                 ) : (

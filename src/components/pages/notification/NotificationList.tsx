@@ -3,12 +3,13 @@ import TopSliderModal from '@/components/common/TopSliderModal'
 import Image from 'next/image'
 import Delete from '@/components/images/Delete'
 import DeleteNotification from '@/api/notification/deletenotification'
-import { on } from 'events'
 
 interface notificationData {
     notificationId: string
     content: string
     crewProfileUrl: string
+    crewName: string
+    createdAt: string
 }
 
 export default function NotificationList({
@@ -58,10 +59,31 @@ export default function NotificationList({
                                             className="rounded-xl w-[50px] h-[50px] object-cover "
                                             priority
                                         />
-                                        <div className="">{notification.content}.</div>
+                                        <div className="flex flex-col">
+                                            <div className="flex space-x-2 items-center ">
+                                                <p className=" whitespace-nowrap font-bold">{notification.crewName} </p>
+                                                <p className="text-xs  text-gray-400 whitespace-nowrap ">
+                                                    (
+                                                    {new Date(notification.createdAt).toLocaleTimeString('ko-KR', {
+                                                        year: 'numeric',
+                                                        month: 'numeric',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit',
+                                                    })}
+                                                    )
+                                                </p>
+                                            </div>
+                                            <p>{notification.content}.</p>
+                                        </div>
                                     </div>
-                                    <div className="w-4 h-4" onClick={() => handleDelete(notification.notificationId)}>
-                                        <Delete />
+                                    <div>
+                                        <div
+                                            className="w-4 h-4"
+                                            onClick={() => handleDelete(notification.notificationId)}
+                                        >
+                                            <Delete />
+                                        </div>
                                     </div>
                                 </div>
                             ))}
