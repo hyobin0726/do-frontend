@@ -9,6 +9,7 @@ export default async function SurveyPage({ searchParams }: { searchParams: { [ke
     const auth = await useGetServerToken()
 
     const surveyQuestions = await getSurveyQuestions(auth.token)
+    console.log('surveyQuestions', surveyQuestions)
 
     const surveyStep = Number(searchParams.step)
     const surveyFrom = Number(searchParams.from)
