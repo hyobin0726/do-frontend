@@ -13,7 +13,7 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
 
     return (
         <>
-            <MainHeader title="홈">
+            <MainHeader>
                 {regionList && baseRegionData && (
                     <RegionSelector baseRegionData={baseRegionData} regionList={regionList} />
                 )}

@@ -2,6 +2,7 @@ import Chat from '@/components/images/Chat'
 import Crew from '@/components/images/Crew'
 import Folder from '@/components/images/Folder'
 import Home from '@/components/images/Home'
+import Mypage from '@/components/images/Mypage'
 
 interface MainNavigationDataType {
     id: number
@@ -38,7 +39,7 @@ export const MainNavigationData: MainNavigationDataType[] = [
     {
         id: 5,
         title: '마이페이지',
-        icon: Crew,
+        icon: Mypage,
         url: '/mypage',
     },
 ]
