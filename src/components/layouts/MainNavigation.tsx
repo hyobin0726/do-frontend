@@ -30,7 +30,7 @@ const MainNavigation = () => {
                                 <div className="w-6">
                                     <item.icon isActive={isActive} />
                                 </div>
-                                <div className={`mt-1 whitespace-nowrap text-sm  ${activeColor}`}>{item.title}</div>
+                                <div className={`mt-1 whitespace-nowrap text-xs  ${activeColor}`}>{item.title}</div>
                             </Link>
                         </div>
                     )

@@ -7,6 +7,7 @@ import RegionAddInput from './RegionAddInput'
 import { KakaoMapRange } from '@/lib/KakaoMapRange'
 import RightArrow from '@/components/images/RightArrow'
 import { useGetClientToken } from '@/actions/useGetClientToken'
+import Loading from '@/components/common/Loading'
 
 interface positionType {
     latitude: number
@@ -23,6 +24,7 @@ export default function InitialRegionRegistration() {
     const [alertType, setAlertType] = useState<'question' | 'info' | 'error' | 'success' | 'warning'>('question')
     const [alertMessage, setAlertMessage] = useState<string>('')
     const [position, setPosition] = useState<positionType>({ latitude: 0, longitude: 0 })
+    const [loading, setLoading] = useState<boolean>(false)
 
     const auth = useGetClientToken()
     const router = useRouter()
@@ -73,6 +75,7 @@ export default function InitialRegionRegistration() {
 
     const handleInitialRegion = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setLoading(true)
         const res = await fetch(`${process.env.BASE_URL}/crew-service/v1/users/region/base`, {
             method: 'POST',
             headers: {
@@ -88,6 +91,7 @@ export default function InitialRegionRegistration() {
             }),
         })
         const data = await res.json()
+        setLoading(false)
         setAlertMessage(data.isSuccess ? '최초 활동지역이 등록되었습니다!' : data.message)
         setAlertType(data.isSuccess ? 'success' : 'error')
         handleAlert()
@@ -180,6 +184,7 @@ export default function InitialRegionRegistration() {
                     )}
                 </Alert>
             )}
+            {loading && <Loading />}
         </>
     )
 }

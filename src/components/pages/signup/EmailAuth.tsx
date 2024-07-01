@@ -2,6 +2,7 @@ import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect, Re
 import Input from '@/components/common/Input'
 import Clock from '@/components/images/Clock'
 import Alert from '@/components/common/Alert'
+import Loading from '@/components/common/Loading'
 
 interface EmailAuthProps {
     focusedIndex: number
@@ -41,6 +42,7 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
         const [alertMessage, setAlertMessage] = useState<string>('')
         const timerRef = useRef<NodeJS.Timeout | null>(null)
         const [seconds, setSeconds] = useState<number>(180)
+        const [loading, setLoading] = useState<boolean>(false)
 
         useEffect(() => {
             if (showEmailAuthInputContainer) {
@@ -105,6 +107,7 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
                 setIsAlertOpen(true)
                 return
             }
+            setLoading(true)
             const res = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/email/check`, {
                 method: 'POST',
                 headers: {
@@ -116,14 +119,15 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
                 }),
             })
             const data = await res.json()
-
             if (data.isSuccess === true) {
+                setLoading(false)
                 clearTimer()
                 emailAvailableHandler?.(true)
                 setAlertType('success')
                 setAlertMessage('이메일 인증이 완료되었습니다.')
                 setIsAlertOpen(true)
             } else {
+                setLoading(false)
                 emailAvailableHandler?.(false)
                 setAlertType('warning')
                 setAlertMessage('인증번호가 일치하지 않습니다.')
@@ -237,6 +241,7 @@ const EmailAuth = forwardRef<HTMLInputElement, EmailAuthProps>(
                         </div>
                     </Alert>
                 )}
+                {loading && <Loading />}
             </>
         )
     },

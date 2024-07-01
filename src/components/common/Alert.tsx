@@ -10,7 +10,7 @@ import InfoMark from '../images/InfoMark'
 import LoadingMark from '../images/LoadingMark'
 
 interface AlertProps {
-    type: 'question' | 'info' | 'error' | 'success' | 'warning' | 'loading'
+    type: 'question' | 'info' | 'error' | 'success' | 'warning'
     isAlertOpen: boolean
     children?: React.ReactNode
     background?: boolean
@@ -59,24 +59,18 @@ export default function Alert({ type, isAlertOpen, children, background }: Alert
                         }}
                     >
                         <div className="bg-white w-2/3 rounded-xl p-3 flex flex-col items-center divide-y-[1px]">
-                            {type === 'loading' ? (
-                                <div className="w-full h-[50px] my-10">
-                                    <LoadingMark width="100%" height="100%" />
+                            <>
+                                <div className="w-1/5 h-auto border-2 border-hobbing-red rounded-full my-3 p-1">
+                                    {type === 'question' && <QuestionMark />}
+                                    {type === 'info' && <InfoMark />}
+                                    {type === 'error' && <ErrorMark />}
+                                    {type === 'success' && <SuccessMark />}
+                                    {type === 'warning' && <WarninMark />}
                                 </div>
-                            ) : (
-                                <>
-                                    <div className="w-1/5 h-auto border-2 border-hobbing-red rounded-full my-3 p-1">
-                                        {type === 'question' && <QuestionMark />}
-                                        {type === 'info' && <InfoMark />}
-                                        {type === 'error' && <ErrorMark />}
-                                        {type === 'success' && <SuccessMark />}
-                                        {type === 'warning' && <WarninMark />}
-                                    </div>
-                                    <div className="w-full flex flex-col justify-center items-center border-t-[1px] py-5 space-y-5">
-                                        {children}
-                                    </div>
-                                </>
-                            )}
+                                <div className="w-full flex flex-col justify-center items-center border-t-[1px] py-5 space-y-5">
+                                    {children}
+                                </div>
+                            </>
                         </div>
                     </div>
                 </>

@@ -9,7 +9,11 @@ export default function Logout() {
         e.preventDefault()
         const data = await postLogout()
         console.log(data)
-        if (data.isSuccess) signOut()
+        if (data.isSuccess) {
+            signOut()
+        } else if (!data.isSuccess) {
+            alert('로그아웃에 실패했습니다.')
+        }
     }
 
     return (
