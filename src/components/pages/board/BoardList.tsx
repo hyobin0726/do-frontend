@@ -5,6 +5,10 @@ import { useRouter } from 'next/navigation'
 import { getCrewBoardList } from '@/api/board/BoardList'
 import Board from './Board'
 import LoadingMark from '@/components/images/LoadingMark'
+import { useChatRoomStore } from '@/hooks/useChatRoleStore'
+import { useGetClientToken } from '@/actions/useGetClientToken'
+import { CrewMemberType } from '@/type/CrewType'
+import { GetCrewMember } from '@/api/crew/getCrewMember'
 
 interface BoardListIds {
     boardId: string
@@ -25,8 +29,27 @@ export default function BoardList({
     const [isLast, setIsLast] = useState<boolean>(lastPage)
     const [currentPage, setCurrentPage] = useState<number>(0)
     const router = useRouter()
-
+    const auth = useGetClientToken()
     const loader = useRef<HTMLDivElement | null>(null)
+
+    const [members, setMembers] = useState<CrewMemberType[]>([])
+    const { setUserRole: setUserRole } = useChatRoomStore()
+
+    useEffect(() => {
+        const fetchMembers = async () => {
+            try {
+                const membersData: CrewMemberType[] = await GetCrewMember({ crewId })
+                setMembers(membersData)
+                const user = membersData.find((member) => member.uuid === auth.uuid)
+                if (user) {
+                    setUserRole(user.role)
+                }
+            } catch (error) {
+                console.error('Error fetching members:', error)
+            }
+        }
+        fetchMembers()
+    }, [crewId])
 
     const loadMoreItems = useCallback(async () => {
         if (isFetching || isLast) return

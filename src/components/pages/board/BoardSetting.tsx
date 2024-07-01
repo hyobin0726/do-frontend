@@ -6,6 +6,7 @@ import SliderModal from '@/components/common/SliderModal'
 import Delete from '@/components/images/Delete'
 import Modify from '@/components/images/Modify'
 import Pin from '@/components/images/pin'
+import { useChatRoomStore } from '@/hooks/useChatRoleStore'
 import { useRouter } from 'next/navigation'
 
 export default function BoardSetting({
@@ -20,6 +21,7 @@ export default function BoardSetting({
     boardPin: boolean
 }) {
     const router = useRouter()
+    const { userRole } = useChatRoomStore()
 
     const handlepin = async () => {
         let result
@@ -54,15 +56,17 @@ export default function BoardSetting({
             <SliderModal isModalOpen={isModalOpen} onChangeModal={modalController} backgroundClose={true} bottom={true}>
                 <div className="w-full bg-white h-36">
                     <div className="w-full flex flex-col items-center space-y-3 ">
-                        <div
-                            className="w-full flex justify-center items-center border-b border-gray-300 space-x-2 h-8"
-                            onClick={handlepin}
-                        >
-                            <div className="w-4 h-4">
-                                <Pin />
+                        {(userRole === 1 || userRole === 3) && (
+                            <div
+                                className="w-full flex justify-center items-center border-b border-gray-300 space-x-2 h-8"
+                                onClick={handlepin}
+                            >
+                                <div className="w-4 h-4">
+                                    <Pin />
+                                </div>
+                                <p className="text-[18px] text-center text-gray-600">고정</p>
                             </div>
-                            <p className="text-[18px] text-center text-gray-600">고정</p>
-                        </div>
+                        )}
                         <div
                             className="w-full flex justify-center items-center border-b border-gray-300 space-x-2 h-8 "
                             onClick={handleModify}

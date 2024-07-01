@@ -50,12 +50,11 @@ export default function ChatMenuModal({
                                 </div>
                                 <p className="text-[#F76D67]">채팅방 나가기</p>
                             </button>
-                            {/* {userRole === 1 && ( */}
-
-                            <Link href={`/crewsetting/${crewId}`} passHref scroll={false} className="w-5 h-5">
-                                <Setting />
-                            </Link>
-                            {/* )} */}
+                            {(userRole === 1 || userRole === 3) && (
+                                <Link href={`/crewsetting/${crewId}`} passHref scroll={false} className="w-5 h-5">
+                                    <Setting />
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>

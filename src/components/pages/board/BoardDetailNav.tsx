@@ -9,13 +9,13 @@ export default function BoardDetailNav() {
                 <div className="flex-1 text-center ">
                     <p className="font-semibold">상세보기</p>
                 </div>
-                <img
+                {/* <img
                     width="25"
                     height="25"
                     src="https://img.icons8.com/ios-glyphs/30/more.png"
                     alt="더보기"
                     className="ml-auto"
-                />
+                /> */}
             </div>
         </nav>
     )
