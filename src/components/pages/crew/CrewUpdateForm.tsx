@@ -97,23 +97,25 @@ export default function CrewUpdateForm({ data }: { data: CrewInfoType }) {
                 )}
             </div>
 
-            <div className="space-y-3 w-full mt-4">
-                <div className="space-x-1 mb-2">
+            <div className="space-y-3 w-full mt-2">
+                <div className="space-x-1">
                     {hashTags.length > 0 &&
-                        hashTags.map((hashTag, idx) => (
-                            <div
-                                key={idx}
-                                className="inline-block bg-hobbing-red text-white px-4 py-2 rounded-md relative"
-                            >
-                                # {hashTag}
-                                <button
-                                    className="absolute top-0  right-1 text-white rounded-full"
-                                    onClick={(e) => handleHashTagDelete(e, idx)}
+                        hashTags.map((hashTag, idx) => {
+                            return (
+                                <div
+                                    key={idx}
+                                    className="inline-block bg-hobbing-pink text-white text-[15px] font-medium px-5 py-2 my-1 rounded-lg relative"
                                 >
-                                    <p className="text-xs">X</p>
-                                </button>
-                            </div>
-                        ))}
+                                    # {hashTag}
+                                    <button
+                                        className="absolute top-1 right-2 text-white rounded-full"
+                                        onClick={(e) => handleHashTagDelete(e, idx)}
+                                    >
+                                        <p className="text-[10px]">X</p>
+                                    </button>
+                                </div>
+                            )
+                        })}
                 </div>
 
                 <input
@@ -144,6 +146,7 @@ export default function CrewUpdateForm({ data }: { data: CrewInfoType }) {
                             value={0}
                             checked={selectedJoinType === 0}
                             onChange={handleJoinTypeChange}
+                            className="accent-hobbing-red w-3 h-3 border-hobbing-red "
                         />
                         <label htmlFor="public" className="text-sm text-gray-700">
                             자유 가입
@@ -157,6 +160,7 @@ export default function CrewUpdateForm({ data }: { data: CrewInfoType }) {
                             value={1}
                             checked={selectedJoinType === 1}
                             onChange={handleJoinTypeChange}
+                            className="accent-hobbing-red w-3 h-3 border-hobbing-red "
                         />
                         <label htmlFor="private" className="text-sm text-gray-700">
                             신청 가입

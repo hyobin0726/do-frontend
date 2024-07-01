@@ -76,14 +76,18 @@ export default function CrewCreateSelect() {
                 </button>
                 {selectedAddress && <input type="hidden" name="regionId" value={selectedAddress.regionId} />}
                 {addressOpen && (
-                    <div id="dropdown" className="z-10 bg-white rounded-lg shadow  border absolute mt-12 w-[40dvw]  ">
+                    <div id="dropdown" className="z-10 bg-white rounded-lg shadow  border absolute mt-12 w-[43dvw]">
                         <div>
                             {address?.map((address) => (
                                 <div key={address.regionId}>
-                                    <ul className="py-2 text-sm text-gray-700 ">
+                                    <ul className="px-2 py-1 text-sm text-gray-700 ">
                                         <li>
                                             <span
-                                                className="block px-4 py-2 hover:bg-gray-100"
+                                                className={`block px-2 py-3 rounded-md hover:bg-hobbing-bg-pink/50 ${
+                                                    selectedAddress && selectedAddress.regionId == address.regionId
+                                                        ? 'bg-hobbing-bg-pink/50'
+                                                        : ''
+                                                }`}
                                                 onClick={() =>
                                                     handleAddressClick(address.addressName, address.regionId)
                                                 }
@@ -127,14 +131,18 @@ export default function CrewCreateSelect() {
                 </button>
                 {selectedHobby && <input type="hidden" name="hobbyId" value={selectedHobby.hobbyId} />}
                 {hobbyOpen && (
-                    <div id="dropdown" className=" z-10 bg-white rounded-lg shadow border absolute mt-12 w-[40dvw] ">
+                    <div id="dropdown" className=" z-10 bg-white rounded-lg shadow border absolute mt-12 w-[43dvw]">
                         <div>
                             {hobby?.map((hobby) => (
                                 <div key={hobby.hobbyId}>
-                                    <ul className="py-2 text-sm text-gray-700">
+                                    <ul className="px-2 py-1 text-sm text-gray-700">
                                         <li>
                                             <span
-                                                className="block px-4 py-2 hover:bg-gray-100"
+                                                className={`block px-2 py-3 rounded-md hover:bg-hobbing-bg-pink/50 ${
+                                                    selectedHobby && selectedHobby.hobbyId == hobby.hobbyId
+                                                        ? 'bg-hobbing-bg-pink/50'
+                                                        : ''
+                                                }`}
                                                 onClick={() => handleHobbyClick(hobby.hobbyName, hobby.hobbyId)}
                                             >
                                                 {hobby.hobbyName}
