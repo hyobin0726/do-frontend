@@ -8,7 +8,7 @@ import Image from 'next/image'
 export default function BoardImage({ imageUrls }: { imageUrls: string[] }) {
     return (
         <section>
-            <Swiper pagination={{ clickable: true }} modules={[Pagination]} className="w-full max-w-lg">
+            <Swiper pagination={{ clickable: true }} modules={[Pagination]} className="w-full max-w-lg mb-4">
                 {imageUrls?.map((img, index) => (
                     <SwiperSlide key={index}>
                         <Image

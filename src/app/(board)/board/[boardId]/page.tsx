@@ -8,6 +8,7 @@ import { BoardType } from '@/type/BoardType'
 export default async function Board({ params }: { params: { boardId: string } }) {
     const boardId: string = params.boardId
     const board: BoardType = await ReadBoard(boardId)
+    // console.log(board,'상세')
 
     return (
         <main className="space-y-3  h-[calc(100dvh-130px)] overflow-y-scroll ">

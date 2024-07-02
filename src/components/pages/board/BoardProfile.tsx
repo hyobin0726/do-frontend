@@ -16,7 +16,7 @@ export default function BoardProfile({
                 <p className="font-medium">{writerName}</p>
                 <div className="flex space-x-1">
                     <p className="text-sm">
-                        {new Date(createdAt).toLocaleTimeString('ko-KR', {
+                        {new Date(createdAt).toLocaleTimeString('default', {
                             year: 'numeric',
                             month: 'numeric',
                             day: 'numeric',

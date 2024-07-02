@@ -18,7 +18,7 @@ export default async function BoardModify({ params }: { params: { boardId: strin
 
     async function handlePostBoard(formData: FormData) {
         'use server'
-        const crewId = formData.get('crewId')
+        // const crewId = formData.get('crewId')
         const content = formData.get('content')
         const imageUrls = formData.get('imageUrls') as string | null
 
@@ -28,12 +28,12 @@ export default async function BoardModify({ params }: { params: { boardId: strin
             content,
             imageUrls: parsedImageUrls,
         }
-        console.log(rowFormData)
+        // console.log(rowFormData)
 
         const response = await PutBoard(boardId as string, rowFormData)
         if (response.isSuccess === true) {
             console.log('게시글 작성 완료')
-            redirect('/boardlist')
+            redirect(`/boardlist`)
         } else {
             console.error('게시글 작성 실패:')
         }
@@ -41,7 +41,7 @@ export default async function BoardModify({ params }: { params: { boardId: strin
     return (
         <form action={handlePostBoard}>
             <BoardWritingNav />
-            <BoardwritingSelect crewList={crewList} crewId={board.crewId} />
+            {/* <BoardwritingSelect crewList={crewList} crewId={board.crewId} /> */}
             <BoardContent boardContent={board.content} />
             <BoardWritingBottom boardImage={board.imageUrls} />
         </form>

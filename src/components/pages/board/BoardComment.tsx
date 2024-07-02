@@ -2,7 +2,7 @@
 import { GetBoardComment } from '@/api/board/boardcomment'
 import LoadingMark from '@/components/images/LoadingMark'
 import MoreInfo from '@/components/images/MoreInfo'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import CommentSetting from './CommentSetting'
 import { useGetClientToken } from '@/actions/useGetClientToken'
 import { PostComment } from '@/api/board/postComment'
@@ -27,6 +27,7 @@ function BoardComment({ boardId }: { boardId: string }) {
     const auth = useGetClientToken()
     const [message, setMessage] = useState<string>('')
     const [commentFlag, setCommentFlag] = useState<boolean>(false)
+    const messagesEndRef = useRef<null | HTMLDivElement>(null)
 
     const handleSendMsg = async () => {
         const trimmedMessage = message.trim()
@@ -75,6 +76,11 @@ function BoardComment({ boardId }: { boardId: string }) {
     const handleDeleteComment = (commentId: string) => {
         setCommentList((prev) => prev.filter((comment) => comment.commentId !== commentId))
     }
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+        }
+    }, [CommentList])
     return (
         <section className="space-y-3 ">
             {loading && (
@@ -89,7 +95,6 @@ function BoardComment({ boardId }: { boardId: string }) {
                     </button>
                 </div>
             )}
-
             {CommentList.map((comment, idx) => (
                 <div key={idx} className="space-y-2 border-b-[0.5px] py-2 p-3">
                     <div className="flex items-center mt-2 justify-between">
@@ -128,6 +133,7 @@ function BoardComment({ boardId }: { boardId: string }) {
                     )}
                 </div>
             ))}
+            <div ref={messagesEndRef} /> {/* messagesEndRef가 참조하는 요소 */}
             <form className="fixed bottom-0 w-full z-[1000] h-[80px]  bg-white" onSubmit={handleSendMsg}>
                 <div className="flex justify-between items-center p-2">
                     <input

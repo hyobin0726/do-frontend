@@ -6,6 +6,7 @@ import BoardLike from '@/components/images/BoardLike'
 import BoardComment from '@/components/images/BoardCommet'
 import BoardUnLike from '@/components/images/BoardUnLike'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 export default function BoardLikeAndComment({
     boardId,
@@ -60,12 +61,14 @@ export default function BoardLikeAndComment({
                     )}
                     <p className="flex ">{likeCount}</p>
                 </button>
-                <button className="flex justify-center items-center">
-                    <div className=" w-5 h-5 mr-1">
-                        <BoardComment />
-                    </div>
-                    <p>{commentCount}</p>
-                </button>
+                <Link href={`/board/${boardId}`} passHref scroll={false}>
+                    <button className="flex justify-center items-center">
+                        <div className=" w-5 h-5 mr-1">
+                            <BoardComment />
+                        </div>
+                        <p>{commentCount}</p>
+                    </button>
+                </Link>
             </div>
         </section>
     )
