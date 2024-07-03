@@ -38,6 +38,8 @@ export default function CreateCrew() {
         const res = await createCrewFormAction(payloadFormData)
         if (res.isSuccess) {
             router.push('/crew')
+        } else {
+            alert(res.message)
         }
     }
 
