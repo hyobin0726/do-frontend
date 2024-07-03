@@ -22,11 +22,9 @@ export default async function BoardWriting() {
             content,
             imageUrls: parsedImageUrls,
         }
-        console.log(rowFormData)
 
         const response = await PostBoard(crewId as string, rowFormData)
         if (response.isSuccess === true) {
-            console.log('게시글 작성 완료')
             redirect('/boardlist')
         } else {
             console.error('게시글 작성 실패:')
@@ -41,21 +39,4 @@ export default async function BoardWriting() {
             <BoardWritingBottom boardImage={[]} />
         </form>
     )
-}
-{
-    /* {isAlertOpen && (
-                <Alert type="info" isAlertOpen={isAlertOpen}>
-                    <p className="font-Pretendard text-balance text-center text-[15px] leading-loose">
-                        내용을 입력해주세요.
-                    </p>
-                    <button
-                        onClick={() => {
-                            setIsAlertOpen(false)
-                        }}
-                        className="w-[100px] h-[50px] bg-hobbing-red rounded-xl font-Pretendard text-[13px] text-white font-medium px-3"
-                    >
-                        닫기
-                    </button>
-                </Alert>
-            )} */
 }

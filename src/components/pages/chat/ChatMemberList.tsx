@@ -11,7 +11,6 @@ export default function ChatMemberList({ crewId }: { crewId: string }) {
     const [members, setMembers] = useState<CrewMemberType[]>([])
     const { setUserRole: setUserRole } = useChatRoomStore()
 
-    // console.log(auth.uuid)
     useEffect(() => {
         const fetchMembers = async () => {
             try {
@@ -27,7 +26,6 @@ export default function ChatMemberList({ crewId }: { crewId: string }) {
         }
         fetchMembers()
     }, [crewId])
-    console.log('members:', members)
 
     return (
         <ul className=" space-y-3">

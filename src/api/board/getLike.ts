@@ -14,9 +14,7 @@ export async function GetLike(boardId: string) {
         },
     )
     const data = await response.json()
-    if (data.isSuccess === true) {
-        // console.log('좋아요 불러오기', data)
-    } else {
+    if (!data.isSuccess) {
         console.error('좋아요 불러오는데 실패했습니다.')
     }
     return data

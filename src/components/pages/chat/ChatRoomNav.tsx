@@ -46,9 +46,7 @@ export default function ChatRoomNav() {
                 body: JSON.stringify(BodyData),
                 cache: 'force-cache',
             })
-            if (response.ok) {
-                console.log('Last message info sent successfully')
-            } else {
+            if (!response.ok) {
                 console.error('Failed to send last message info')
             }
         } catch (error) {
@@ -58,29 +56,24 @@ export default function ChatRoomNav() {
     const handleDeleteCrew = async () => {
         const withdrawal = await crewWithdrawal(params.crewId)
         if (withdrawal.isSuccess) {
-            console.log('크루 탈퇴 완료 응답 데이터:', withdrawal)
             router.push('/chat')
         } else {
             console.error('크루 탈퇴 실패:', withdrawal.message)
             setIsManager(true)
         }
     }
-    // console.log('퇴장', event.toISOString())
+
     useEffect(() => {
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
             event.preventDefault()
             disconnectChat()
         }
         window.addEventListener('beforeunload', handleBeforeUnload)
-        // return () => {
-        //     window.removeEventListener('beforeunload', handleBeforeUnload)
-        // }
     }, [])
 
     return (
         <nav>
             <div className="bg-white drop-shadow-sm bg-opacity-50 py-4 px-2 h-[70px] sticky top-0 z-[100]">
-
                 <div className="relative  mx-auto px-2 flex items-center">
                     <div onClick={() => disconnectChat()}>
                         <RouterBackArrowButton />

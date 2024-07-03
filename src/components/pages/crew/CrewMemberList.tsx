@@ -24,12 +24,10 @@ export default function CrewMemberList({
     const handleMemberDelete = async () => {
         try {
             await postMemberExit({ crewId, outUuid: selectedMember })
-            console.log('Member exit response:')
         } catch (error) {
             console.error('Error while deleting member:', error)
         }
     }
-    // console.log('members:', members)
     return (
         <section>
             {members.map((member, idx) => (

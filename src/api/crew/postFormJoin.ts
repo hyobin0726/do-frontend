@@ -24,7 +24,6 @@ export default async function postFormJoin(crewId: number, joinInfo: crewJoinFor
         body: JSON.stringify(joinInfo),
     })
     const data = await res.json()
-    console.log(data)
     if (data.isSuccess) {
         revalidateTag('suggestionCrewList')
     }

@@ -4,7 +4,6 @@ import { CrewType } from '@/type/CrewType'
 
 export default async function ChatPage() {
     const crewList: CrewType[] = await getCrewList()
-    // console.log('crewList:', crewList)
 
     return (
         <div className=" bg-[#FBFBFD] h-[calc(100dvh-140px)] overflow-y-scroll scrollbar-hide">

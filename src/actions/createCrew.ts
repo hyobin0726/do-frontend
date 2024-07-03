@@ -27,11 +27,8 @@ export async function createCrewFormAction(formData: FormData) {
         const responseData = await response.json()
 
         if (response.ok && responseData.isSuccess) {
-            console.log('크루 생성 완료 응답 데이터:', responseData)
             return responseData
         } else {
-            console.error('크루 생성 실패:', responseData.message)
-
             return responseData
         }
     } catch (error) {

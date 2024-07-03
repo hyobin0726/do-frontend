@@ -113,7 +113,6 @@ async function uploadImageToS3(imageFile: File): Promise<string | null> {
 
         const data = await response.json()
         if (response.ok && data.message === 'OK') {
-            console.log('이미지 저장 완료', data.imgUrl)
             return data.imgUrl
         } else {
             console.error('이미지 저장 실패:', data.error)

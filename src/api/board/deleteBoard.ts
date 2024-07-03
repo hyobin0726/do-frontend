@@ -13,7 +13,6 @@ export async function deleteBoard(boardId: string) {
     })
     const data = await response.json()
     if (data.isSuccess) {
-        console.log('Board delete response:', data)
         redirect('/boardlist')
     }
 

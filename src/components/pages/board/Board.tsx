@@ -24,7 +24,6 @@ export default function Board({ boardId }: { boardId: string }) {
         }
         fetchBoard()
     }, [boardId])
-    // console.log(board, '리스트')
 
     const modalController = () => {
         setIsModalOpen(!isModalOpen)

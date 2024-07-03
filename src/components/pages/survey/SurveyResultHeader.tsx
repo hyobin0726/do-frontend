@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Close from '@/components/images/Close'
 
 export default function SurveyResultHeader({ type }: { type: string }) {
-    console.log(type)
     return (
         <header className="bg-white drop-shadow-sm sticky top-0 z-[400]">
             <nav className="relative w-full h-[60px] flex items-center">

@@ -37,7 +37,6 @@ function BoardComment({ boardId }: { boardId: string }) {
         }
         const result = await PostComment(boardId, bodyData)
         if (result && result.isSuccess) {
-            console.log('댓글 작성 완료')
             setCommentFlag(true)
             setMessage('')
         } else {

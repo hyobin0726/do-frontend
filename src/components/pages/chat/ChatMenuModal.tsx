@@ -23,7 +23,6 @@ export default function ChatMenuModal({
         setIsAlertOpen(true)
     }
     const { userRole } = useChatRoomStore()
-    // console.log('userRole:', userRole)
 
     return (
         <section>

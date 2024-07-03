@@ -17,11 +17,9 @@ export async function PutCrew(rowFormData: any, crewId: string) {
         const responseData = await response.json()
 
         if (response.ok && responseData.isSuccess) {
-            console.log('크루 수정 완료 응답 데이터:', responseData)
             return
         } else {
             console.error('크루 수장 실패:', responseData.message)
-
             return
         }
     } catch (error) {

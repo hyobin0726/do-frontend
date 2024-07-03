@@ -16,7 +16,6 @@ export const options: NextAuthOptions = {
             },
             async authorize(credentials, req) {
                 if (!credentials?.loginId || !credentials?.password) {
-                    console.log('credentials is null')
                     return null
                 }
                 try {

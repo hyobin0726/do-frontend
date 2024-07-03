@@ -34,7 +34,6 @@ export default function SurveyAnswer({
             // 답변을 초기화할 때 sessionStorage에서 삭제
             setAnswer(null)
             if (typeof window !== 'undefined') {
-                console.log('clear answer')
                 sessionStorage.removeItem(`surveyStep${surveyStep}`)
             }
             setIsDisabled(true)

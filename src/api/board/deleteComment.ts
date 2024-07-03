@@ -16,7 +16,6 @@ export async function deleteComment(commentId: string) {
     )
     const data = await response.json()
     if (data.isSuccess) {
-        console.log('comment delete response:', data)
         revalidateTag('comment')
     }
 

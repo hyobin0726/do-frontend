@@ -24,7 +24,6 @@ export default function ChatRoomPage({ params }: { params: { crewId: string } })
         }
         fetchCrewMembers()
     }, [crewId])
-    // console.log(currentPage, 'currentPage')
 
     useEffect(() => {
         const observer = new IntersectionObserver(

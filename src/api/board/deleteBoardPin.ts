@@ -16,11 +16,8 @@ export async function deleteBoardPin(boardId: string) {
         },
     )
     const data = await response.json()
-    console.log(data)
-    if (data.isSuccess) {
-        console.log('Board delete response:', data)
-        redirect('/boardlist')
-    } else {
+
+    if (!data.isSuccess) {
         console.log('Board delete response:', error)
     }
 

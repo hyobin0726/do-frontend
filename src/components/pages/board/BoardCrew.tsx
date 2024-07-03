@@ -9,7 +9,6 @@ export default function BoardCrew({
     isClicked: boolean
     onClick?: () => void
 }) {
-    // console.log(isClicked, 'isClicked')
     return (
         <>
             <li className="flex flex-col items-center " onClick={onClick}>

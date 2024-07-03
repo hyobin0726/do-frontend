@@ -23,7 +23,6 @@ export default function BoardLikeAndComment({
         const fetchLike = async () => {
             const getLike = await GetLike(boardId)
             setLike(getLike.data.isLiked)
-            // console.log('좋아요 상태', getLike.data.isLiked)
         }
         fetchLike()
     }, [boardId])

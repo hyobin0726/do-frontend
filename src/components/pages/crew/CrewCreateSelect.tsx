@@ -45,7 +45,6 @@ export default function CrewCreateSelect() {
         setSelectedHobby({ hobbyName, hobbyId })
         setHobbyOpen(false)
     }
-    // console.log(selectedAddress, 'address')
     return (
         <div className="flex justify-center gap-x-2 w-full">
             <div className="flex w-full">

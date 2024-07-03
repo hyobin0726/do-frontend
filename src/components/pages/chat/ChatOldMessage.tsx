@@ -39,8 +39,6 @@ export default function ChatOldMessage({
     const [lastPage, setLastPage] = useState<number>(Infinity)
     const [prevScrollHeight, setPrevScrollHeight] = useState<number | null>(null)
     const auth = useGetClientToken()
-    // console.log('auth:', auth.token)
-    //  이전내역 조회
 
     useEffect(() => {
         if (!auth.token) return
@@ -65,7 +63,6 @@ export default function ChatOldMessage({
                 if (response.ok) {
                     const data: { data: OldMessagesType } = await response.json()
                     if (data.data.chatList.length > 0) {
-                        // console.log('data:', data.data)
                         if (currentPage === 0) {
                             setOldMessages(data.data.chatList)
                             if (chatContainerRef.current) {
@@ -90,7 +87,6 @@ export default function ChatOldMessage({
                         }
                         setLastPage(data.data.lastPage)
                     } else {
-                        console.log('마지막페이지임')
                         return
                     }
                 } else {
@@ -105,10 +101,6 @@ export default function ChatOldMessage({
         fetchOldMessages()
     }, [currentPage, params.crewId, prevScrollHeight, chatContainerRef, setIsFetching, lastPage, auth.token])
 
-    // console.log(lastPage, 'last')
-    // console.log(currentPage, 'current')
-    // console.log('getOldMessages:', oldMessages)
-    // console.log('crewMembers:', crewMembers)
     return (
         <section>
             {oldMessages &&

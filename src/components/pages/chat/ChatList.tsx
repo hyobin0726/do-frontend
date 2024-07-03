@@ -30,7 +30,6 @@ function ChatList({ crewList }: { crewList: CrewType[] }) {
         try {
             const response = await getChatList()
             setChatList(response.data)
-            // console.log(response.data, '채팅방 리스트 클라이언트')
         } catch (error) {
             console.error('Error fetching chat rooms:', error)
         }
@@ -54,7 +53,6 @@ function ChatList({ crewList }: { crewList: CrewType[] }) {
             )
             eventSource.onmessage = (event) => {
                 const newMessage = event.data
-                console.log(newMessage)
                 setAction(!action)
             }
 

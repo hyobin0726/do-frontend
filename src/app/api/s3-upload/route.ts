@@ -22,16 +22,8 @@ export async function POST(req: Request) {
                 ContentType: 'image',
             }),
         )
-        // const imgUrl = await getSignedUrl(
-        //     s3Client,
-        //     new GetObjectCommand({
-        //         Bucket: process.env.AWS_S3_BUCKET_NAME as string,
-        //         Key: fileName,
-        //     }),
-        //     { expiresIn: 604800 },
-        // )
+
         const imgUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/${fileName}`
-        console.log(imgUrl)
 
         return Response.json({ message: 'OK', imgUrl: imgUrl })
     } catch (error) {
