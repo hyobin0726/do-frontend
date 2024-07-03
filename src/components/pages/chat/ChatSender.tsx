@@ -9,14 +9,16 @@ export default function ChatSender({ chat }: { chat: chatsType }) {
     return (
         <section>
             {chat.text && (
-                <div className="flex flex-row m-2">
+                <div className="flex flex-row m-2 justify-end">
                     <div className="text-gray-500 text-sm mr-2 self-end">
                         {new Date(chat.createdAt).toLocaleTimeString('ko-KR', {
                             hour: '2-digit',
                             minute: '2-digit',
                         })}
                     </div>
-                    <div className="bg-hobbing-red text-white py-2 px-4 rounded-lg text-end w-auto justify-end">
+                    <div
+                        className={`bg-hobbing-red text-white py-2 px-4 rounded-lg text-start ${chat.text.length > 20 ? 'w-2/3' : 'w-auto'} justify-end`}
+                    >
                         {chat.text}
                     </div>
                 </div>

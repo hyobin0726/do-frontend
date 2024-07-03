@@ -67,12 +67,14 @@ export default function ChatReceiver({
                             alt="Profile"
                             width={500}
                             height={500}
-                            className="rounded-full w-10 h-10 "
+                            className="rounded-full w-10 h-10"
                         />
                         <p className="text-gray-600 ml-2">{name}</p>
                     </div>
-                    <div className="flex flex-row m-3">
-                        <div className="bg-white border border-[#E5EBEF] text-gray-800 py-2 px-4 rounded-lg w-fit justify-start">
+                    <div className="flex flex-row m-2 justify-start">
+                        <div
+                            className={`bg-white border border-[#E5EBEF] text-gray-800 py-2 px-4 rounded-lg ${chat.text.length > 20 ? 'w-2/3' : 'w-auto'} justify-start`}
+                        >
                             {chat.text}
                         </div>
                         <div className="text-gray-500 text-sm ml-2 self-end">
