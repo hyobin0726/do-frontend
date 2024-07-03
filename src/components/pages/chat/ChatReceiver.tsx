@@ -26,7 +26,6 @@ export default function ChatReceiver({
     const name = member ? member.name : '(알 수 없음)'
     const profile = member ? member.profileUrl : nonUser
     const otherUuid = member ? member.uuid : ''
-    // console.log('member:', member)
 
     const [isModalOpen, setIsModalOpen] = useState(false)
 

@@ -8,7 +8,6 @@ export default function BoardNav({ crew, selectedCrewId }: { crew: CrewType[]; s
     const handleClick = (crewId: string) => {
         router.push(`/boardlist/${crewId}?page=0`)
     }
-    // console.log(selectedCrewId)
 
     return (
         <>

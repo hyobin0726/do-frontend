@@ -65,9 +65,7 @@ export default function ChatBottom() {
                 body: JSON.stringify(bodyData),
             })
 
-            if (response.ok) {
-                console.log('Message sent to server successfully')
-            } else {
+            if (!response.ok) {
                 console.error('Failed to send message to server')
             }
         } catch (error) {

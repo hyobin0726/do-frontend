@@ -45,7 +45,6 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
                     throw new Error(`Error: ${response.status}`)
                 }
                 const data = await response.json()
-                // console.log('data:', data)
                 return data
             } catch (error) {
                 console.error('Failed to connect to chat:', error)
@@ -73,7 +72,6 @@ export default function ChatStreamMessage({ crewMembers }: { crewMembers: CrewMe
                     if (data.isSuccess) {
                         setMessages((prevMessages) => {
                             const newMessage = data.data as ChatMessageType
-                            // console.log('newMessage:', newMessage)
 
                             const isDuplicate = prevMessages.some(
                                 (message) => message.createdAt === newMessage.createdAt,

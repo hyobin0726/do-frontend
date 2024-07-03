@@ -17,9 +17,7 @@ export async function postMemberExit({ crewId, outUuid }: { crewId: string; outU
     })
     const data = await res.json()
     if (data.isSuccess) {
-        console.log('Member exit response:', data)
         revalidateTag('memberRefresh')
     }
-    console.log('data:', data)
     return data
 }

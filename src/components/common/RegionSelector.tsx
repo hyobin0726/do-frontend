@@ -37,7 +37,6 @@ export default function RegionSelector({
             return
         }
         const data = await postBaseRegion(regionId)
-        console.log('Region changed:', data)
         router.refresh()
     }
 

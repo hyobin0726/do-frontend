@@ -20,7 +20,6 @@ function BoardBottom() {
 
         const result = await PostComment(params.boardId, bodyData)
         if (result && result.isSuccess) {
-            console.log('댓글 작성 완료')
             setMessage('')
         } else {
             console.error('댓글 작성 실패:', result)

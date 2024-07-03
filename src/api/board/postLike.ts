@@ -15,9 +15,7 @@ export async function PostLike(boardId: string) {
         },
     )
     const data = await response.json()
-    if (data.isSuccess === true) {
-        console.log('좋아요 성공', data)
-    } else {
+    if (!data.isSuccess) {
         console.error('좋아요 성공 에러.', error)
     }
     return data

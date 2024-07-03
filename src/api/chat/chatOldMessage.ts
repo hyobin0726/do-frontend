@@ -10,7 +10,6 @@ export async function getChatOldMessage(crewId: string, page: number) {
             Authorization: `${auth.token}`,
         },
     })
-    // const data = await response.json()
-    // console.log(data.data)
+
     return response
 }

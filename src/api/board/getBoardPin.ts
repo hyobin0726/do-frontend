@@ -11,9 +11,7 @@ export async function GetBoardPin(crewId: string) {
         },
     })
     const data = await response.json()
-    if (data.isSuccess === true) {
-        // console.log('고정 게시글을 불러왔습니다.', data)
-    } else {
+    if (!data.isSuccess) {
         console.error('고정 게시글을 불러오는데 실패했습니다.')
     }
     return data.data

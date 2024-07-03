@@ -11,9 +11,7 @@ export async function ReadBoard(boardId: string) {
         },
     })
     const data = await response.json()
-    if (data.isSuccess === true) {
-        // console.log('게시글 상세 불러왔습니다.', data.data)
-    } else {
+    if (!data.isSuccess) {
         console.error('게시글 상세 불러오는데 실패했습니다.', data.message)
     }
     return data.data

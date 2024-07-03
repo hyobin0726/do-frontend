@@ -55,7 +55,6 @@ export default function SignupButton({
         setLoading(true)
 
         if (externalId) {
-            console.log('외부 로그인 정보:', externalId)
             const signUpResponse = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/sign-up`, {
                 method: 'POST',
                 headers: {
@@ -88,7 +87,6 @@ export default function SignupButton({
                 return
             }
         } else {
-            console.log('일반 로그인 정보:')
             const signUpResponse = await fetch(`${process.env.BASE_URL}/auth-service/v1/non-users/sign-up`, {
                 method: 'POST',
                 headers: {

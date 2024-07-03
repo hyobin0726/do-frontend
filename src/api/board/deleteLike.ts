@@ -15,9 +15,7 @@ export async function DeleteLike(boardId: string) {
         },
     )
     const data = await response.json()
-    if (data.isSuccess === true) {
-        console.log('좋아요 삭제.', data)
-    } else {
+    if (!data.isSuccess) {
         console.error('좋아요 삭제 에러', error)
     }
     return data

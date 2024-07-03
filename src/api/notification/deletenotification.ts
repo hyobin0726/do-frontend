@@ -13,6 +13,5 @@ export default async function DeleteNotification(notificationId: string) {
         },
     })
     const data = await res.json()
-    console.log(data)
     return data
 }

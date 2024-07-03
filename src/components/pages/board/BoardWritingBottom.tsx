@@ -23,12 +23,10 @@ const uploadImageToS3 = async (file: File): Promise<string | null> => {
 }
 
 function BoardWritingBottom({ boardImage }: { boardImage: string[] }) {
-    // console.log(boardImage)
     const multiRef = useRef<HTMLInputElement>(null)
     const [multiImages, setMultiImages] = useState<Array<File>>([])
     const [imageUrls, setImageUrls] = useState<string[]>(boardImage || []) // 이미지 URL을 저장할 상태
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
-    // console.log(imageUrls)
     const multiFileHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const uploadedFiles = Array.from((event.target as HTMLInputElement).files as FileList)
         const existingFileNames = new Set(multiImages.map((file) => file.name))

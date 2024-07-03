@@ -13,9 +13,7 @@ export default async function DeleteCrewRefuse({ joinFormId }: { joinFormId: str
     })
     const data = await res.json()
     if (data.isSuccess) {
-        console.log('Member exit response:', data)
         revalidateTag('crewMemberRefresh')
     }
-    console.log('data:', data)
     return data
 }

@@ -6,7 +6,7 @@ import CrewCreateButton from '@/components/pages/crew/CrewCreateButton'
 import { createCrewFormAction } from '@/actions/createCrew'
 import { useRef, useState } from 'react'
 import { CreateCrewSchema } from '@/schemas/CreateCrewSchema'
-import {  useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export interface zodError {
     crewName: string
@@ -36,7 +36,6 @@ export default function CreateCrew() {
         }
         const payloadFormData = new FormData(formRef.current)
         const res = await createCrewFormAction(payloadFormData)
-        console.log(res)
         if (res.isSuccess) {
             router.push('/crew')
         }

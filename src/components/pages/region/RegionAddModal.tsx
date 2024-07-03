@@ -56,7 +56,6 @@ export default function RegionAddModal({
             }),
         })
         const data = await res.json()
-        console.log(data)
         if (data.isSuccess) {
             handleLocationModalOpen()
             router.refresh()

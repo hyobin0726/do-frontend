@@ -12,6 +12,5 @@ export async function getChatList() {
         },
     })
     const data = await response.json()
-    // console.log(data.data, '채팅방 리스트')
     return data
 }
