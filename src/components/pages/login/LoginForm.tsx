@@ -6,9 +6,9 @@ import RightArrow from '@/components/images/RightArrow'
 import DeleteCircle from '@/components/images/DeleteCircle'
 import { signIn } from 'next-auth/react'
 
-export default function LoginForm({ loginError }: { loginError: boolean }) {
-    const [inputId, setInputId] = useState<string>('')
-    const [inputPassword, setInputPassword] = useState<string>('')
+export default function LoginForm({ loginError, id, pw }: { loginError: boolean; id: string; pw: string }) {
+    const [inputId, setInputId] = useState<string>(id)
+    const [inputPassword, setInputPassword] = useState<string>(pw)
 
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()

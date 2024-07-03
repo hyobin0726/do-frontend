@@ -6,7 +6,7 @@ import Monster1 from '@/components/images/monsters/Monster1'
 import LoginForm from './LoginForm'
 import GoogleLogin from './GoogleLogin'
 
-export default function MainLogin({ loginError }: { loginError: boolean }) {
+export default function MainLogin({ loginError, id, pw }: { loginError: boolean; id: string; pw: string }) {
     return (
         <>
             <section className="w-full h-[30svh] flex justify-center items-end">
@@ -15,7 +15,7 @@ export default function MainLogin({ loginError }: { loginError: boolean }) {
                 </div>
             </section>
             <section className="w-full h-[50svh] flex flex-col justify-start items-center space-y-4">
-                <LoginForm loginError={loginError} />
+                <LoginForm loginError={loginError} id={id} pw={pw} />
                 <GoogleLogin />
                 <div className="w-full h-[10%] flex flex-row justify-evenly">
                     <Link href="/account" passHref scroll={false} className="w-[40%] flex justify-center items-center">
