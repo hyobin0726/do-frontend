@@ -1,12 +1,16 @@
 {
-  "plugins": [
-      "prettier"
-  ],
-  "extends": [
-      "eslint:recommended",
-    "plugin:prettier/recommended"
-   ],
-  "rules": {
-    "prettier/prettier": "error"
-  }
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "prettier"],
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+    "rules": {
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto"
+            }
+        ],
+        "@typescript-eslint/no-explicit-any": 0,
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "error"
+    }
 }
